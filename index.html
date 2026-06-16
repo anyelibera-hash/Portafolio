@@ -231,6 +231,35 @@ section { position: relative; overflow: hidden; }
   justify-content: center; padding: 140px 48px 80px;
   background: var(--ivory); position: relative;
 }
+.hero-grid {
+  display: flex; align-items: center; gap: 60px;
+}
+.hero-content { flex: 1; min-width: 0; }
+.hero-photo {
+  flex-shrink: 0; width: 420px; position: relative;
+}
+.hero-photo-inner {
+  width: 100%; aspect-ratio: 3/4; border-radius: 8px; overflow: hidden;
+  position: relative;
+  box-shadow: 0 32px 80px rgba(26,23,20,.12);
+}
+.hero-photo-inner img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+  display: block;
+  filter: saturate(1.05) contrast(1.02);
+  transition: transform 1.4s var(--ease-out-expo);
+}
+.hero-photo:hover .hero-photo-inner img { transform: scale(1.04); }
+.hero-photo-accent {
+  position: absolute; top: -14px; right: -14px;
+  width: 120px; height: 120px; border: 2px solid var(--accent);
+  border-radius: 8px; z-index: -1;
+}
+.hero-photo-accent-2 {
+  position: absolute; bottom: -14px; left: -14px;
+  width: 80px; height: 80px; border: 2px solid var(--accent-light);
+  border-radius: 8px; z-index: -1;
+}
 .hero-bg-circle {
   position: absolute; border-radius: 50%; pointer-events: none;
   background: radial-gradient(circle, rgba(150,93,40,.06) 0%, transparent 70%);
@@ -309,12 +338,16 @@ section { position: relative; overflow: hidden; }
   color: var(--muted); opacity: .35; white-space: nowrap;
 }
 
+@media (max-width: 1024px) {
+  .hero-grid { flex-direction: column; gap: 48px; }
+  .hero-photo { width: 100%; max-width: 360px; margin: 0 auto; }
+  .hero-vertical { display: none; }
+}
 @media (max-width: 768px) {
   #hero { padding: 120px 24px 60px; }
   .hero-stats { gap: 32px; }
-  .hero-vertical { display: none; }
+  .hero-photo { max-width: 300px; }
 }
-@media (max-width: 1024px) { .hero-vertical { display: none; } }
 
 /* ═══════════════════════════════════════
    SOBRE MÍ
@@ -929,21 +962,33 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
   <div class="hero-vertical">Community Manager · Content Creator · Estrategia Digital</div>
 
   <div class="container">
-    <div class="hero-pretitle reveal-up"><span>Community Manager & Content Creator</span></div>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-pretitle reveal-up"><span>Community Manager & Content Creator</span></div>
 
-    <div class="hero-name" id="hero-first">Stefania</div>
-    <div class="hero-name bold" id="hero-last">Benavides<span class="accent-dot">.</span></div>
+        <div class="hero-name" id="hero-first">Stefania</div>
+        <div class="hero-name bold" id="hero-last">Benavides<span class="accent-dot">.</span></div>
 
-    <div class="hero-line" id="hero-line"></div>
+        <div class="hero-line" id="hero-line"></div>
 
-    <p class="hero-tagline reveal-up">
-      Ayudo a marcas a contar <em>historias visuales</em> que conectan y convierten — combinando pensamiento analítico con ejecución creativa.
-    </p>
+        <p class="hero-tagline reveal-up">
+          Ayudo a marcas a contar <em>historias visuales</em> que conectan y convierten — combinando pensamiento analítico con ejecución creativa.
+        </p>
 
-    <div class="hero-ctas reveal-up">
-      <a href="#proyectos" class="btn-primary magnetic">Ver proyectos <i class="fas fa-arrow-down"></i></a>
-      <a href="assets/cv/Hoja-de-vida-Stefania-Benavides.pdf" download class="btn-outline magnetic"><i class="fas fa-download"></i> Descargar CV</a>
-      <a href="mailto:anyeli.benavides@correounivalle.edu.co" class="btn-outline magnetic">Contactar <i class="fas fa-paper-plane"></i></a>
+        <div class="hero-ctas reveal-up">
+          <a href="#proyectos" class="btn-primary magnetic">Ver proyectos <i class="fas fa-arrow-down"></i></a>
+          <a href="assets/cv/Hoja-de-vida-Stefania-Benavides.pdf" download class="btn-outline magnetic"><i class="fas fa-download"></i> Descargar CV</a>
+          <a href="mailto:anyeli.benavides@correounivalle.edu.co" class="btn-outline magnetic">Contactar <i class="fas fa-paper-plane"></i></a>
+        </div>
+      </div>
+
+      <div class="hero-photo reveal-right">
+        <div class="hero-photo-inner">
+          <img src="assets/about/perfil.jpg" alt="Stefania Benavides — Community Manager & Content Creator">
+        </div>
+        <div class="hero-photo-accent"></div>
+        <div class="hero-photo-accent-2"></div>
+      </div>
     </div>
 
     <div class="hero-stats">
