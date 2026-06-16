@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stefania Benavides — Community Manager & Content Creator</title>
+<meta name="description" content="Portafolio profesional de Anyeli Stefania Benavides. Community Manager, Creadora de Contenido Digital y Fotógrafa de Producto en Cali, Colombia.">
+<meta name="author" content="Anyeli Stefania Benavides Ramírez">
+<meta property="og:title" content="Stefania Benavides — Community Manager & Content Creator">
+<meta property="og:description" content="Ayudo a marcas a contar historias visuales que conectan y convierten.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- GSAP + ScrollTrigger + SplitText -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+<style>
+/* ═══════════════════════════════════════
+   CSS VARIABLES & RESET
+   ═══════════════════════════════════════ */
+:root {
+  --ivory: #F5F0E8;
+  --charcoal: #1A1714;
+  --accent: #965D28;
+  --accent-hover: #7D4E20;
+  --accent-light: #D4B896;
+  --muted: #6B5B4B;
+  --surface: #FFFFFF;
+  --border: #E2D5C6;
+  --dark: #110F0D;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+body {
+  font-family: var(--font-sans);
+  background: var(--ivory);
+  color: var(--charcoal);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════
+   PRELOADER
+   ═══════════════════════════════════════ */
+#preloader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--charcoal);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 24px;
+}
+.loader-name {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 300; color: var(--ivory);
+  letter-spacing: 8px; text-transform: uppercase;
+  overflow: hidden;
+}
+.loader-name span {
+  display: inline-block;
+  transform: translateY(120%);
+}
+.loader-line {
+  width: 0; height: 1px;
+  background: var(--accent);
+}
+.loader-sub {
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--accent); opacity: 0;
+}
+
+/* ═══════════════════════════════════════
+   CUSTOM CURSOR
+   ═══════════════════════════════════════ */
+.cursor {
+  position: fixed; top: 0; left: 0; z-index: 99998;
+  pointer-events: none; mix-blend-mode: difference;
+}
+.cursor-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #fff;
+  position: absolute; top: -4px; left: -4px;
+}
+.cursor-ring {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.5);
+  position: absolute; top: -20px; left: -20px;
+  transition: width .3s var(--ease-out-expo), height .3s var(--ease-out-expo),
+              top .3s var(--ease-out-expo), left .3s var(--ease-out-expo),
+              border-color .3s, background .3s;
+}
+.cursor.hover .cursor-ring {
+  width: 64px; height: 64px; top: -32px; left: -32px;
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.8);
+}
+
+@media (pointer: coarse) { .cursor { display: none !important; } body { cursor: auto; } }
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 20px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background .5s, backdrop-filter .5s, box-shadow .5s;
+}
+#nav.scrolled {
+  background: rgba(245,240,232,.92);
+  backdrop-filter: blur(20px) saturate(1.2);
+  box-shadow: 0 1px 30px rgba(26,23,20,.06);
+}
+.nav-logo {
+  font-family: var(--font-serif); font-size: 24px; font-weight: 500;
+  color: var(--charcoal); text-decoration: none; letter-spacing: 4px;
+}
+.nav-logo em { color: var(--accent); font-style: normal; }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-link {
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--charcoal); text-decoration: none; font-weight: 500;
+  position: relative; opacity: .6;
+  transition: opacity .3s;
+}
+.nav-link:hover { opacity: 1; }
+.nav-link::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--accent);
+  transition: width .4s var(--ease-out-expo);
+}
+.nav-link:hover::after { width: 100%; }
+
+.btn-primary {
+  padding: 10px 24px; background: var(--accent); color: #fff;
+  text-decoration: none; font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; font-weight: 500; border-radius: 2px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background .3s, transform .3s, box-shadow .3s;
+  border: none; cursor: pointer;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(150,93,40,.3);
+}
+.btn-outline {
+  padding: 10px 24px; background: transparent; color: var(--charcoal);
+  text-decoration: none; font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; font-weight: 500; border-radius: 2px;
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1.5px solid var(--charcoal);
+  transition: background .3s, color .3s, transform .3s;
+}
+.btn-outline:hover {
+  background: var(--charcoal); color: var(--ivory);
+  transform: translateY(-2px);
+}
+.btn-outline-light {
+  padding: 16px 32px; background: transparent; color: #fff;
+  text-decoration: none; font-size: 12px; letter-spacing: 1.5px;
+  text-transform: uppercase; font-weight: 500; border-radius: 3px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border: 1.5px solid rgba(255,255,255,.3);
+  transition: background .3s, color .3s, transform .3s;
+}
+.btn-outline-light:hover {
+  background: #fff; color: var(--charcoal); transform: translateY(-2px);
+}
+
+/* Mobile nav */
+.nav-burger { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 5px; }
+.nav-burger span { display: block; width: 24px; height: 1.5px; background: var(--charcoal); transition: .3s; }
+#mobile-menu {
+  position: fixed; inset: 0; z-index: 2000;
+  background: var(--ivory);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+  transform: translateX(100%);
+  transition: transform .5s var(--ease-out-expo);
+}
+#mobile-menu.open { transform: none; }
+.mobile-link {
+  font-family: var(--font-serif); font-size: 36px; font-weight: 400;
+  color: var(--charcoal); text-decoration: none;
+  transition: color .2s;
+}
+.mobile-link:hover { color: var(--accent); }
+.mobile-close {
+  position: absolute; top: 22px; right: 24px;
+  background: none; border: none; font-size: 32px; cursor: pointer; color: var(--charcoal);
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .nav-burger { display: flex !important; }
+  #nav { padding: 16px 24px; }
+}
+
+/* ═══════════════════════════════════════
+   SECTION COMMONS
+   ═══════════════════════════════════════ */
+section { position: relative; overflow: hidden; }
+.container { max-width: 1200px; margin: 0 auto; width: 100%; }
+.section-label {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+}
+.section-label::before {
+  content: ''; width: 32px; height: 1px; background: var(--accent);
+}
+.section-label span {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent); font-weight: 500;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 400; color: var(--charcoal); line-height: 1.08;
+}
+.section-title em { color: var(--accent); font-style: italic; }
+
+/* Reveal animations - base states */
+.reveal-up { opacity: 0; transform: translateY(60px); }
+.reveal-left { opacity: 0; transform: translateX(-60px); }
+.reveal-right { opacity: 0; transform: translateX(60px); }
+.reveal-scale { opacity: 0; transform: scale(.9); }
+.char { display: inline-block; opacity: 0; transform: translateY(100%); }
+
+/* ═══════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════ */
+#hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; padding: 140px 48px 80px;
+  background: var(--ivory); position: relative;
+}
+.hero-bg-circle {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(150,93,40,.06) 0%, transparent 70%);
+}
+.hero-bg-circle.c1 { width: 700px; height: 700px; top: -180px; right: -180px; }
+.hero-bg-circle.c2 { width: 500px; height: 500px; bottom: -100px; left: -100px; }
+
+.hero-pretitle {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+}
+.hero-pretitle::before {
+  content: ''; width: 40px; height: 1px; background: var(--accent);
+}
+.hero-pretitle span {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent); font-weight: 500;
+}
+
+.hero-name {
+  font-family: var(--font-serif); font-weight: 300; line-height: .9;
+  color: var(--charcoal); letter-spacing: -3px;
+  font-size: clamp(64px, 11vw, 150px);
+  overflow: hidden;
+}
+.hero-name.bold { font-weight: 500; margin-bottom: 40px; }
+.hero-name .accent-dot { color: var(--accent); }
+.hero-name .char {
+  display: inline-block;
+}
+
+.hero-line {
+  height: 1px; background: var(--accent);
+  max-width: 560px; margin-bottom: 40px;
+  transform-origin: left; transform: scaleX(0);
+}
+
+.hero-tagline {
+  font-size: clamp(16px, 1.8vw, 21px); color: var(--muted);
+  max-width: 540px; line-height: 1.8; margin-bottom: 48px;
+  font-weight: 300;
+}
+.hero-tagline em {
+  color: var(--accent); font-style: italic;
+  font-family: var(--font-serif);
+}
+
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.hero-stats {
+  margin-top: 80px; padding-top: 40px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 56px; flex-wrap: wrap;
+}
+.stat-number {
+  font-family: var(--font-serif); font-size: 48px; font-weight: 500;
+  color: var(--accent); line-height: 1;
+}
+.stat-label {
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-top: 8px;
+}
+
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.hero-scroll span {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+}
+.scroll-line { width: 1px; height: 40px; background: var(--accent); transform-origin: top; }
+
+/* Vertical floating label */
+.hero-vertical {
+  position: absolute; right: 44px; top: 50%; transform: translateY(-50%) rotate(90deg);
+  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--muted); opacity: .35; white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  #hero { padding: 120px 24px 60px; }
+  .hero-stats { gap: 32px; }
+  .hero-vertical { display: none; }
+}
+@media (max-width: 1024px) { .hero-vertical { display: none; } }
+
+/* ═══════════════════════════════════════
+   SOBRE MÍ
+   ═══════════════════════════════════════ */
+#sobre-mi { padding: 120px 48px; background: var(--surface); }
+.about-grid {
+  display: flex; gap: 80px; align-items: center;
+}
+.about-photo {
+  flex-shrink: 0; width: 380px; position: relative;
+}
+.about-photo-inner {
+  width: 100%; aspect-ratio: 3/4; border-radius: 6px;
+  background: linear-gradient(145deg, #965D28 0%, #7D4E20 50%, #4A2D12 100%);
+  display: flex; align-items: flex-end; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.about-photo-placeholder {
+  position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; flex-direction: column; gap: 12px;
+  color: rgba(255,255,255,.45);
+}
+.about-photo-placeholder i { font-size: 44px; }
+.about-photo-placeholder span { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+.about-photo-label {
+  position: relative; z-index: 1; width: 100%; padding: 24px; text-align: center;
+  background: linear-gradient(to top, rgba(0,0,0,.5), transparent);
+  font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.8);
+}
+.about-photo-accent {
+  position: absolute; bottom: -16px; right: -16px;
+  width: 100px; height: 100px; border: 2px solid var(--accent);
+  border-radius: 6px; z-index: -1;
+}
+.about-text { flex: 1; }
+.about-text h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400; line-height: 1.12;
+  color: var(--charcoal); margin-bottom: 28px;
+}
+.about-text h2 em { color: var(--accent); font-style: italic; }
+.about-text p {
+  font-size: 16px; color: var(--muted); line-height: 1.85;
+  margin-bottom: 20px; font-weight: 300;
+}
+.about-text p strong { color: var(--charcoal); font-weight: 500; }
+.about-highlights {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px;
+}
+.highlight-card {
+  padding: 20px; background: var(--ivory); border-radius: 4px;
+  border-left: 3px solid var(--accent);
+  transition: transform .3s var(--ease-out-expo), box-shadow .3s;
+}
+.highlight-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(26,23,20,.08);
+}
+.highlight-card h4 { font-size: 13px; font-weight: 600; color: var(--charcoal); margin-bottom: 4px; }
+.highlight-card p { font-size: 13px; color: var(--muted); margin: 0; }
+
+@media (max-width: 768px) {
+  #sobre-mi { padding: 80px 24px; }
+  .about-grid { flex-direction: column; gap: 48px; }
+  .about-photo { width: 100%; max-width: 360px; margin: 0 auto; }
+  .about-highlights { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════
+   SERVICIOS
+   ═══════════════════════════════════════ */
+#servicios { padding: 120px 48px; background: var(--ivory); }
+.services-header { text-align: center; margin-bottom: 72px; }
+.services-header .section-label { justify-content: center; }
+.services-header .section-label::after {
+  content: ''; width: 32px; height: 1px; background: var(--accent);
+}
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+}
+.service-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 40px 28px; border-radius: 6px;
+  transition: transform .4s var(--ease-out-expo), box-shadow .4s, border-color .4s;
+  cursor: default;
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(26,23,20,.1);
+  border-color: var(--accent);
+}
+.service-icon {
+  font-size: 28px; color: var(--accent); margin-bottom: 20px;
+  transition: transform .4s var(--ease-out-expo);
+}
+.service-card:hover .service-icon { transform: scale(1.15) rotate(-5deg); }
+.service-card h3 {
+  font-family: var(--font-serif); font-size: 22px; font-weight: 500; margin-bottom: 12px;
+}
+.service-card p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+@media (max-width: 768px) { #servicios { padding: 80px 24px; } }
+
+/* ═══════════════════════════════════════
+   PROYECTOS
+   ═══════════════════════════════════════ */
+#proyectos { padding: 120px 48px; background: var(--surface); }
+.projects-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px; margin-bottom: 72px;
+}
+.projects-header p { color: var(--muted); font-size: 14px; max-width: 360px; line-height: 1.7; }
+.projects-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px,100%), 1fr)); gap: 28px;
+}
+.project-card {
+  background: var(--ivory); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 4px 24px rgba(26,23,20,.06);
+  transition: transform .5s var(--ease-out-expo), box-shadow .5s;
+  perspective: 800px;
+}
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 32px 64px rgba(26,23,20,.14);
+}
+.project-thumb {
+  height: 240px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.project-thumb::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.3));
+  opacity: 0; transition: opacity .4s;
+}
+.project-card:hover .project-thumb::after { opacity: 1; }
+.project-thumb-inner {
+  width: 100%; height: 100%; display: flex; align-items: center;
+  justify-content: center; flex-direction: column; gap: 10px;
+  color: rgba(255,255,255,.6); transition: transform .6s var(--ease-out-expo);
+}
+.project-card:hover .project-thumb-inner { transform: scale(1.05); }
+.project-body { padding: 28px; }
+.project-tags { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.project-tag {
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 2px; font-weight: 500; color: #fff;
+}
+.project-date { font-size: 12px; color: var(--muted); }
+.project-body h3 {
+  font-family: var(--font-serif); font-size: 26px; font-weight: 500;
+  color: var(--charcoal); margin-bottom: 6px;
+}
+.project-role { font-size: 13px; color: var(--accent); font-weight: 500; margin-bottom: 14px; }
+.project-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+.project-tools-label {
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.project-tools { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.project-tool {
+  font-size: 12px; background: var(--border); color: var(--charcoal);
+  padding: 4px 10px; border-radius: 2px;
+}
+.project-result {
+  padding: 14px; background: rgba(150,93,40,.06);
+  border-radius: 4px; border-left: 3px solid var(--accent);
+}
+.project-result-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--accent); margin-bottom: 4px;
+}
+.project-result p { font-size: 14px; color: var(--charcoal); margin: 0; }
+.project-result strong { font-weight: 600; }
+
+@media (max-width: 768px) { #proyectos { padding: 80px 24px; } }
+
+/* ═══════════════════════════════════════
+   GALERÍA
+   ═══════════════════════════════════════ */
+#galeria { padding: 120px 48px; background: var(--dark); }
+.gallery-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px; margin-bottom: 56px;
+}
+.gallery-header h2 { color: #fff; }
+.gallery-header p { color: rgba(255,255,255,.45); font-size: 14px; max-width: 320px; line-height: 1.7; }
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+}
+.gallery-item {
+  border-radius: 6px; overflow: hidden; position: relative; cursor: pointer;
+}
+.gallery-item .gph {
+  width: 100%; height: 100%; display: flex; align-items: center;
+  justify-content: center; flex-direction: column; gap: 8px;
+  color: rgba(255,255,255,.35); transition: transform .6s var(--ease-out-expo);
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+}
+.gallery-item:hover .gph { transform: scale(1.08); }
+.gallery-overlay {
+  position: absolute; inset: 0;
+  background: rgba(26,23,20,.6);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .4s;
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-overlay i { color: #fff; font-size: 22px; }
+
+@media (max-width: 768px) {
+  #galeria { padding: 80px 24px; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 540px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════
+   VIDEOS
+   ═══════════════════════════════════════ */
+#videos { padding: 120px 48px; background: var(--ivory); }
+.showreel-container {
+  border-radius: 8px; overflow: hidden; margin-bottom: 40px;
+  box-shadow: 0 12px 48px rgba(26,23,20,.12);
+}
+.showreel-badge {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent); padding: 14px 20px;
+  background: rgba(0,0,0,.4); font-weight: 500;
+}
+.showreel-placeholder {
+  width: 100%; aspect-ratio: 16/9;
+  background: linear-gradient(135deg, var(--charcoal), var(--dark));
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 24px; position: relative; cursor: pointer;
+}
+.showreel-play {
+  width: 88px; height: 88px; border-radius: 50%;
+  border: 2px solid rgba(150,93,40,.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .4s var(--ease-out-expo);
+}
+.showreel-placeholder:hover .showreel-play {
+  border-color: var(--accent); background: rgba(150,93,40,.1);
+  transform: scale(1.1);
+}
+.showreel-play i { color: var(--accent); font-size: 30px; margin-left: 5px; }
+.showreel-footer {
+  padding: 20px 24px; background: var(--charcoal);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.showreel-footer h3 { font-family: var(--font-serif); font-size: 20px; color: #fff; font-weight: 400; }
+.showreel-footer p { font-size: 13px; color: rgba(255,255,255,.45); margin-top: 4px; }
+
+.videos-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.video-card {
+  background: var(--surface); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 4px 16px rgba(26,23,20,.06);
+  transition: transform .4s var(--ease-out-expo), box-shadow .4s;
+}
+.video-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(26,23,20,.14);
+}
+.video-placeholder {
+  width: 100%; aspect-ratio: 9/16;
+  background: linear-gradient(145deg, var(--charcoal), var(--dark));
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 14px;
+}
+.video-play-sm {
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 1.5px solid rgba(150,93,40,.5);
+  display: flex; align-items: center; justify-content: center;
+}
+.video-play-sm i { color: var(--accent); font-size: 18px; margin-left: 3px; }
+.video-card-body { padding: 14px 16px; }
+.video-card-body h4 { font-size: 14px; font-weight: 500; color: var(--charcoal); margin-bottom: 4px; }
+.video-card-body span { font-size: 12px; color: var(--muted); }
+
+@media (max-width: 768px) {
+  #videos { padding: 80px 24px; }
+  .videos-grid { grid-template-columns: 1fr; }
+  .video-card { max-height: 480px; overflow: hidden; }
+}
+
+/* ═══════════════════════════════════════
+   EXPERIENCIA (TIMELINE)
+   ═══════════════════════════════════════ */
+#experiencia { padding: 120px 48px; background: var(--surface); }
+.timeline {
+  position: relative; padding-left: 32px;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 0;
+  width: 1px; height: 100%; background: var(--border);
+  transform-origin: top; transform: scaleY(0);
+}
+.timeline-item {
+  position: relative; margin-bottom: 52px; padding-left: 40px;
+}
+.timeline-dot {
+  position: absolute; left: -40px; top: 6px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent); border: 3px solid var(--surface);
+  box-shadow: 0 0 0 4px rgba(150,93,40,.15);
+  transition: transform .3s, box-shadow .3s;
+}
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 8px rgba(150,93,40,.15);
+}
+.timeline-meta {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+}
+.timeline-date { font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: .5px; }
+.timeline-sep { width: 4px; height: 4px; border-radius: 50%; background: var(--border); }
+.timeline-place { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.timeline-item h3 {
+  font-family: var(--font-serif); font-size: 24px; font-weight: 500;
+  color: var(--charcoal); margin-bottom: 4px;
+}
+.timeline-role { font-size: 14px; color: var(--accent); font-weight: 500; margin-bottom: 12px; }
+.timeline-desc { font-size: 14px; color: var(--muted); line-height: 1.75; max-width: 640px; }
+.timeline-desc strong { color: var(--charcoal); font-weight: 500; }
+
+@media (max-width: 768px) { #experiencia { padding: 80px 24px; } }
+
+/* ═══════════════════════════════════════
+   HERRAMIENTAS
+   ═══════════════════════════════════════ */
+#herramientas { padding: 120px 48px; background: var(--ivory); }
+.tools-header { text-align: center; margin-bottom: 56px; }
+.tools-header .section-label { justify-content: center; }
+.tools-header .section-label::after { content: ''; width: 32px; height: 1px; background: var(--accent); }
+.tools-category { margin-bottom: 36px; }
+.tools-category-label {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px; font-weight: 500;
+}
+.tools-list { display: flex; gap: 10px; flex-wrap: wrap; }
+.tool-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border: 1.5px solid var(--border); border-radius: 4px;
+  font-size: 13px; color: var(--charcoal); font-weight: 500;
+  background: var(--surface);
+  transition: all .3s var(--ease-out-expo);
+  cursor: default;
+}
+.tool-badge:hover {
+  background: var(--charcoal); color: var(--ivory);
+  border-color: var(--charcoal); transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(26,23,20,.12);
+}
+.tool-badge i { font-size: 15px; }
+
+@media (max-width: 768px) { #herramientas { padding: 80px 24px; } }
+
+/* ═══════════════════════════════════════
+   EDUCACIÓN
+   ═══════════════════════════════════════ */
+#educacion { padding: 120px 48px; background: var(--surface); }
+.edu-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+}
+.edu-card {
+  background: var(--ivory); border-radius: 6px; padding: 28px;
+  border-top: 3px solid var(--accent);
+  transition: transform .4s var(--ease-out-expo), box-shadow .4s;
+}
+.edu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(26,23,20,.08);
+}
+.edu-card.upcoming { border-top-style: dashed; border-top-color: var(--accent-light); }
+.edu-status {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px; font-weight: 500;
+}
+.edu-status i { margin-right: 6px; }
+.edu-card h3 { font-family: var(--font-serif); font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+.edu-card .edu-place { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+.edu-card .edu-detail { font-size: 13px; color: var(--charcoal); font-weight: 500; }
+.edu-card .edu-desc { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+
+@media (max-width: 768px) { #educacion { padding: 80px 24px; } }
+
+/* ═══════════════════════════════════════
+   TESTIMONIOS
+   ═══════════════════════════════════════ */
+#testimonios { padding: 120px 48px; background: var(--ivory); }
+.testimonials-header { text-align: center; margin-bottom: 56px; }
+.testimonials-header .section-label { justify-content: center; }
+.testimonials-header .section-label::after { content: ''; width: 32px; height: 1px; background: var(--accent); }
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;
+}
+.testimonial-card {
+  border: 2px dashed var(--border); border-radius: 6px; padding: 32px;
+  transition: transform .4s var(--ease-out-expo);
+}
+.testimonial-card:hover { transform: translateY(-4px); }
+.testimonial-quote {
+  font-size: 52px; color: var(--accent-light); font-family: var(--font-serif);
+  line-height: .7; margin-bottom: 16px;
+}
+.testimonial-text {
+  font-size: 15px; color: var(--muted); line-height: 1.8;
+  margin-bottom: 20px; font-style: italic;
+}
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+.testimonial-avatar i { color: var(--muted); font-size: 16px; }
+.testimonial-name { font-size: 14px; font-weight: 600; color: var(--charcoal); }
+.testimonial-role { font-size: 12px; color: var(--muted); }
+
+@media (max-width: 768px) { #testimonios { padding: 80px 24px; } }
+
+/* ═══════════════════════════════════════
+   CONTACTO
+   ═══════════════════════════════════════ */
+#contacto { padding: 120px 48px; background: var(--dark); }
+.contact-grid {
+  display: flex; gap: 80px; align-items: flex-start; flex-wrap: wrap;
+}
+.contact-left { flex: 1; min-width: 280px; }
+.contact-left h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 300; color: #fff; line-height: 1.05; margin-bottom: 28px;
+}
+.contact-left h2 .accent-dot { color: var(--accent); }
+.contact-left > p {
+  font-size: 16px; color: rgba(255,255,255,.5); line-height: 1.8;
+  margin-bottom: 48px; font-weight: 300; max-width: 480px;
+}
+.contact-links { display: flex; flex-direction: column; gap: 20px; }
+.contact-link {
+  display: flex; align-items: center; gap: 16px;
+  text-decoration: none; color: rgba(255,255,255,.65);
+  transition: color .3s, transform .3s;
+}
+.contact-link:hover { color: var(--accent); transform: translateX(4px); }
+.contact-link-icon {
+  width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.12);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: border-color .3s;
+}
+.contact-link:hover .contact-link-icon { border-color: var(--accent); }
+.contact-link-icon i { font-size: 15px; color: var(--accent); }
+.contact-link-label {
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,.3); margin-bottom: 3px;
+}
+.contact-link-value { font-size: 14px; }
+
+.contact-right {
+  flex-shrink: 0; width: 320px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.contact-availability {
+  margin-top: 16px; padding: 20px; border: 1px solid rgba(255,255,255,.08);
+  border-radius: 4px; text-align: center;
+}
+.availability-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #4CAF50;
+  display: inline-block; margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+.availability-status {
+  font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: #4CAF50; font-weight: 500;
+}
+.availability-detail { font-size: 13px; color: rgba(255,255,255,.35); line-height: 1.6; margin-top: 8px; }
+
+@media (max-width: 768px) {
+  #contacto { padding: 80px 24px; }
+  .contact-right { width: 100%; }
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════ */
+footer {
+  padding: 28px 48px; background: #0A0807;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-logo {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 500;
+  color: #fff; letter-spacing: 3px;
+}
+.footer-logo em { color: var(--accent); font-style: normal; }
+footer p { font-size: 12px; color: rgba(255,255,255,.25); }
+.footer-socials { display: flex; gap: 16px; }
+.footer-socials a {
+  color: rgba(255,255,255,.25); text-decoration: none; font-size: 16px;
+  transition: color .3s, transform .3s;
+}
+.footer-socials a:hover { color: var(--accent); transform: translateY(-2px); }
+
+@media (max-width: 768px) { footer { padding: 24px; } }
+
+/* ═══════════════════════════════════════
+   LIGHTBOX
+   ═══════════════════════════════════════ */
+#lightbox {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(10,8,6,.97);
+  display: none; align-items: center; justify-content: center;
+}
+#lightbox.active { display: flex; }
+#lightbox-close {
+  position: absolute; top: 20px; right: 24px;
+  background: none; border: none; color: rgba(255,255,255,.6);
+  font-size: 36px; cursor: pointer; transition: color .2s;
+}
+#lightbox-close:hover { color: #fff; }
+#lightbox-inner img, #lightbox-inner video {
+  max-width: 90vw; max-height: 88vh; object-fit: contain;
+  display: block; border-radius: 6px;
+}
+
+/* ═══════════════════════════════════════
+   MAGNETIC BUTTONS (JS class)
+   ═══════════════════════════════════════ */
+.magnetic { position: relative; }
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--ivory); }
+::-webkit-scrollbar-thumb { background: var(--accent-light); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PRELOADER ═══════════ -->
+<div id="preloader">
+  <div class="loader-name" aria-hidden="true">
+    <span>S</span><span>t</span><span>e</span><span>f</span><span>a</span><span>n</span><span>i</span><span>a</span>
+  </div>
+  <div class="loader-line"></div>
+  <div class="loader-sub">Community Manager & Content Creator</div>
+</div>
+
+  <div class="cursor-ring"></div>
+</div>
+
+<!-- ═══════════ NAVIGATION ═══════════ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo magnetic">S<em>B</em></a>
+  <div class="nav-links">
+    <a href="#sobre-mi" class="nav-link magnetic">Sobre mí</a>
+    <a href="#servicios" class="nav-link magnetic">Servicios</a>
+    <a href="#proyectos" class="nav-link magnetic">Proyectos</a>
+    <a href="#galeria" class="nav-link magnetic">Galería</a>
+    <a href="#experiencia" class="nav-link magnetic">Experiencia</a>
+    <a href="#contacto" class="nav-link magnetic">Contacto</a>
+    <a href="#" class="btn-primary magnetic"><i class="fas fa-download"></i>CV</a>
+  </div>
+  <button class="nav-burger" aria-label="Abrir menú" onclick="document.getElementById('mobile-menu').classList.add('open')">
+    <span></span><span></span><span style="width:16px"></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<nav id="mobile-menu">
+  <button class="mobile-close" onclick="this.parentElement.classList.remove('open')">&times;</button>
+  <a href="#sobre-mi" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Sobre mí</a>
+  <a href="#servicios" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Servicios</a>
+  <a href="#proyectos" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Proyectos</a>
+  <a href="#galeria" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Galería</a>
+  <a href="#experiencia" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Experiencia</a>
+  <a href="#contacto" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Contacto</a>
+  <a href="#" class="btn-primary" style="margin-top:12px;padding:14px 32px">Descargar CV</a>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-vertical">Community Manager · Content Creator · Estrategia Digital</div>
+
+  <div class="container">
+    <div class="hero-pretitle reveal-up"><span>Community Manager & Content Creator</span></div>
+
+    <div class="hero-name" id="hero-first">Stefania</div>
+    <div class="hero-name bold" id="hero-last">Benavides<span class="accent-dot">.</span></div>
+
+    <div class="hero-line" id="hero-line"></div>
+
+    <p class="hero-tagline reveal-up">
+      Ayudo a marcas a contar <em>historias visuales</em> que conectan y convierten — combinando pensamiento analítico con ejecución creativa.
+    </p>
+
+    <div class="hero-ctas reveal-up">
+      <a href="#proyectos" class="btn-primary magnetic">Ver proyectos <i class="fas fa-arrow-down"></i></a>
+      <a href="#" class="btn-outline magnetic"><i class="fas fa-download"></i> Descargar CV</a>
+      <a href="mailto:anyeli.benavides@correounivalle.edu.co" class="btn-outline magnetic">Contactar <i class="fas fa-paper-plane"></i></a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="reveal-up">
+        <div class="stat-number" data-count="5">0</div>
+        <div class="stat-label">Marcas gestionadas</div>
+      </div>
+      <div class="reveal-up">
+        <div class="stat-number" data-count="3">0</div>
+        <div class="stat-label">Años de experiencia</div>
+      </div>
+      <div class="reveal-up">
+        <div class="stat-number" data-count="7">0</div>
+        <div class="stat-label">Servicios especializados</div>
+      </div>
+      <div class="reveal-up">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Creatividad aplicada</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════ SOBRE MÍ ═══════════ -->
+<section id="sobre-mi">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-photo reveal-left">
+        <div class="about-photo-inner">
+          <div class="about-photo-placeholder">
+            <i class="fas fa-image"></i>
+            <span>Tu foto aquí</span>
+          </div>
+          <div class="about-photo-label">Stefania Benavides · Cali, Colombia</div>
+        </div>
+        <div class="about-photo-accent"></div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-label reveal-up"><span>Sobre mí</span></div>
+        <h2 class="reveal-up">Donde la ingeniería<br>se convierte en<br><em>estrategia creativa</em></h2>
+        <p class="reveal-up">Soy Anyeli Stefania Benavides, estudiante de Ingeniería Química en la Universidad del Valle (10.° semestre) con una pasión genuina por el marketing digital, la creación de contenido y la estrategia de marca. Mi formación técnica me da algo poco común en el mundo creativo: <strong>orden, análisis y precisión</strong>.</p>
+        <p class="reveal-up">He gestionado comunidades para marcas propias y proyectos universitarios, diseñado identidades visuales, editado reels con alta retención y liderado coberturas de eventos nacionales. No solo genero contenido — construyo <strong>narrativas que convierten</strong>.</p>
+
+        <div class="about-highlights">
+          <div class="highlight-card reveal-up">
+            <h4>Perfil híbrido</h4>
+            <p>Ingeniería + Marketing Digital</p>
+          </div>
+          <div class="highlight-card reveal-up">
+            <h4>Orientada a resultados</h4>
+            <p>Crecimiento orgánico y conversión</p>
+          </div>
+          <div class="highlight-card reveal-up">
+            <h4>Ejecución multidisciplinar</h4>
+            <p>Diseño, video, fotografía, copy</p>
+          </div>
+          <div class="highlight-card reveal-up">
+            <h4>Storytelling visual</h4>
+            <p>Marcas que conectan y emocionan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SERVICIOS ═══════════ -->
+<section id="servicios">
+  <div class="container">
+    <div class="services-header">
+      <div class="section-label"><span>Lo que ofrezco</span></div>
+      <h2 class="section-title">Servicios & habilidades</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal-up"><div class="service-icon"><i class="fas fa-comments"></i></div><h3>Community Management</h3><p>Gestión integral de redes sociales: estrategia de contenido, calendario editorial, atención a comunidad y análisis de métricas.</p></div>
+      <div class="service-card reveal-up"><div class="service-icon"><i class="fas fa-pen-nib"></i></div><h3>Creación de Contenido</h3><p>Producción de piezas visuales, copywriting persuasivo, storytelling de marca y contenido adaptado a cada plataforma.</p></div>
+      <div class="service-card reveal-up"><div class="service-icon"><i class="fas fa-film"></i></div><h3>Edición de Video</h3><p>Edición de Reels, TikToks y video-posts con alta retención. Transiciones fluidas, subtítulos y música alineada a la marca.</p></div>
+      <div class="service-card reveal-up"><div class="service-icon"><i class="fas fa-camera"></i></div><h3>Fotografía de Producto</h3><p>Sesiones de producto con enfoque comercial y estético. Fotografías para catálogo, tienda online y redes sociales.</p></div>
+      <div class="service-card reveal-up"><div class="service-icon"><i class="fas fa-palette"></i></div><h3>Diseño Gráfico</h3><p>Identidad visual, logotipos, plantillas de marca y piezas digitales con Canva y Adobe Illustrator.</p></div>
+      <div class="service-card reveal-up"><div class="service-icon"><i class="fas fa-chart-line"></i></div><h3>Estrategia Digital</h3><p>Diagnóstico de marca, planificación, definición de KPIs y análisis de resultados para maximizar conversión.</p></div>
+      <div class="service-card reveal-up"><div class="service-icon"><i class="fas fa-star"></i></div><h3>Cobertura de Eventos</h3><p>Cobertura fotográfica y videográfica de eventos corporativos, universitarios y lanzamientos en tiempo real.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PROYECTOS ═══════════ -->
+<section id="proyectos">
+  <div class="container">
+    <div class="projects-header">
+      <div>
+        <div class="section-label reveal-up"><span>Casos de éxito</span></div>
+        <h2 class="section-title reveal-up">Proyectos destacados</h2>
+      </div>
+      <p class="reveal-up">Trabajo real, resultados medibles. Cada proyecto es una historia de ejecución creativa y estrategia digital.</p>
+    </div>
+
+    <div class="projects-grid">
+      <!-- FANÉA -->
+      <article class="project-card reveal-up">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#965D28,#7D4E20,#4A2D12)">
+          <div class="project-thumb-inner"><i class="fas fa-gem" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags"><span class="project-tag" style="background:var(--accent)">Marca de Joyería</span><span class="project-date">2026 — Presente</span></div>
+          <h3>Fanéa</h3>
+          <div class="project-role">Fundadora & Community Manager</div>
+          <p class="project-desc">Creación y gestión de contenido para Instagram, TikTok y Facebook. Fotografía de producto, edición en CapCut, diseño en Canva, tienda online y estrategia de crecimiento orgánico con pauta en Meta y colaboraciones UGC.</p>
+          <div class="project-tools-label">Herramientas</div>
+          <div class="project-tools"><span class="project-tool">Canva</span><span class="project-tool">CapCut</span><span class="project-tool">Meta Business</span><span class="project-tool">IA Generativa</span><span class="project-tool">n8n</span></div>
+          <div class="project-result"><div class="project-result-label">Resultado</div><p>Ventas directas vía DM y tienda online (fanea.store), crecimiento orgánico sostenido con storytelling visual y colaboraciones UGC.</p></div>
+        </div>
+      </article>
+
+      <!-- UNIVALLE -->
+      <article class="project-card reveal-up">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#1E3A5F,#0F1F36)">
+          <div class="project-thumb-inner"><i class="fas fa-graduation-cap" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags"><span class="project-tag" style="background:#1E3A5F">Institución Educativa</span><span class="project-date">2025</span></div>
+          <h3>Esc. Ing. Química Univalle</h3>
+          <div class="project-role">Monitora Administrativa: Comunicaciones</div>
+          <p class="project-desc">Gestión integral de redes institucionales (<strong>@ingequimicaunivalle</strong>): Instagram, Facebook, YouTube y LinkedIn. Cobertura fotográfica y audiovisual de eventos, diseño de piezas gráficas y coordinación de comunicaciones.</p>
+          <div class="project-tools-label">Herramientas</div>
+          <div class="project-tools"><span class="project-tool">Canva</span><span class="project-tool">Meta Business</span><span class="project-tool">Google Workspace</span></div>
+          <div class="project-result"><div class="project-result-label">Resultado</div><p>Comunicación digital activa, mayor alcance y visibilidad para toda la comunidad estudiantil y cuerpo docente.</p></div>
+        </div>
+      </article>
+
+      <!-- CESIQ -->
+      <article class="project-card reveal-up">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#2D5A3D,#173324)">
+          <div class="project-thumb-inner"><i class="fas fa-palette" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags"><span class="project-tag" style="background:#2D5A3D">Identidad Visual</span><span class="project-date">2024</span></div>
+          <h3>CESIQ — Logo Oficial</h3>
+          <div class="project-role">Coordinadora de Comunicaciones</div>
+          <p class="project-desc">Diseño del logotipo oficial del CESIQ (identidad vigente), gestión de redes de <strong>@cesiquv</strong> y apoyo en comunicaciones del XXXIV Encuentro Nacional de Estudiantes de IQ.</p>
+          <div class="project-tools-label">Herramientas</div>
+          <div class="project-tools"><span class="project-tool">Adobe Illustrator</span><span class="project-tool">Canva</span></div>
+          <div class="project-result"><div class="project-result-label">Resultado</div><p>Logo adoptado como <strong>identidad oficial vigente</strong> del CESIQ — utilizado en todos los materiales del comité.</p></div>
+        </div>
+      </article>
+
+      <!-- ENCUENTRO NACIONAL -->
+      <article class="project-card reveal-up">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#4A2760,#280F3A)">
+          <div class="project-thumb-inner"><i class="fas fa-camera" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags"><span class="project-tag" style="background:#4A2760">Evento Nacional</span><span class="project-date">2024</span></div>
+          <h3>XXXIV Encuentro Nal. IQ</h3>
+          <div class="project-role">Fotógrafa & Videógrafa Oficial</div>
+          <p class="project-desc">Cobertura fotográfica y videográfica completa del XXXIV Encuentro Nacional de Estudiantes de Ingeniería Química.</p>
+          <div class="project-tools-label">Herramientas</div>
+          <div class="project-tools"><span class="project-tool">CapCut</span><span class="project-tool">Lightroom</span><span class="project-tool">Fotografía</span></div>
+          <div class="project-result"><div class="project-result-label">Resultado</div><p>Material audiovisual completo del evento nacional, distribuido en redes y archivos oficiales.</p></div>
+        </div>
+      </article>
+
+      <!-- POLAR -->
+      <article class="project-card reveal-up">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#1A3050,#0A1828)">
+          <div class="project-thumb-inner"><i class="fas fa-snowflake" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags"><span class="project-tag" style="background:#1A3050">Marca Propia</span><span class="project-date">2019 — 2020</span></div>
+          <h3>Polar</h3>
+          <div class="project-role">Fundadora & Community Manager</div>
+          <p class="project-desc">Primer emprendimiento propio: creación y gestión de Instagram, generando ventas diarias a través de contenido orgánico y construcción de comunidad desde cero.</p>
+          <div class="project-tools-label">Herramientas</div>
+          <div class="project-tools"><span class="project-tool">Canva</span><span class="project-tool">CapCut</span><span class="project-tool">Instagram</span></div>
+          <div class="project-result"><div class="project-result-label">Resultado</div><p>Ventas diarias generadas 100% con contenido orgánico — primer emprendimiento que validó la vocación digital.</p></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GALERÍA ═══════════ -->
+<section id="galeria">
+  <div class="container">
+    <div class="gallery-header">
+      <div>
+        <div class="section-label reveal-up"><span>Piezas visuales</span></div>
+        <h2 class="section-title reveal-up" style="color:#fff">Galería visual</h2>
+      </div>
+      <p class="reveal-up">Diseños, campañas, fotografía de producto y piezas de contenido seleccionadas.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><div class="gph" style="background:linear-gradient(135deg,#965D28,#7D4E20)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-01</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><div class="gph" style="background:linear-gradient(135deg,#3A5A4A,#1F3329)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-02</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><div class="gph" style="background:linear-gradient(135deg,#2C3E6B,#141E3A)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-03</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><div class="gph" style="background:linear-gradient(145deg,#5C3A6B,#280F3A)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-04</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><div class="gph" style="background:linear-gradient(145deg,#8B6914,#5A4508)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-05</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><div class="gph" style="background:linear-gradient(145deg,#1A3A2A,#0A1A12)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-06</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><div class="gph" style="background:linear-gradient(135deg,#A0522D,#6B3419)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-07</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><div class="gph" style="background:linear-gradient(135deg,#2A4A6A,#121E30)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-08</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><div class="gph" style="background:linear-gradient(135deg,#3D4A2A,#1A2010)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-09</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ VIDEOS ═══════════ -->
+<section id="videos">
+  <div class="container">
+    <div style="margin-bottom:56px">
+      <div class="section-label reveal-up"><span>Showreel & Videos</span></div>
+      <h2 class="section-title reveal-up">En movimiento</h2>
+    </div>
+    <div class="showreel-container reveal-up">
+      <div class="showreel-badge">★ Showreel Principal</div>
+      <div class="showreel-placeholder">
+        <div class="showreel-play"><i class="fas fa-play"></i></div>
+        <div style="text-align:center"><div style="font-size:16px;font-weight:500;color:rgba(255,255,255,.75);margin-bottom:8px">Showreel Principal</div><div style="font-size:12px;color:rgba(255,255,255,.3)">Reemplaza con: <code style="color:var(--accent);background:rgba(150,93,40,.12);padding:2px 10px;border-radius:3px">videos/showreel.mp4</code></div></div>
+      </div>
+      <div class="showreel-footer"><div><h3>Showreel 2024 — Reels & Contenido Digital</h3><p>Compilación de los mejores Reels, TikToks y contenido editado</p></div><span style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:6px 14px;border-radius:2px">Calidad original</span></div>
+    </div>
+    <div class="videos-grid">
+      <div class="video-card reveal-up"><div class="video-placeholder"><div class="video-play-sm"><i class="fas fa-play"></i></div><div style="text-align:center;padding:0 12px"><div style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:4px">Agrega tu video</div><code style="font-size:10px;color:var(--accent)">videos/video-01.mp4</code></div></div><div class="video-card-body"><h4>Reel — Fanéa</h4><span>Edición · CapCut</span></div></div>
+      <div class="video-card reveal-up"><div class="video-placeholder"><div class="video-play-sm"><i class="fas fa-play"></i></div><div style="text-align:center;padding:0 12px"><div style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:4px">Agrega tu video</div><code style="font-size:10px;color:var(--accent)">videos/video-02.mp4</code></div></div><div class="video-card-body"><h4>TikTok — Encuentro IQ</h4><span>Cobertura de evento</span></div></div>
+      <div class="video-card reveal-up"><div class="video-placeholder"><div class="video-play-sm"><i class="fas fa-play"></i></div><div style="text-align:center;padding:0 12px"><div style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:4px">Agrega tu video</div><code style="font-size:10px;color:var(--accent)">videos/video-03.mp4</code></div></div><div class="video-card-body"><h4>Reel — Contenido orgánico</h4><span>Edición · CapCut</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ EXPERIENCIA ═══════════ -->
+<section id="experiencia">
+  <div class="container">
+    <div style="margin-bottom:64px">
+      <div class="section-label reveal-up"><span>Trayectoria</span></div>
+      <h2 class="section-title reveal-up">Experiencia</h2>
+    </div>
+    <div class="timeline" id="timeline">
+      <div class="timeline-item reveal-up"><div class="timeline-dot"></div><div class="timeline-meta"><span class="timeline-date">2026 — Presente</span><span class="timeline-sep"></span><span class="timeline-place">Marca propia · Cali</span></div><h3>Fanéa</h3><div class="timeline-role">Fundadora & Community Manager</div><p class="timeline-desc">Creación y gestión de contenido para Instagram, TikTok y Facebook. Fotografía de producto, edición en CapCut, diseño en Canva, tienda online (fanea.store), estrategia orgánica con pauta en Meta, colaboraciones UGC y automatizaciones con n8n.</p></div>
+      <div class="timeline-item reveal-up"><div class="timeline-dot"></div><div class="timeline-meta"><span class="timeline-date">2026 — Presente</span><span class="timeline-sep"></span><span class="timeline-place">Mayagüez S.A. · Destilería</span></div><h3>Mayagüez S.A.</h3><div class="timeline-role">Practicante de Ingeniería</div><p class="timeline-desc">Diseño de portadas y etiquetas para documentos de certificación de alcohol orgánico. Modificación de procedimientos de planta, capacitación a personal operativo, toma de muestras, análisis de laboratorio y diseño en AutoCAD.</p></div>
+      <div class="timeline-item reveal-up"><div class="timeline-dot"></div><div class="timeline-meta"><span class="timeline-date">2025</span><span class="timeline-sep"></span><span class="timeline-place">Universidad del Valle · Cali</span></div><h3>Esc. Ingeniería Química Univalle</h3><div class="timeline-role">Monitora Administrativa: Comunicaciones</div><p class="timeline-desc">Gestión integral de redes sociales institucionales (Instagram, Facebook, YouTube, LinkedIn). Cobertura fotográfica y audiovisual de eventos, diseño de piezas gráficas y coordinación de comunicaciones dirigidas a estudiantes, docentes y egresados.</p></div>
+      <div class="timeline-item reveal-up"><div class="timeline-dot"></div><div class="timeline-meta"><span class="timeline-date">2024</span><span class="timeline-sep"></span><span class="timeline-place">CESIQ / AIChE · Univalle</span></div><h3>CESIQ – Centro de Estudios de IQ & AIChE</h3><div class="timeline-role">Coordinadora de Comunicaciones</div><p class="timeline-desc">Gestión simultánea de redes de dos organizaciones estudiantiles. Diseño del logotipo oficial del CESIQ (identidad vigente). Apoyo en comunicaciones del XXXIV Encuentro Nacional de Estudiantes de IQ.</p></div>
+      <div class="timeline-item reveal-up"><div class="timeline-dot"></div><div class="timeline-meta"><span class="timeline-date">2019 — 2020</span><span class="timeline-sep"></span><span class="timeline-place">Marca propia</span></div><h3>Polar</h3><div class="timeline-role">Fundadora & Community Manager</div><p class="timeline-desc">Primer emprendimiento propio: creación y gestión de Instagram, generando ventas diarias a través de contenido 100% orgánico.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ HERRAMIENTAS ═══════════ -->
+<section id="herramientas">
+  <div class="container">
+    <div class="tools-header">
+      <div class="section-label"><span>Stack</span></div>
+      <h2 class="section-title">Herramientas & software</h2>
+    </div>
+    <div class="tools-category reveal-up"><div class="tools-category-label">Marketing & Redes Sociales</div><div class="tools-list"><span class="tool-badge"><i class="fab fa-meta" style="color:#1877f2"></i>Meta Business Suite</span><span class="tool-badge"><i class="fab fa-instagram" style="color:#E1306C"></i>Instagram / Reels</span><span class="tool-badge"><i class="fab fa-tiktok"></i>TikTok</span><span class="tool-badge"><i class="fas fa-chart-bar" style="color:var(--accent)"></i>Google Analytics</span><span class="tool-badge"><i class="fas fa-robot" style="color:var(--accent)"></i>n8n</span><span class="tool-badge"><i class="fas fa-search" style="color:var(--accent)"></i>SEO básico</span><span class="tool-badge"><i class="fas fa-bullhorn" style="color:var(--accent)"></i>Pauta en Meta</span><span class="tool-badge"><i class="fas fa-envelope-open-text" style="color:var(--accent)"></i>Email Marketing</span></div></div>
+    <div class="tools-category reveal-up"><div class="tools-category-label">Diseño & Creación de Contenido</div><div class="tools-list"><span class="tool-badge"><i class="fas fa-pen-ruler" style="color:#7C4DFF"></i>Canva</span><span class="tool-badge"><i class="fab fa-adobe" style="color:#FF0000"></i>Adobe Illustrator</span><span class="tool-badge"><i class="fas fa-video" style="color:#00C4CC"></i>CapCut</span><span class="tool-badge"><i class="fas fa-camera-retro" style="color:#4BAABF"></i>Lightroom</span></div></div>
+    <div class="tools-category reveal-up"><div class="tools-category-label">Productividad & Gestión</div><div class="tools-list"><span class="tool-badge"><i class="fab fa-google" style="color:#4285F4"></i>Google Workspace</span><span class="tool-badge"><i class="fas fa-table" style="color:#0F9D58"></i>Google Sheets</span><span class="tool-badge"><i class="fas fa-brain" style="color:var(--accent)"></i>IA Aplicada (ChatGPT / Gemini / Claude)</span><span class="tool-badge"><i class="fas fa-globe" style="color:var(--accent)"></i>Diseño Web con IA</span><span class="tool-badge"><i class="fab fa-microsoft" style="color:#D83B01"></i>Microsoft Office</span></div></div>
+    <div class="tools-category reveal-up"><div class="tools-category-label">Perfil técnico (Ingeniería Química)</div><div class="tools-list"><span class="tool-badge"><i class="fas fa-drafting-compass" style="color:var(--muted)"></i>AutoCAD</span><span class="tool-badge"><i class="fas fa-flask" style="color:var(--muted)"></i>Aspen Plus</span><span class="tool-badge"><i class="fas fa-calculator" style="color:var(--muted)"></i>MATLAB básico</span></div></div>
+  </div>
+</section>
+
+<!-- ═══════════ EDUCACIÓN ═══════════ -->
+<section id="educacion">
+  <div class="container">
+    <div style="margin-bottom:56px"><div class="section-label reveal-up"><span>Formación</span></div><h2 class="section-title reveal-up">Educación</h2></div>
+    <div class="edu-grid">
+      <div class="edu-card reveal-up"><div class="edu-status"><i class="fas fa-graduation-cap"></i>En curso</div><h3>Ingeniería Química</h3><p class="edu-place">Universidad del Valle · Cali, Colombia</p><p class="edu-detail">10.° semestre · 2020 — 2025</p><p class="edu-desc">Formación técnico-científica con enfoque en procesos, análisis y pensamiento sistémico.</p></div>
+      <div class="edu-card reveal-up"><div class="edu-status"><i class="fas fa-certificate"></i>Completado</div><h3>Marketing Digital + IA</h3><p class="edu-place">Universidad del Valle · 2026</p><p class="edu-detail">Estrategia digital, automatización e inteligencia artificial aplicada al marketing.</p></div>
+      <div class="edu-card upcoming reveal-up"><div class="edu-status" style="color:var(--muted)"><i class="fas fa-clock"></i>Próximamente</div><h3>Tecn. Desarrollo Publicitario</h3><p class="edu-place">SENA · Colombia</p><p class="edu-detail">Formación en comunicación publicitaria, diseño y estrategia de marca.</p></div>
+      <div class="edu-card reveal-up"><div class="edu-status"><i class="fas fa-language"></i>Nivel B1</div><h3>Inglés</h3><p class="edu-place">Nivel B1 · Marco Europeo</p><p class="edu-detail">Lectura, escritura y comunicación básica en entornos profesionales.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TESTIMONIOS ═══════════ -->
+<section id="testimonios">
+  <div class="container">
+    <div class="testimonials-header">
+      <div class="section-label"><span>Clientes & colaboradores</span></div>
+      <h2 class="section-title">Testimonios</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal-up"><div class="testimonial-quote">"</div><p class="testimonial-text">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div class="testimonial-author"><div class="testimonial-avatar"><i class="fas fa-user"></i></div><div><div class="testimonial-name">Nombre del cliente</div><div class="testimonial-role">Cargo — Empresa</div></div></div></div>
+      <div class="testimonial-card reveal-up"><div class="testimonial-quote">"</div><p class="testimonial-text">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div class="testimonial-author"><div class="testimonial-avatar"><i class="fas fa-user"></i></div><div><div class="testimonial-name">Nombre del cliente</div><div class="testimonial-role">Cargo — Empresa</div></div></div></div>
+      <div class="testimonial-card reveal-up"><div class="testimonial-quote">"</div><p class="testimonial-text">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div class="testimonial-author"><div class="testimonial-avatar"><i class="fas fa-user"></i></div><div><div class="testimonial-name">Nombre del cliente</div><div class="testimonial-role">Cargo — Empresa</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACTO ═══════════ -->
+<section id="contacto">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="section-label reveal-up"><span>Trabajemos juntas</span></div>
+        <h2 class="reveal-up">Hablemos<span class="accent-dot">.</span></h2>
+        <p class="reveal-up">¿Tienes una marca que quiere crecer? ¿Necesitas contenido que conecte y convierta? Estoy disponible para proyectos freelance y posiciones fijas.</p>
+        <div class="contact-links">
+          <a href="mailto:anyeli.benavides@correounivalle.edu.co" class="contact-link reveal-up"><div class="contact-link-icon"><i class="fas fa-envelope"></i></div><div><div class="contact-link-label">Email</div><div class="contact-link-value">anyeli.benavides@correounivalle.edu.co</div></div></a>
+          <a href="tel:+573173334394" class="contact-link reveal-up"><div class="contact-link-icon"><i class="fas fa-phone"></i></div><div><div class="contact-link-label">Celular / WhatsApp</div><div class="contact-link-value">(+57) 317 333 4394</div></div></a>
+          <a href="https://instagram.com/stefa.benavidess__" target="_blank" rel="noopener" class="contact-link reveal-up"><div class="contact-link-icon"><i class="fab fa-instagram"></i></div><div><div class="contact-link-label">Instagram</div><div class="contact-link-value">@stefa.benavidess__</div></div></a>
+          <a href="https://tiktok.com/@stefania.benavides" target="_blank" rel="noopener" class="contact-link reveal-up"><div class="contact-link-icon"><i class="fab fa-tiktok"></i></div><div><div class="contact-link-label">TikTok</div><div class="contact-link-value">@stefania.benavides</div></div></a>
+          <a href="https://linkedin.com/in/stefania-benavides" target="_blank" rel="noopener" class="contact-link reveal-up"><div class="contact-link-icon"><i class="fab fa-linkedin-in"></i></div><div><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">Stefania Benavides</div></div></a>
+        </div>
+      </div>
+      <div class="contact-right reveal-right">
+        <a href="mailto:anyeli.benavides@correounivalle.edu.co" class="btn-primary magnetic" style="justify-content:center;padding:20px 32px;font-size:13px"><i class="fas fa-paper-plane"></i> Enviar mensaje</a>
+        <a href="#" class="btn-outline-light magnetic"><i class="fas fa-download"></i> Descargar Hoja de Vida</a>
+        <a href="https://instagram.com/stefa.benavidess__" target="_blank" rel="noopener" class="btn-outline-light magnetic"><i class="fab fa-instagram"></i> Ver Instagram</a>
+        <a href="https://tiktok.com/@stefania.benavides" target="_blank" rel="noopener" class="btn-outline-light magnetic"><i class="fab fa-tiktok"></i> Ver TikTok</a>
+        <div class="contact-availability">
+          <div><span class="availability-dot"></span><span class="availability-status">Disponible para proyectos</span></div>
+          <p class="availability-detail">Freelance · Tiempo completo<br>Cali, Colombia · Remoto</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-logo">S<em>B</em></div>
+  <p>© 2026 Anyeli Stefania Benavides Ramírez · Todos los derechos reservados</p>
+  <div class="footer-socials">
+    <a href="https://instagram.com/stefa.benavidess__" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+    <a href="https://tiktok.com/@stefania.benavides" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+    <a href="https://linkedin.com/in/stefania-benavides" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+    <a href="mailto:anyeli.benavides@correounivalle.edu.co"><i class="fas fa-envelope"></i></a>
+  </div>
+</footer>
+
+<!-- ═══════════ LIGHTBOX ═══════════ -->
+<div id="lightbox">
+  <button id="lightbox-close">&times;</button>
+  <div id="lightbox-inner"></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT — GSAP + Lenis + Cursor
+     ═══════════════════════════════════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ── LENIS SMOOTH SCROLL ──
+  const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+
+  // Smooth anchor scrolling with Lenis
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (!href || href === '#') return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -80 });
+    });
+  });
+
+
+
+  // ── MAGNETIC BUTTONS ──
+  document.querySelectorAll('.magnetic').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: 'power2.out' });
+    });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+    });
+  });
+
+  // ── PRELOADER ──
+  const tl = gsap.timeline();
+  tl.to('.loader-name span', {
+    y: 0, duration: 0.8, stagger: 0.05, ease: 'power4.out', delay: 0.3
+  })
+  .to('.loader-line', { width: '120px', duration: 0.6, ease: 'power2.inOut' }, '-=0.2')
+  .to('.loader-sub', { opacity: 1, duration: 0.4 }, '-=0.2')
+  .to('#preloader', {
+    yPercent: -100, duration: 1, ease: 'power4.inOut', delay: 0.5,
+    onComplete: () => { document.getElementById('preloader').style.display = 'none'; }
+  });
+
+  // ── HERO ANIMATIONS ──
+  // Split text into characters
+  ['hero-first', 'hero-last'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.textContent;
+    el.innerHTML = '';
+    [...text].forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = ch === ' ' ? ' ' : ch;
+      if (ch === '.' && id === 'hero-last') span.classList.add('accent-dot');
+      el.appendChild(span);
+    });
+  });
+
+  const heroTl = gsap.timeline({ delay: 2.5 });
+  heroTl
+    .to('#hero-first .char', { opacity: 1, y: 0, duration: 0.7, stagger: 0.03, ease: 'power4.out' })
+    .to('#hero-last .char', { opacity: 1, y: 0, duration: 0.7, stagger: 0.03, ease: 'power4.out' }, '-=0.4')
+    .to('#hero-line', { scaleX: 1, duration: 1, ease: 'power3.inOut' }, '-=0.3')
+    .to('.hero-pretitle', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.6')
+    .to('.hero-tagline', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3')
+    .to('.hero-ctas', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.2')
+    .to('.hero-stats .reveal-up', { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, '-=0.2')
+    .to('.scroll-line', { scaleY: 1, duration: 0.8, ease: 'power2.inOut', repeat: -1, yoyo: true }, '-=0.3');
+
+  // Counter animation for stats
+  document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    ScrollTrigger.create({
+      trigger: el, start: 'top 85%',
+      onEnter: () => {
+        gsap.to({ val: 0 }, {
+          val: target, duration: 2, ease: 'power2.out',
+          onUpdate: function() { el.textContent = Math.round(this.targets()[0].val) + '+'; }
+        });
+      }, once: true
+    });
+  });
+
+  // ── SCROLL REVEAL ANIMATIONS ──
+  gsap.utils.toArray('.reveal-up').forEach(el => {
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+  });
+
+  gsap.utils.toArray('.reveal-left').forEach(el => {
+    gsap.to(el, {
+      opacity: 1, x: 0, duration: 1.2, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
+    });
+  });
+
+  gsap.utils.toArray('.reveal-right').forEach(el => {
+    gsap.to(el, {
+      opacity: 1, x: 0, duration: 1.2, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
+    });
+  });
+
+  gsap.utils.toArray('.reveal-scale').forEach((el, i) => {
+    gsap.to(el, {
+      opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out',
+      delay: (i % 3) * 0.1,
+      scrollTrigger: { trigger: el, start: 'top 90%' }
+    });
+  });
+
+  // Service cards stagger
+  gsap.utils.toArray('.service-card').forEach((card, i) => {
+    gsap.to(card, {
+      opacity: 1, y: 0, duration: 0.8, delay: i * 0.08, ease: 'power3.out',
+      scrollTrigger: { trigger: card, start: 'top 90%' }
+    });
+  });
+
+  // ── TIMELINE LINE DRAW ──
+  const timeline = document.querySelector('.timeline');
+  if (timeline) {
+    gsap.to('.timeline::before', { scaleY: 1 }); // fallback
+    ScrollTrigger.create({
+      trigger: timeline,
+      start: 'top 70%',
+      end: 'bottom 30%',
+      onUpdate: self => {
+        timeline.style.setProperty('--progress', self.progress);
+      }
+    });
+    // Animate the ::before via a real element
+    const lineEl = document.createElement('div');
+    lineEl.style.cssText = 'position:absolute;left:0;top:0;width:1px;height:100%;background:var(--accent);transform-origin:top;transform:scaleY(0);z-index:1;';
+    timeline.style.position = 'relative';
+    timeline.prepend(lineEl);
+    gsap.to(lineEl, {
+      scaleY: 1, ease: 'none',
+      scrollTrigger: { trigger: timeline, start: 'top 70%', end: 'bottom 40%', scrub: 0.5 }
+    });
+  }
+
+  // ── NAV SCROLL EFFECT ──
+  ScrollTrigger.create({
+    start: 60, end: 99999,
+    onEnter: () => document.getElementById('nav').classList.add('scrolled'),
+    onLeaveBack: () => document.getElementById('nav').classList.remove('scrolled')
+  });
+
+  // ── PARALLAX BG CIRCLES ──
+  gsap.utils.toArray('.hero-bg-circle').forEach(circle => {
+    gsap.to(circle, {
+      y: -100, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
+    });
+  });
+
+  // ── LIGHTBOX ──
+  const lb = document.getElementById('lightbox');
+  const lbInner = document.getElementById('lightbox-inner');
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+      lbInner.innerHTML = '<div style="color:rgba(255,255,255,.4);text-align:center;padding:40px"><i class="fas fa-image" style="font-size:48px;margin-bottom:16px;display:block"></i><p style="font-size:14px">Imagen no disponible<br><span style="opacity:.6;font-size:12px">Reemplaza con tus imágenes reales</span></p></div>';
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  document.getElementById('lightbox-close').addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && lb.classList.contains('active')) closeLb(); });
+  function closeLb() {
+    lb.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+});
+</script>
+
+</body>
+</html>
