@@ -628,12 +628,16 @@ section { position: relative; overflow: hidden; }
   background: rgba(0,0,0,.4); font-weight: 500;
 }
 .showreel-placeholder {
-  width: 100%; aspect-ratio: 16/9;
+  width: 100%;
   background: linear-gradient(135deg, var(--charcoal), var(--dark));
   display: flex; align-items: center; justify-content: center;
   flex-direction: column; gap: 24px; position: relative; cursor: pointer;
 }
-.showreel-video, .video-card video {
+.showreel-video {
+  width: 100%; display: block;
+  background: var(--charcoal);
+}
+.video-card video {
   width: 100%; height: 100%; object-fit: cover; display: block;
   background: var(--charcoal);
 }
@@ -1222,22 +1226,18 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
 <section id="videos">
   <div class="container">
     <div style="margin-bottom:56px">
-      <div class="section-label reveal-up"><span>Showreel & Videos</span></div>
+      <div class="section-label reveal-up"><span>Reels & Videos</span></div>
       <h2 class="section-title reveal-up">En movimiento</h2>
     </div>
-    <div class="showreel-container reveal-up">
-      <div class="showreel-badge">★ Showreel Principal</div>
-      <div class="showreel-placeholder" style="aspect-ratio:9/16;max-width:400px;margin:0 auto;overflow:hidden">
-        <video class="showreel-video" controls preload="metadata" playsinline poster="assets/projects/fanea-thumb.png">
-          <source src="assets/videos/video-01-fanea.mp4" type="video/mp4">
-          Tu navegador no soporta video HTML5.
-        </video>
-      </div>
-      <div class="showreel-footer"><div><h3>Reel — Lanzamiento Fanéa</h3><p>Storytelling de marca · CapCut · Dirección visual completa</p></div><span style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:6px 14px;border-radius:2px">Calidad original</span></div>
-    </div>
     <div class="videos-grid">
-      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/showreel.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>Showreel — Fanéa · Reels</h4><span>POV editorial · producto y narrativa</span></div></div>
-      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-02-eneiq.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>Reel — ENEIQ 2024</h4><span>Cobertura de evento nacional</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-08-fanea-logo.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>Animación Logo Fanéa</h4><span>Identidad visual · Branding</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-01-fanea.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>Lanzamiento Fanéa</h4><span>Storytelling de marca · CapCut</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-06-fanea-bts.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>Behind the Scenes — Fanéa</h4><span>Detrás de cada pedido</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-07-fanea-pov.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>POV — Joyas por ocasión</h4><span>Fanéa · Contenido orgánico</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/showreel.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>Showreel — Fanéa Reels</h4><span>POV editorial · producto y narrativa</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-02-eneiq.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>ENEIQ 2024 — Staff</h4><span>Cobertura de evento nacional</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-04-eneiq-promo.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>ENEIQ 2024 — Promo</h4><span>¿Ya estás listo? · Promoción</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-05-univalle.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>80 Años — Ing. Química Univalle</h4><span>Celebración institucional</span></div></div>
       <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-03-tiktok.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>TikTok — Contenido orgánico</h4><span>Cuenta personal · alto alcance</span></div></div>
     </div>
   </div>
