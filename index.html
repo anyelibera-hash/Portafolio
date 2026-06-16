@@ -464,6 +464,13 @@ section { position: relative; overflow: hidden; }
   transition: transform .8s var(--ease-out-expo), filter .6s;
   filter: saturate(1.05);
 }
+.project-thumb-img.logo-fit {
+  object-fit: contain;
+  padding: 28px;
+  background: #fff;
+}
+.project-thumb:has(.logo-fit) .project-thumb-tint { display: none; }
+.project-thumb:has(.logo-fit)::after { display: none; }
 .project-card:hover .project-thumb-img { transform: scale(1.08); }
 .project-thumb-tint {
   position: absolute; inset: 0;
@@ -1040,7 +1047,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- FANÉA -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#965D28,#7D4E20,#4A2D12)">
-          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/fanea-thumb.jpg" alt="Fanéa — feed de Instagram">
+          <img class="project-thumb-img logo-fit" loading="lazy" decoding="async" src="assets/projects/fanea-thumb.png" alt="Fanéa — logo de marca">
           <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
@@ -1057,7 +1064,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- UNIVALLE -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#1E3A5F,#0F1F36)">
-          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/univalle-thumb.jpg" alt="Escuela de Ingeniería Química Univalle — feed institucional">
+          <img class="project-thumb-img logo-fit" loading="lazy" decoding="async" src="assets/projects/univalle-thumb.jpg" alt="Escuela de Ingeniería Química Univalle — logo institucional">
           <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
@@ -1074,7 +1081,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- CESIQ -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#2D5A3D,#173324)">
-          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/cesiq-thumb.jpg" alt="Logo oficial CESIQ — diseño de identidad visual">
+          <img class="project-thumb-img logo-fit" loading="lazy" decoding="async" src="assets/projects/cesiq-thumb.jpg" alt="Logo oficial CESIQ — diseño de identidad visual">
           <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
@@ -1091,7 +1098,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- ENCUENTRO NACIONAL -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#4A2760,#280F3A)">
-          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/eneiq-thumb.jpg" alt="XXXIV Encuentro Nacional de Estudiantes de Ingeniería Química">
+          <img class="project-thumb-img logo-fit" loading="lazy" decoding="async" src="assets/projects/eneiq-thumb.jpg" alt="XXXIV Encuentro Nacional de Estudiantes de Ingeniería Química">
           <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
@@ -1108,7 +1115,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- POLAR -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#1A3050,#0A1828)">
-          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/polar-thumb.jpg" alt="Polar — primer emprendimiento, contenido orgánico">
+          <img class="project-thumb-img logo-fit" loading="lazy" decoding="async" src="assets/projects/polar-thumb.jpg" alt="Polar — logo de marca">
           <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
@@ -1125,7 +1132,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- MAYAGÜEZ -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#3D5A2A,#1F3014)">
-          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/mayaguez-thumb.png" alt="Mayagüez S.A. — diseño de portada para insumos orgánicos">
+          <img class="project-thumb-img logo-fit" loading="lazy" decoding="async" src="assets/projects/mayaguez-thumb.png" alt="Mayagüez S.A. — logo corporativo">
           <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
