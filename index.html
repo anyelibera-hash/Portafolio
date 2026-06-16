@@ -64,7 +64,15 @@ body {
   background: var(--charcoal);
   display: flex; align-items: center; justify-content: center;
   flex-direction: column; gap: 24px;
+  /* Failsafe: si GSAP no carga (ej. previsualizadores sin CDN), el preloader se oculta solo */
+  animation: preloader-fallback 4.5s forwards;
 }
+@keyframes preloader-fallback {
+  0%, 80% { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  100%    { opacity: 0; transform: translateY(-100%); pointer-events: none; visibility: hidden; }
+}
+/* Si JS está desactivado, ocultarlo de inmediato */
+.no-js #preloader { display: none !important; }
 .loader-name {
   font-family: var(--font-serif);
   font-size: clamp(36px, 6vw, 72px);
@@ -85,33 +93,7 @@ body {
   color: var(--accent); opacity: 0;
 }
 
-/* ═══════════════════════════════════════
-   CUSTOM CURSOR
-   ═══════════════════════════════════════ */
-.cursor {
-  position: fixed; top: 0; left: 0; z-index: 99998;
-  pointer-events: none; mix-blend-mode: difference;
-}
-.cursor-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #fff;
-  position: absolute; top: -4px; left: -4px;
-}
-.cursor-ring {
-  width: 40px; height: 40px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.5);
-  position: absolute; top: -20px; left: -20px;
-  transition: width .3s var(--ease-out-expo), height .3s var(--ease-out-expo),
-              top .3s var(--ease-out-expo), left .3s var(--ease-out-expo),
-              border-color .3s, background .3s;
-}
-.cursor.hover .cursor-ring {
-  width: 64px; height: 64px; top: -32px; left: -32px;
-  background: rgba(255,255,255,.08);
-  border-color: rgba(255,255,255,.8);
-}
 
-@media (pointer: coarse) { .cursor { display: none !important; } body { cursor: auto; } }
 
 /* ═══════════════════════════════════════
    NAVIGATION
@@ -350,13 +332,13 @@ section { position: relative; overflow: hidden; }
   display: flex; align-items: flex-end; justify-content: center;
   position: relative; overflow: hidden;
 }
-.about-photo-placeholder {
-  position: absolute; inset: 0; display: flex; align-items: center;
-  justify-content: center; flex-direction: column; gap: 12px;
-  color: rgba(255,255,255,.45);
+.about-photo-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 30%;
+  filter: saturate(1.02) contrast(1.02);
+  transition: transform 1.2s var(--ease-out-expo);
 }
-.about-photo-placeholder i { font-size: 44px; }
-.about-photo-placeholder span { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+.about-photo:hover .about-photo-img { transform: scale(1.04); }
 .about-photo-label {
   position: relative; z-index: 1; width: 100%; padding: 24px; text-align: center;
   background: linear-gradient(to top, rgba(0,0,0,.5), transparent);
@@ -476,6 +458,18 @@ section { position: relative; overflow: hidden; }
   color: rgba(255,255,255,.6); transition: transform .6s var(--ease-out-expo);
 }
 .project-card:hover .project-thumb-inner { transform: scale(1.05); }
+.project-thumb-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  transition: transform .8s var(--ease-out-expo), filter .6s;
+  filter: saturate(1.05);
+}
+.project-card:hover .project-thumb-img { transform: scale(1.08); }
+.project-thumb-tint {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.45) 100%);
+  pointer-events: none; z-index: 1;
+}
 .project-body { padding: 28px; }
 .project-tags { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .project-tag {
@@ -534,14 +528,43 @@ section { position: relative; overflow: hidden; }
   font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
 }
 .gallery-item:hover .gph { transform: scale(1.08); }
+.gallery-item img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .8s var(--ease-out-expo), filter .6s;
+}
+.gallery-item:hover img { transform: scale(1.08); filter: brightness(.92); }
+.gallery-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 14px 16px 12px;
+  background: linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,0) 100%);
+  display: flex; flex-direction: column; gap: 2px;
+  transform: translateY(40%); opacity: 0;
+  transition: opacity .4s var(--ease-out-expo), transform .5s var(--ease-out-expo);
+  z-index: 2;
+}
+.gallery-item:hover .gallery-caption { opacity: 1; transform: none; }
+.gallery-caption .gc-tag {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent-light); font-weight: 500;
+}
+.gallery-caption .gc-title {
+  font-size: 13px; color: #fff; font-weight: 500;
+}
 .gallery-overlay {
   position: absolute; inset: 0;
-  background: rgba(26,23,20,.6);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity .4s;
+  background: linear-gradient(180deg, rgba(26,23,20,0) 40%, rgba(26,23,20,.55) 100%);
+  display: flex; align-items: flex-start; justify-content: flex-end;
+  padding: 14px; opacity: 0; transition: opacity .4s;
+  pointer-events: none;
 }
 .gallery-item:hover .gallery-overlay { opacity: 1; }
-.gallery-overlay i { color: #fff; font-size: 22px; }
+.gallery-overlay i {
+  color: #fff; font-size: 12px;
+  background: rgba(255,255,255,.12); backdrop-filter: blur(8px);
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,.2);
+}
 
 @media (max-width: 768px) {
   #galeria { padding: 80px 24px; }
@@ -569,6 +592,15 @@ section { position: relative; overflow: hidden; }
   background: linear-gradient(135deg, var(--charcoal), var(--dark));
   display: flex; align-items: center; justify-content: center;
   flex-direction: column; gap: 24px; position: relative; cursor: pointer;
+}
+.showreel-video, .video-card video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  background: var(--charcoal);
+}
+.video-card .video-wrapper {
+  width: 100%; aspect-ratio: 9/16;
+  background: linear-gradient(145deg, var(--charcoal), var(--dark));
+  position: relative; overflow: hidden;
 }
 .showreel-play {
   width: 88px; height: 88px; border-radius: 50%;
@@ -725,40 +757,6 @@ section { position: relative; overflow: hidden; }
 @media (max-width: 768px) { #educacion { padding: 80px 24px; } }
 
 /* ═══════════════════════════════════════
-   TESTIMONIOS
-   ═══════════════════════════════════════ */
-#testimonios { padding: 120px 48px; background: var(--ivory); }
-.testimonials-header { text-align: center; margin-bottom: 56px; }
-.testimonials-header .section-label { justify-content: center; }
-.testimonials-header .section-label::after { content: ''; width: 32px; height: 1px; background: var(--accent); }
-.testimonials-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;
-}
-.testimonial-card {
-  border: 2px dashed var(--border); border-radius: 6px; padding: 32px;
-  transition: transform .4s var(--ease-out-expo);
-}
-.testimonial-card:hover { transform: translateY(-4px); }
-.testimonial-quote {
-  font-size: 52px; color: var(--accent-light); font-family: var(--font-serif);
-  line-height: .7; margin-bottom: 16px;
-}
-.testimonial-text {
-  font-size: 15px; color: var(--muted); line-height: 1.8;
-  margin-bottom: 20px; font-style: italic;
-}
-.testimonial-author { display: flex; align-items: center; gap: 12px; }
-.testimonial-avatar {
-  width: 40px; height: 40px; border-radius: 50%; background: var(--border);
-  display: flex; align-items: center; justify-content: center;
-}
-.testimonial-avatar i { color: var(--muted); font-size: 16px; }
-.testimonial-name { font-size: 14px; font-weight: 600; color: var(--charcoal); }
-.testimonial-role { font-size: 12px; color: var(--muted); }
-
-@media (max-width: 768px) { #testimonios { padding: 80px 24px; } }
-
-/* ═══════════════════════════════════════
    CONTACTO
    ═══════════════════════════════════════ */
 #contacto { padding: 120px 48px; background: var(--dark); }
@@ -888,9 +886,6 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
   <div class="loader-sub">Community Manager & Content Creator</div>
 </div>
 
-  <div class="cursor-ring"></div>
-</div>
-
 <!-- ═══════════ NAVIGATION ═══════════ -->
 <nav id="nav">
   <a href="#hero" class="nav-logo magnetic">S<em>B</em></a>
@@ -901,7 +896,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
     <a href="#galeria" class="nav-link magnetic">Galería</a>
     <a href="#experiencia" class="nav-link magnetic">Experiencia</a>
     <a href="#contacto" class="nav-link magnetic">Contacto</a>
-    <a href="#" class="btn-primary magnetic"><i class="fas fa-download"></i>CV</a>
+    <a href="assets/cv/Hoja-de-vida-Stefania-Benavides.pdf" download class="btn-primary magnetic"><i class="fas fa-download"></i>CV</a>
   </div>
   <button class="nav-burger" aria-label="Abrir menú" onclick="document.getElementById('mobile-menu').classList.add('open')">
     <span></span><span></span><span style="width:16px"></span>
@@ -917,7 +912,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
   <a href="#galeria" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Galería</a>
   <a href="#experiencia" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Experiencia</a>
   <a href="#contacto" class="mobile-link" onclick="this.parentElement.classList.remove('open')">Contacto</a>
-  <a href="#" class="btn-primary" style="margin-top:12px;padding:14px 32px">Descargar CV</a>
+  <a href="assets/cv/Hoja-de-vida-Stefania-Benavides.pdf" download class="btn-primary" style="margin-top:12px;padding:14px 32px">Descargar CV</a>
 </nav>
 
 <!-- ═══════════ HERO ═══════════ -->
@@ -940,7 +935,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
 
     <div class="hero-ctas reveal-up">
       <a href="#proyectos" class="btn-primary magnetic">Ver proyectos <i class="fas fa-arrow-down"></i></a>
-      <a href="#" class="btn-outline magnetic"><i class="fas fa-download"></i> Descargar CV</a>
+      <a href="assets/cv/Hoja-de-vida-Stefania-Benavides.pdf" download class="btn-outline magnetic"><i class="fas fa-download"></i> Descargar CV</a>
       <a href="mailto:anyeli.benavides@correounivalle.edu.co" class="btn-outline magnetic">Contactar <i class="fas fa-paper-plane"></i></a>
     </div>
 
@@ -976,10 +971,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
     <div class="about-grid">
       <div class="about-photo reveal-left">
         <div class="about-photo-inner">
-          <div class="about-photo-placeholder">
-            <i class="fas fa-image"></i>
-            <span>Tu foto aquí</span>
-          </div>
+          <img class="about-photo-img" src="assets/about/perfil.jpg" alt="Anyeli Stefania Benavides Ramírez — Community Manager & Creadora de Contenido">
           <div class="about-photo-label">Stefania Benavides · Cali, Colombia</div>
         </div>
         <div class="about-photo-accent"></div>
@@ -1048,7 +1040,8 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- FANÉA -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#965D28,#7D4E20,#4A2D12)">
-          <div class="project-thumb-inner"><i class="fas fa-gem" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/fanea-thumb.jpg" alt="Fanéa — feed de Instagram">
+          <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
           <div class="project-tags"><span class="project-tag" style="background:var(--accent)">Marca de Joyería</span><span class="project-date">2026 — Presente</span></div>
@@ -1064,7 +1057,8 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- UNIVALLE -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#1E3A5F,#0F1F36)">
-          <div class="project-thumb-inner"><i class="fas fa-graduation-cap" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/univalle-thumb.jpg" alt="Escuela de Ingeniería Química Univalle — feed institucional">
+          <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
           <div class="project-tags"><span class="project-tag" style="background:#1E3A5F">Institución Educativa</span><span class="project-date">2025</span></div>
@@ -1080,7 +1074,8 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- CESIQ -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#2D5A3D,#173324)">
-          <div class="project-thumb-inner"><i class="fas fa-palette" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/cesiq-thumb.jpg" alt="Logo oficial CESIQ — diseño de identidad visual">
+          <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
           <div class="project-tags"><span class="project-tag" style="background:#2D5A3D">Identidad Visual</span><span class="project-date">2024</span></div>
@@ -1096,7 +1091,8 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- ENCUENTRO NACIONAL -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#4A2760,#280F3A)">
-          <div class="project-thumb-inner"><i class="fas fa-camera" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/eneiq-thumb.jpg" alt="XXXIV Encuentro Nacional de Estudiantes de Ingeniería Química">
+          <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
           <div class="project-tags"><span class="project-tag" style="background:#4A2760">Evento Nacional</span><span class="project-date">2024</span></div>
@@ -1112,7 +1108,8 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <!-- POLAR -->
       <article class="project-card reveal-up">
         <div class="project-thumb" style="background:linear-gradient(135deg,#1A3050,#0A1828)">
-          <div class="project-thumb-inner"><i class="fas fa-snowflake" style="font-size:36px"></i><span style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Reemplazar imagen</span></div>
+          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/polar-thumb.jpg" alt="Polar — primer emprendimiento, contenido orgánico">
+          <div class="project-thumb-tint"></div>
         </div>
         <div class="project-body">
           <div class="project-tags"><span class="project-tag" style="background:#1A3050">Marca Propia</span><span class="project-date">2019 — 2020</span></div>
@@ -1122,6 +1119,23 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
           <div class="project-tools-label">Herramientas</div>
           <div class="project-tools"><span class="project-tool">Canva</span><span class="project-tool">CapCut</span><span class="project-tool">Instagram</span></div>
           <div class="project-result"><div class="project-result-label">Resultado</div><p>Ventas diarias generadas 100% con contenido orgánico — primer emprendimiento que validó la vocación digital.</p></div>
+        </div>
+      </article>
+
+      <!-- MAYAGÜEZ -->
+      <article class="project-card reveal-up">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#3D5A2A,#1F3014)">
+          <img class="project-thumb-img" loading="lazy" decoding="async" src="assets/projects/mayaguez-thumb.png" alt="Mayagüez S.A. — diseño de portada para insumos orgánicos">
+          <div class="project-thumb-tint"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags"><span class="project-tag" style="background:#3D5A2A">Industria & Diseño</span><span class="project-date">2026 — Presente</span></div>
+          <h3>Mayagüez S.A.</h3>
+          <div class="project-role">Practicante de Ingeniería + Diseño</div>
+          <p class="project-desc">Diseño de portadas y etiquetas para documentos de certificación de alcohol orgánico en destilería. Cruce de criterio técnico (ingeniería química) con dirección visual: tipografía, jerarquía y normativa de etiquetado.</p>
+          <div class="project-tools-label">Herramientas</div>
+          <div class="project-tools"><span class="project-tool">Canva</span><span class="project-tool">AutoCAD</span><span class="project-tool">Office</span></div>
+          <div class="project-result"><div class="project-result-label">Resultado</div><p>Piezas oficiales adoptadas para documentación de certificación de alcohol orgánico de la planta.</p></div>
         </div>
       </article>
     </div>
@@ -1139,15 +1153,15 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <p class="reveal-up">Diseños, campañas, fotografía de producto y piezas de contenido seleccionadas.</p>
     </div>
     <div class="gallery-grid">
-      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><div class="gph" style="background:linear-gradient(135deg,#965D28,#7D4E20)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-01</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
-      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><div class="gph" style="background:linear-gradient(135deg,#3A5A4A,#1F3329)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-02</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
-      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><div class="gph" style="background:linear-gradient(135deg,#2C3E6B,#141E3A)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-03</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
-      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><div class="gph" style="background:linear-gradient(145deg,#5C3A6B,#280F3A)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-04</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
-      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><div class="gph" style="background:linear-gradient(145deg,#8B6914,#5A4508)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-05</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
-      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><div class="gph" style="background:linear-gradient(145deg,#1A3A2A,#0A1A12)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-06</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
-      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><div class="gph" style="background:linear-gradient(135deg,#A0522D,#6B3419)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-07</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
-      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><div class="gph" style="background:linear-gradient(135deg,#2A4A6A,#121E30)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-08</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
-      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><div class="gph" style="background:linear-gradient(135deg,#3D4A2A,#1A2010)"><i class="fas fa-image" style="font-size:24px"></i><span>foto-09</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><img loading="lazy" decoding="async" src="assets/gallery/01-fanea-logo.png" alt="Identidad visual Fanéa"><div class="gallery-caption"><span class="gc-tag">Fanéa · Identidad</span><span class="gc-title">Logotipo de marca propia</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><img loading="lazy" decoding="async" src="assets/gallery/05-fanea-feed.jpg" alt="Feed Instagram Fanéa"><div class="gallery-caption"><span class="gc-tag">Fanéa · Instagram</span><span class="gc-title">Curaduría de feed</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:1/1"><img loading="lazy" decoding="async" src="assets/gallery/07-cesiq-feed.jpg" alt="CESIQ · feed Instagram"><div class="gallery-caption"><span class="gc-tag">CESIQ · Comunicaciones</span><span class="gc-title">Estrategia de feed</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><img loading="lazy" decoding="async" src="assets/gallery/03-fanea-ia-madre.png" alt="Campaña Día de la Madre · IA generativa"><div class="gallery-caption"><span class="gc-tag">Fanéa · Campaña IA</span><span class="gc-title">Día de la Madre</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><img loading="lazy" decoding="async" src="assets/gallery/02-fanea-packaging.png" alt="Fotografía de packaging Fanéa con IA"><div class="gallery-caption"><span class="gc-tag">Fanéa · Packaging</span><span class="gc-title">Producto con IA generativa</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:3/4"><img loading="lazy" decoding="async" src="assets/gallery/04-fanea-moods.png" alt="Pieza Fanéa estilo editorial"><div class="gallery-caption"><span class="gc-tag">Fanéa · Editorial</span><span class="gc-title">Pieza en tendencia</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><img loading="lazy" decoding="async" src="assets/gallery/08-mayaguez-etiqueta.png" alt="Etiqueta Mayagüez · alcohol orgánico"><div class="gallery-caption"><span class="gc-tag">Mayagüez · Etiquetado</span><span class="gc-title">Certificación de alcohol orgánico</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><img loading="lazy" decoding="async" src="assets/gallery/06-univalle-pieza.jpg" alt="Pieza gráfica Escuela de Ingeniería Química Univalle"><div class="gallery-caption"><span class="gc-tag">Univalle · Pieza gráfica</span><span class="gc-title">Comunicación institucional</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item reveal-scale" style="aspect-ratio:4/3"><img loading="lazy" decoding="async" src="assets/gallery/09-polar-pieza.jpg" alt="Publicación Polar"><div class="gallery-caption"><span class="gc-tag">Polar · Marca propia</span><span class="gc-title">Primer emprendimiento</span></div><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
     </div>
   </div>
 </section>
@@ -1161,16 +1175,18 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
     </div>
     <div class="showreel-container reveal-up">
       <div class="showreel-badge">★ Showreel Principal</div>
-      <div class="showreel-placeholder">
-        <div class="showreel-play"><i class="fas fa-play"></i></div>
-        <div style="text-align:center"><div style="font-size:16px;font-weight:500;color:rgba(255,255,255,.75);margin-bottom:8px">Showreel Principal</div><div style="font-size:12px;color:rgba(255,255,255,.3)">Reemplaza con: <code style="color:var(--accent);background:rgba(150,93,40,.12);padding:2px 10px;border-radius:3px">videos/showreel.mp4</code></div></div>
+      <div class="showreel-placeholder" style="aspect-ratio:16/9;overflow:hidden">
+        <video class="showreel-video" controls preload="metadata" playsinline poster="assets/projects/fanea-thumb.jpg">
+          <source src="assets/videos/showreel.mp4" type="video/mp4">
+          Tu navegador no soporta video HTML5.
+        </video>
       </div>
-      <div class="showreel-footer"><div><h3>Showreel 2024 — Reels & Contenido Digital</h3><p>Compilación de los mejores Reels, TikToks y contenido editado</p></div><span style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:6px 14px;border-radius:2px">Calidad original</span></div>
+      <div class="showreel-footer"><div><h3>Showreel — Fanéa · Reels & Storytelling</h3><p>POV editorial: producto, narrativa y dirección visual completa</p></div><span style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:6px 14px;border-radius:2px">Calidad original</span></div>
     </div>
     <div class="videos-grid">
-      <div class="video-card reveal-up"><div class="video-placeholder"><div class="video-play-sm"><i class="fas fa-play"></i></div><div style="text-align:center;padding:0 12px"><div style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:4px">Agrega tu video</div><code style="font-size:10px;color:var(--accent)">videos/video-01.mp4</code></div></div><div class="video-card-body"><h4>Reel — Fanéa</h4><span>Edición · CapCut</span></div></div>
-      <div class="video-card reveal-up"><div class="video-placeholder"><div class="video-play-sm"><i class="fas fa-play"></i></div><div style="text-align:center;padding:0 12px"><div style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:4px">Agrega tu video</div><code style="font-size:10px;color:var(--accent)">videos/video-02.mp4</code></div></div><div class="video-card-body"><h4>TikTok — Encuentro IQ</h4><span>Cobertura de evento</span></div></div>
-      <div class="video-card reveal-up"><div class="video-placeholder"><div class="video-play-sm"><i class="fas fa-play"></i></div><div style="text-align:center;padding:0 12px"><div style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:4px">Agrega tu video</div><code style="font-size:10px;color:var(--accent)">videos/video-03.mp4</code></div></div><div class="video-card-body"><h4>Reel — Contenido orgánico</h4><span>Edición · CapCut</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-01-fanea.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>Reel — Lanzamiento Fanéa</h4><span>Storytelling de marca · CapCut</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-02-eneiq.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>Reel — ENEIQ 2024</h4><span>Cobertura de evento nacional</span></div></div>
+      <div class="video-card reveal-up"><div class="video-wrapper"><video controls preload="metadata" playsinline><source src="assets/videos/video-03-tiktok.mp4" type="video/mp4"></video></div><div class="video-card-body"><h4>TikTok — Contenido orgánico</h4><span>Cuenta personal · alto alcance</span></div></div>
     </div>
   </div>
 </section>
@@ -1219,17 +1235,18 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
   </div>
 </section>
 
+
 <!-- ═══════════ TESTIMONIOS ═══════════ -->
-<section id="testimonios">
+<section id="testimonios" style="padding:120px 48px;background:var(--ivory)">
   <div class="container">
-    <div class="testimonials-header">
-      <div class="section-label"><span>Clientes & colaboradores</span></div>
+    <div class="testimonials-header" style="text-align:center;margin-bottom:56px">
+      <div class="section-label" style="justify-content:center"><span>Clientes & colaboradores</span></div>
       <h2 class="section-title">Testimonios</h2>
     </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card reveal-up"><div class="testimonial-quote">"</div><p class="testimonial-text">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div class="testimonial-author"><div class="testimonial-avatar"><i class="fas fa-user"></i></div><div><div class="testimonial-name">Nombre del cliente</div><div class="testimonial-role">Cargo — Empresa</div></div></div></div>
-      <div class="testimonial-card reveal-up"><div class="testimonial-quote">"</div><p class="testimonial-text">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div class="testimonial-author"><div class="testimonial-avatar"><i class="fas fa-user"></i></div><div><div class="testimonial-name">Nombre del cliente</div><div class="testimonial-role">Cargo — Empresa</div></div></div></div>
-      <div class="testimonial-card reveal-up"><div class="testimonial-quote">"</div><p class="testimonial-text">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div class="testimonial-author"><div class="testimonial-avatar"><i class="fas fa-user"></i></div><div><div class="testimonial-name">Nombre del cliente</div><div class="testimonial-role">Cargo — Empresa</div></div></div></div>
+    <div class="testimonials-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px">
+      <div class="testimonial-card reveal-up" style="border:2px dashed var(--border);border-radius:6px;padding:32px;transition:transform .4s var(--ease-out-expo)"><div style="font-size:52px;color:var(--accent-light);font-family:var(--font-serif);line-height:.7;margin-bottom:16px">"</div><p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:20px;font-style:italic">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div style="display:flex;align-items:center;gap:12px"><div style="width:40px;height:40px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center"><i class="fas fa-user" style="color:var(--muted);font-size:16px"></i></div><div><div style="font-size:14px;font-weight:600;color:var(--charcoal)">Nombre del cliente</div><div style="font-size:12px;color:var(--muted)">Cargo — Empresa</div></div></div></div>
+      <div class="testimonial-card reveal-up" style="border:2px dashed var(--border);border-radius:6px;padding:32px;transition:transform .4s var(--ease-out-expo)"><div style="font-size:52px;color:var(--accent-light);font-family:var(--font-serif);line-height:.7;margin-bottom:16px">"</div><p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:20px;font-style:italic">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div style="display:flex;align-items:center;gap:12px"><div style="width:40px;height:40px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center"><i class="fas fa-user" style="color:var(--muted);font-size:16px"></i></div><div><div style="font-size:14px;font-weight:600;color:var(--charcoal)">Nombre del cliente</div><div style="font-size:12px;color:var(--muted)">Cargo — Empresa</div></div></div></div>
+      <div class="testimonial-card reveal-up" style="border:2px dashed var(--border);border-radius:6px;padding:32px;transition:transform .4s var(--ease-out-expo)"><div style="font-size:52px;color:var(--accent-light);font-family:var(--font-serif);line-height:.7;margin-bottom:16px">"</div><p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:20px;font-style:italic">Editar: añade aquí el testimonio de un cliente, colega o colaborador que hable de tu trabajo.</p><div style="display:flex;align-items:center;gap:12px"><div style="width:40px;height:40px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center"><i class="fas fa-user" style="color:var(--muted);font-size:16px"></i></div><div><div style="font-size:14px;font-weight:600;color:var(--charcoal)">Nombre del cliente</div><div style="font-size:12px;color:var(--muted)">Cargo — Empresa</div></div></div></div>
     </div>
   </div>
 </section>
@@ -1252,7 +1269,7 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       </div>
       <div class="contact-right reveal-right">
         <a href="mailto:anyeli.benavides@correounivalle.edu.co" class="btn-primary magnetic" style="justify-content:center;padding:20px 32px;font-size:13px"><i class="fas fa-paper-plane"></i> Enviar mensaje</a>
-        <a href="#" class="btn-outline-light magnetic"><i class="fas fa-download"></i> Descargar Hoja de Vida</a>
+        <a href="assets/cv/Hoja-de-vida-Stefania-Benavides.pdf" download class="btn-outline-light magnetic"><i class="fas fa-download"></i> Descargar Hoja de Vida</a>
         <a href="https://instagram.com/stefa.benavidess__" target="_blank" rel="noopener" class="btn-outline-light magnetic"><i class="fab fa-instagram"></i> Ver Instagram</a>
         <a href="https://tiktok.com/@stefania.benavides" target="_blank" rel="noopener" class="btn-outline-light magnetic"><i class="fab fa-tiktok"></i> Ver TikTok</a>
         <div class="contact-availability">
@@ -1376,101 +1393,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── SCROLL REVEAL ANIMATIONS ──
-  gsap.utils.toArray('.reveal-up').forEach(el => {
-    gsap.to(el, {
-      opacity: 1, y: 0, duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
-    });
-  });
-
-  gsap.utils.toArray('.reveal-left').forEach(el => {
-    gsap.to(el, {
-      opacity: 1, x: 0, duration: 1.2, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 85%' }
-    });
-  });
-
-  gsap.utils.toArray('.reveal-right').forEach(el => {
-    gsap.to(el, {
-      opacity: 1, x: 0, duration: 1.2, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 85%' }
-    });
-  });
-
-  gsap.utils.toArray('.reveal-scale').forEach((el, i) => {
-    gsap.to(el, {
-      opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out',
-      delay: (i % 3) * 0.1,
-      scrollTrigger: { trigger: el, start: 'top 90%' }
-    });
-  });
-
-  // Service cards stagger
-  gsap.utils.toArray('.service-card').forEach((card, i) => {
-    gsap.to(card, {
-      opacity: 1, y: 0, duration: 0.8, delay: i * 0.08, ease: 'power3.out',
-      scrollTrigger: { trigger: card, start: 'top 90%' }
-    });
-  });
-
-  // ── TIMELINE LINE DRAW ──
-  const timeline = document.querySelector('.timeline');
-  if (timeline) {
-    gsap.to('.timeline::before', { scaleY: 1 }); // fallback
-    ScrollTrigger.create({
-      trigger: timeline,
-      start: 'top 70%',
-      end: 'bottom 30%',
-      onUpdate: self => {
-        timeline.style.setProperty('--progress', self.progress);
-      }
-    });
-    // Animate the ::before via a real element
-    const lineEl = document.createElement('div');
-    lineEl.style.cssText = 'position:absolute;left:0;top:0;width:1px;height:100%;background:var(--accent);transform-origin:top;transform:scaleY(0);z-index:1;';
-    timeline.style.position = 'relative';
-    timeline.prepend(lineEl);
-    gsap.to(lineEl, {
-      scaleY: 1, ease: 'none',
-      scrollTrigger: { trigger: timeline, start: 'top 70%', end: 'bottom 40%', scrub: 0.5 }
-    });
-  }
-
-  // ── NAV SCROLL EFFECT ──
-  ScrollTrigger.create({
-    start: 60, end: 99999,
-    onEnter: () => document.getElementById('nav').classList.add('scrolled'),
-    onLeaveBack: () => document.getElementById('nav').classList.remove('scrolled')
-  });
-
-  // ── PARALLAX BG CIRCLES ──
-  gsap.utils.toArray('.hero-bg-circle').forEach(circle => {
-    gsap.to(circle, {
-      y: -100, ease: 'none',
-      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
-    });
-  });
-
-  // ── LIGHTBOX ──
-  const lb = document.getElementById('lightbox');
-  const lbInner = document.getElementById('lightbox-inner');
-  document.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('click', () => {
-      lbInner.innerHTML = '<div style="color:rgba(255,255,255,.4);text-align:center;padding:40px"><i class="fas fa-image" style="font-size:48px;margin-bottom:16px;display:block"></i><p style="font-size:14px">Imagen no disponible<br><span style="opacity:.6;font-size:12px">Reemplaza con tus imágenes reales</span></p></div>';
-      lb.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-  });
-  document.getElementById('lightbox-close').addEventListener('click', closeLb);
-  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && lb.classList.contains('active')) closeLb(); });
-  function closeLb() {
-    lb.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-});
-</script>
-
-</body>
-</html>
+  gsap.utils.toArray('.reveal-up').forEach
