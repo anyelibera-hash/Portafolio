@@ -1,0 +1,9 @@
+# Contenido fuente pesado (182MB video)
+Contenido de portafolio/
+
+# Archivos innecesarios
+support.js
+*.dc.html
+uploads/
+.DS_Store
+Thumbs.db
