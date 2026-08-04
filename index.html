@@ -26,6 +26,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
+<!-- Contenido editable desde /admin -->
+<script src="/assets/js/render.js"></script>
+
 <style>
 /* ═══════════════════════════════════════
    CSS VARIABLES & RESET
@@ -906,7 +909,25 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
 }
 .footer-socials a:hover { color: var(--accent); transform: translateY(-2px); }
 
-@media (max-width: 768px) { footer { padding: 24px; } }
+/* Acceso al panel de administración */
+.footer-right { display: flex; align-items: center; gap: 18px; }
+.admin-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: rgba(255,255,255,.22); text-decoration: none;
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 7px 13px; border: 1px solid rgba(255,255,255,.12); border-radius: 20px;
+  transition: color .3s, border-color .3s, background .3s;
+}
+.admin-link:hover {
+  color: var(--accent); border-color: rgba(150,93,40,.5);
+  background: rgba(150,93,40,.08);
+}
+.admin-link.is-logged { color: var(--accent); border-color: rgba(150,93,40,.45); }
+
+@media (max-width: 768px) {
+  footer { padding: 24px; }
+  .footer-right { width: 100%; justify-content: space-between; }
+}
 
 /* ═══════════════════════════════════════
    LIGHTBOX
@@ -1361,10 +1382,12 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
       <div class="section-label"><span>Stack</span></div>
       <h2 class="section-title">Herramientas & software</h2>
     </div>
+    <div id="tools-categories">
     <div class="tools-category reveal-up"><div class="tools-category-label">Marketing & Redes Sociales</div><div class="tools-list"><span class="tool-badge"><i class="fab fa-meta" style="color:#1877f2"></i>Meta Business Suite</span><span class="tool-badge"><i class="fab fa-instagram" style="color:#E1306C"></i>Instagram / Reels</span><span class="tool-badge"><i class="fab fa-tiktok"></i>TikTok</span><span class="tool-badge"><i class="fas fa-chart-bar" style="color:var(--accent)"></i>Google Analytics</span><span class="tool-badge"><i class="fas fa-robot" style="color:var(--accent)"></i>n8n</span><span class="tool-badge"><i class="fas fa-search" style="color:var(--accent)"></i>SEO básico</span><span class="tool-badge"><i class="fas fa-bullhorn" style="color:var(--accent)"></i>Pauta en Meta</span><span class="tool-badge"><i class="fas fa-envelope-open-text" style="color:var(--accent)"></i>Email Marketing</span></div></div>
     <div class="tools-category reveal-up"><div class="tools-category-label">Diseño & Creación de Contenido</div><div class="tools-list"><span class="tool-badge"><i class="fas fa-pen-ruler" style="color:#7C4DFF"></i>Canva</span><span class="tool-badge"><i class="fab fa-adobe" style="color:#FF0000"></i>Adobe Illustrator</span><span class="tool-badge"><i class="fas fa-video" style="color:#00C4CC"></i>CapCut</span><span class="tool-badge"><i class="fas fa-camera-retro" style="color:#4BAABF"></i>Lightroom</span></div></div>
     <div class="tools-category reveal-up"><div class="tools-category-label">Productividad & Gestión</div><div class="tools-list"><span class="tool-badge"><i class="fab fa-google" style="color:#4285F4"></i>Google Workspace</span><span class="tool-badge"><i class="fas fa-table" style="color:#0F9D58"></i>Google Sheets</span><span class="tool-badge"><i class="fas fa-brain" style="color:var(--accent)"></i>IA Aplicada (ChatGPT / Gemini / Claude)</span><span class="tool-badge"><i class="fas fa-globe" style="color:var(--accent)"></i>Diseño Web con IA</span><span class="tool-badge"><i class="fab fa-microsoft" style="color:#D83B01"></i>Microsoft Office</span></div></div>
     <div class="tools-category reveal-up"><div class="tools-category-label">Perfil técnico (Ingeniería Química)</div><div class="tools-list"><span class="tool-badge"><i class="fas fa-drafting-compass" style="color:var(--muted)"></i>AutoCAD</span><span class="tool-badge"><i class="fas fa-flask" style="color:var(--muted)"></i>Aspen Plus</span><span class="tool-badge"><i class="fas fa-calculator" style="color:var(--muted)"></i>MATLAB básico</span></div></div>
+    </div>
   </div>
 </section>
 
@@ -1416,11 +1439,16 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
 <footer>
   <div class="footer-logo">S<em>B</em></div>
   <p>© 2026 Anyeli Stefania Benavides Ramírez · Todos los derechos reservados</p>
-  <div class="footer-socials">
-    <a href="https://instagram.com/stefa.benavidess__" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.tiktok.com/@stefaniabenavides" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
-    <a href="https://linkedin.com/in/stefania-benavides" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
-    <a href="mailto:anyeli.benavides@correounivalle.edu.co"><i class="fas fa-envelope"></i></a>
+  <div class="footer-right">
+    <div class="footer-socials">
+      <a href="https://instagram.com/stefa.benavidess__" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.tiktok.com/@stefaniabenavides" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+      <a href="https://linkedin.com/in/stefania-benavides" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+      <a href="mailto:anyeli.benavides@correounivalle.edu.co"><i class="fas fa-envelope"></i></a>
+    </div>
+    <a href="/admin.html" class="admin-link" id="adminLink" rel="nofollow">
+      <i class="fas fa-lock"></i><span id="adminLinkText">Acceder</span>
+    </a>
   </div>
 </footer>
 
@@ -1434,7 +1462,16 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
      JAVASCRIPT — GSAP + Lenis
      ═══════════════════════════════════════ -->
 <script>
+/* Primero se pinta el contenido editable, después arrancan las animaciones.
+   El preloader tapa esta fase, así que el cambio no se ve. */
 document.addEventListener('DOMContentLoaded', () => {
+  const ready = (window.PortfolioContent && window.PortfolioContent.hydrate)
+    ? window.PortfolioContent.hydrate().catch(err => { console.warn('[content]', err); return null; })
+    : Promise.resolve(null);
+  ready.then(initPortfolio);
+});
+
+function initPortfolio() {
 
   // ── LENIS SMOOTH SCROLL ──
   const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
@@ -1599,7 +1636,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-});
+  // Los elementos pintados dinámicamente ya están en el DOM: recalculamos posiciones.
+  ScrollTrigger.refresh();
+}
 </script>
 </body>
 </html>

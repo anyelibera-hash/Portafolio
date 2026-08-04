@@ -1,0 +1,1250 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-04T00:03:02.203Z",
+  "site": {
+    "title": "Stefania Benavides — Community Manager & Content Creator",
+    "description": "Portafolio profesional de Anyeli Stefania Benavides. Community Manager, Creadora de Contenido Digital y Fotógrafa de Producto en Cali, Colombia.",
+    "author": "Anyeli Stefania Benavides Ramírez",
+    "ogTitle": "Stefania Benavides — Community Manager & Content Creator",
+    "ogDescription": "Ayudo a marcas a contar historias visuales que conectan y convierten.",
+    "cvUrl": "assets/cv/Hoja-de-vida-Stefania-Benavides.pdf",
+    "favicon": "assets/favicon.png"
+  },
+  "preloader": {
+    "name": "Stefania",
+    "subtitle": "Community Manager & Content Creator"
+  },
+  "nav": {
+    "logo": "SB",
+    "ctaLabel": "CV",
+    "links": [
+      {
+        "id": "nav-01",
+        "label": "Sobre mí",
+        "href": "#sobre-mi",
+        "visible": true
+      },
+      {
+        "id": "nav-02",
+        "label": "Servicios",
+        "href": "#servicios",
+        "visible": true
+      },
+      {
+        "id": "nav-03",
+        "label": "Proyectos",
+        "href": "#proyectos",
+        "visible": true
+      },
+      {
+        "id": "nav-04",
+        "label": "Galería",
+        "href": "#galeria",
+        "visible": true
+      },
+      {
+        "id": "nav-05",
+        "label": "Experiencia",
+        "href": "#experiencia",
+        "visible": true
+      },
+      {
+        "id": "nav-06",
+        "label": "Contacto",
+        "href": "#contacto",
+        "visible": true
+      }
+    ]
+  },
+  "hero": {
+    "vertical": "Community Manager · Content Creator · Estrategia Digital",
+    "pretitle": "Community Manager & Content Creator",
+    "firstName": "Stefania",
+    "lastName": "Benavides",
+    "tagline": "Ayudo a marcas a contar <em>historias visuales</em> que conectan y convierten — combinando pensamiento analítico con ejecución creativa.",
+    "photo": "assets/about/perfil.jpg",
+    "photoAlt": "Stefania Benavides — Community Manager & Content Creator",
+    "ctas": [
+      {
+        "id": "hcta-01",
+        "label": "Ver proyectos",
+        "href": "#proyectos",
+        "icon": "fas fa-arrow-down",
+        "iconRight": true,
+        "style": "primary",
+        "visible": true
+      },
+      {
+        "id": "hcta-02",
+        "label": "Descargar CV",
+        "href": "assets/cv/Hoja-de-vida-Stefania-Benavides.pdf",
+        "icon": "fas fa-download",
+        "iconRight": false,
+        "style": "outline",
+        "download": true,
+        "visible": true
+      },
+      {
+        "id": "hcta-03",
+        "label": "Contactar",
+        "href": "mailto:anyeli.benavides@correounivalle.edu.co",
+        "icon": "fas fa-paper-plane",
+        "iconRight": true,
+        "style": "outline",
+        "visible": true
+      }
+    ],
+    "stats": [
+      {
+        "id": "stat-01",
+        "value": "5",
+        "label": "Marcas gestionadas",
+        "animate": true,
+        "visible": true
+      },
+      {
+        "id": "stat-02",
+        "value": "3",
+        "label": "Años de experiencia",
+        "animate": true,
+        "visible": true
+      },
+      {
+        "id": "stat-03",
+        "value": "7",
+        "label": "Servicios especializados",
+        "animate": true,
+        "visible": true
+      },
+      {
+        "id": "stat-04",
+        "value": "∞",
+        "label": "Creatividad aplicada",
+        "animate": false,
+        "visible": true
+      }
+    ]
+  },
+  "about": {
+    "label": "Sobre mí",
+    "title": "Donde la ingeniería<br>se convierte en<br><em>estrategia creativa</em>",
+    "photo": "assets/about/perfil.jpg",
+    "photoAlt": "Anyeli Stefania Benavides Ramírez — Community Manager & Creadora de Contenido",
+    "photoLabel": "Stefania Benavides · Cali, Colombia",
+    "paragraphs": [
+      "Soy Anyeli Stefania Benavides, estudiante de Ingeniería Química en la Universidad del Valle (10.° semestre) con una pasión genuina por el marketing digital, la creación de contenido y la estrategia de marca. Mi formación técnica me da algo poco común en el mundo creativo: <strong>orden, análisis y precisión</strong>.",
+      "He gestionado comunidades para marcas propias y proyectos universitarios, diseñado identidades visuales, editado reels con alta retención y liderado coberturas de eventos nacionales. No solo genero contenido — construyo <strong>narrativas que convierten</strong>."
+    ],
+    "highlights": [
+      {
+        "id": "hl-01",
+        "title": "Perfil híbrido",
+        "text": "Ingeniería + Marketing Digital",
+        "visible": true
+      },
+      {
+        "id": "hl-02",
+        "title": "Orientada a resultados",
+        "text": "Crecimiento orgánico y conversión",
+        "visible": true
+      },
+      {
+        "id": "hl-03",
+        "title": "Ejecución multidisciplinar",
+        "text": "Diseño, video, fotografía, copy",
+        "visible": true
+      },
+      {
+        "id": "hl-04",
+        "title": "Storytelling visual",
+        "text": "Marcas que conectan y emocionan",
+        "visible": true
+      }
+    ]
+  },
+  "services": {
+    "label": "Lo que ofrezco",
+    "title": "Servicios & habilidades",
+    "items": [
+      {
+        "id": "svc-01",
+        "icon": "fas fa-comments",
+        "title": "Community Management",
+        "text": "Gestión integral de redes sociales: estrategia de contenido, calendario editorial, atención a comunidad y análisis de métricas.",
+        "visible": true
+      },
+      {
+        "id": "svc-02",
+        "icon": "fas fa-pen-nib",
+        "title": "Creación de Contenido",
+        "text": "Producción de piezas visuales, copywriting persuasivo, storytelling de marca y contenido adaptado a cada plataforma.",
+        "visible": true
+      },
+      {
+        "id": "svc-03",
+        "icon": "fas fa-film",
+        "title": "Edición de Video",
+        "text": "Edición de Reels, TikToks y video-posts con alta retención. Transiciones fluidas, subtítulos y música alineada a la marca.",
+        "visible": true
+      },
+      {
+        "id": "svc-04",
+        "icon": "fas fa-camera",
+        "title": "Fotografía de Producto",
+        "text": "Sesiones de producto con enfoque comercial y estético. Fotografías para catálogo, tienda online y redes sociales.",
+        "visible": true
+      },
+      {
+        "id": "svc-05",
+        "icon": "fas fa-palette",
+        "title": "Diseño Gráfico",
+        "text": "Identidad visual, logotipos, plantillas de marca y piezas digitales con Canva y Adobe Illustrator.",
+        "visible": true
+      },
+      {
+        "id": "svc-06",
+        "icon": "fas fa-chart-line",
+        "title": "Estrategia Digital",
+        "text": "Diagnóstico de marca, planificación, definición de KPIs y análisis de resultados para maximizar conversión.",
+        "visible": true
+      },
+      {
+        "id": "svc-07",
+        "icon": "fas fa-star",
+        "title": "Cobertura de Eventos",
+        "text": "Cobertura fotográfica y videográfica de eventos corporativos, universitarios y lanzamientos en tiempo real.",
+        "visible": true
+      }
+    ]
+  },
+  "projects": {
+    "label": "Casos de éxito",
+    "title": "Proyectos destacados",
+    "intro": "Trabajo real, resultados medibles. Cada proyecto es una historia de ejecución creativa y estrategia digital.",
+    "items": [
+      {
+        "id": "proj-01",
+        "name": "MCE Travel",
+        "role": "Estratega de Marketing (Consultoría)",
+        "date": "2026",
+        "tag": "Agencia de Viajes",
+        "tagColor": "#0B3D91",
+        "gradient": "linear-gradient(135deg,#C41E24,#7A1010)",
+        "thumb": "assets/projects/mce-thumb.jpg",
+        "thumbFit": "logo",
+        "thumbAlt": "MCE Travel — logo de agencia de viajes",
+        "desc": "Consultoría de estrategia de marketing para agencia de viajes: diagnóstico de marca y creación de contenido, incluyendo cobertura fotográfica del equipo y producción de video promocional UGC alineado a campaña con temática mundialista.",
+        "tools": [
+          "Canva",
+          "CapCut",
+          "Meta Business",
+          "Estrategia de Contenido"
+        ],
+        "result": "Diagnóstico de marca y piezas de contenido entregadas para fortalecer la presencia digital de la agencia.",
+        "visible": true
+      },
+      {
+        "id": "proj-02",
+        "name": "Fanéa",
+        "role": "Fundadora & Community Manager",
+        "date": "2026 — Presente",
+        "tag": "Marca de Joyería",
+        "tagColor": "var(--accent)",
+        "gradient": "linear-gradient(135deg,#965D28,#7D4E20,#4A2D12)",
+        "thumb": "assets/projects/fanea-thumb.png",
+        "thumbFit": "logo",
+        "thumbAlt": "Fanéa — logo de marca",
+        "desc": "Creación y gestión de contenido para Instagram, TikTok y Facebook. Fotografía de producto, edición en CapCut, diseño en Canva, tienda online y estrategia de crecimiento orgánico con pauta en Meta y colaboraciones UGC.",
+        "tools": [
+          "Canva",
+          "CapCut",
+          "Meta Business",
+          "IA Generativa",
+          "n8n"
+        ],
+        "result": "Ventas directas vía DM y tienda online (fanea.store), crecimiento orgánico sostenido con storytelling visual y colaboraciones UGC.",
+        "visible": true
+      },
+      {
+        "id": "proj-03",
+        "name": "Esc. Ing. Química Univalle",
+        "role": "Monitora Administrativa: Comunicaciones",
+        "date": "2025",
+        "tag": "Institución Educativa",
+        "tagColor": "#1E3A5F",
+        "gradient": "linear-gradient(135deg,#1E3A5F,#0F1F36)",
+        "thumb": "assets/projects/univalle-thumb.jpg",
+        "thumbFit": "logo",
+        "thumbAlt": "Escuela de Ingeniería Química Univalle — logo institucional",
+        "desc": "Gestión integral de redes institucionales (<strong>@ingequimicaunivalle</strong>): Instagram, Facebook, YouTube y LinkedIn. Cobertura fotográfica y audiovisual de eventos, diseño de piezas gráficas y coordinación de comunicaciones.",
+        "tools": [
+          "Canva",
+          "Meta Business",
+          "Google Workspace"
+        ],
+        "result": "Comunicación digital activa, mayor alcance y visibilidad para toda la comunidad estudiantil y cuerpo docente.",
+        "visible": true
+      },
+      {
+        "id": "proj-04",
+        "name": "CESIQ — Logo Oficial",
+        "role": "Coordinadora de Comunicaciones",
+        "date": "2024",
+        "tag": "Identidad Visual",
+        "tagColor": "#2D5A3D",
+        "gradient": "linear-gradient(135deg,#2D5A3D,#173324)",
+        "thumb": "assets/projects/cesiq-thumb.jpg",
+        "thumbFit": "logo",
+        "thumbAlt": "Logo oficial CESIQ — diseño de identidad visual",
+        "desc": "Diseño del logotipo oficial del CESIQ (identidad vigente), gestión de redes de <strong>@cesiquv</strong> y apoyo en comunicaciones del XXXIV Encuentro Nacional de Estudiantes de IQ.",
+        "tools": [
+          "Adobe Illustrator",
+          "Canva"
+        ],
+        "result": "Logo adoptado como <strong>identidad oficial vigente</strong> del CESIQ — utilizado en todos los materiales del comité.",
+        "visible": true
+      },
+      {
+        "id": "proj-05",
+        "name": "XXXIV Encuentro Nal. IQ",
+        "role": "Fotógrafa & Videógrafa Oficial",
+        "date": "2024",
+        "tag": "Evento Nacional",
+        "tagColor": "#4A2760",
+        "gradient": "linear-gradient(135deg,#4A2760,#280F3A)",
+        "thumb": "assets/projects/eneiq-thumb.png",
+        "thumbFit": "logo",
+        "thumbAlt": "XXXIV Encuentro Nacional de Estudiantes de Ingeniería Química",
+        "desc": "Cobertura fotográfica y videográfica completa del XXXIV Encuentro Nacional de Estudiantes de Ingeniería Química.",
+        "tools": [
+          "CapCut",
+          "Lightroom",
+          "Fotografía"
+        ],
+        "result": "Material audiovisual completo del evento nacional, distribuido en redes y archivos oficiales.",
+        "visible": true
+      },
+      {
+        "id": "proj-06",
+        "name": "Polar",
+        "role": "Fundadora & Community Manager",
+        "date": "2019 — 2020",
+        "tag": "Marca Propia",
+        "tagColor": "#1A3050",
+        "gradient": "linear-gradient(135deg,#1A3050,#0A1828)",
+        "thumb": "assets/projects/polar-thumb.jpg",
+        "thumbFit": "logo",
+        "thumbAlt": "Polar — logo de marca",
+        "desc": "Primer emprendimiento propio: creación y gestión de Instagram, generando ventas diarias a través de contenido orgánico y construcción de comunidad desde cero.",
+        "tools": [
+          "Canva",
+          "CapCut",
+          "Instagram"
+        ],
+        "result": "Ventas diarias generadas 100% con contenido orgánico — primer emprendimiento que validó la vocación digital.",
+        "visible": true
+      },
+      {
+        "id": "proj-07",
+        "name": "Mayagüez S.A.",
+        "role": "Practicante de Ingeniería + Diseño",
+        "date": "2026",
+        "tag": "Industria & Diseño",
+        "tagColor": "#3D5A2A",
+        "gradient": "linear-gradient(135deg,#3D5A2A,#1F3014)",
+        "thumb": "assets/projects/mayaguez-thumb.jpg",
+        "thumbFit": "logo",
+        "thumbAlt": "Mayagüez S.A. — logo corporativo",
+        "desc": "Diseño de portadas y etiquetas para documentos de certificación de alcohol orgánico en destilería. Cruce de criterio técnico (ingeniería química) con dirección visual: tipografía, jerarquía y normativa de etiquetado.",
+        "tools": [
+          "Canva",
+          "AutoCAD",
+          "Office"
+        ],
+        "result": "Piezas oficiales adoptadas para documentación de certificación de alcohol orgánico de la planta.",
+        "visible": true
+      }
+    ]
+  },
+  "gallery": {
+    "label": "Piezas visuales",
+    "title": "Galería visual",
+    "intro": "Diseños, campañas, fotografía de producto y piezas de contenido seleccionadas.",
+    "items": [
+      {
+        "id": "gal-01",
+        "src": "assets/gallery/01-polar.jpeg",
+        "alt": "Polar — Feed Instagram",
+        "tag": "Polar · Instagram",
+        "title": "Feed de marca",
+        "visible": true
+      },
+      {
+        "id": "gal-02",
+        "src": "assets/gallery/02-polar.jpeg",
+        "alt": "Polar — Publicación",
+        "tag": "Polar · Instagram",
+        "title": "Publicación de producto",
+        "visible": true
+      },
+      {
+        "id": "gal-03",
+        "src": "assets/gallery/03-polar.jpeg",
+        "alt": "Polar — Publicación 2",
+        "tag": "Polar · Instagram",
+        "title": "Publicación orgánica",
+        "visible": true
+      },
+      {
+        "id": "gal-04",
+        "src": "assets/gallery/04-cesiq.jpeg",
+        "alt": "CESIQ — Feed 1",
+        "tag": "CESIQ · Instagram",
+        "title": "Contenido de feed",
+        "visible": true
+      },
+      {
+        "id": "gal-05",
+        "src": "assets/gallery/05-cesiq.jpeg",
+        "alt": "CESIQ — Feed 2",
+        "tag": "CESIQ · Instagram",
+        "title": "Pieza gráfica",
+        "visible": true
+      },
+      {
+        "id": "gal-06",
+        "src": "assets/gallery/06-cesiq.jpeg",
+        "alt": "CESIQ — Sección Reels",
+        "tag": "CESIQ · Reels",
+        "title": "Sección de reels",
+        "visible": true
+      },
+      {
+        "id": "gal-07",
+        "src": "assets/gallery/07-univalle.jpeg",
+        "alt": "Univalle — Feed 1",
+        "tag": "Univalle · Instagram",
+        "title": "Feed institucional",
+        "visible": true
+      },
+      {
+        "id": "gal-08",
+        "src": "assets/gallery/08-univalle.jpeg",
+        "alt": "Univalle — Pieza gráfica",
+        "tag": "Univalle · Diseño",
+        "title": "Pieza gráfica",
+        "visible": true
+      },
+      {
+        "id": "gal-09",
+        "src": "assets/gallery/09-univalle.jpeg",
+        "alt": "Univalle — Pieza 3",
+        "tag": "Univalle · Diseño",
+        "title": "Comunicación institucional",
+        "visible": true
+      },
+      {
+        "id": "gal-10",
+        "src": "assets/gallery/10-univalle.jpeg",
+        "alt": "Univalle — Sección Reels",
+        "tag": "Univalle · Reels",
+        "title": "Sección de reels",
+        "visible": true
+      },
+      {
+        "id": "gal-11",
+        "src": "assets/gallery/11-univalle.jpeg",
+        "alt": "Univalle — Facebook 1",
+        "tag": "Univalle · Facebook",
+        "title": "Publicación FB",
+        "visible": true
+      },
+      {
+        "id": "gal-12",
+        "src": "assets/gallery/12-univalle.jpeg",
+        "alt": "Univalle — Facebook 2",
+        "tag": "Univalle · Facebook",
+        "title": "Publicación FB",
+        "visible": true
+      },
+      {
+        "id": "gal-13",
+        "src": "assets/gallery/13-fanea-ig.jpeg",
+        "alt": "Fanéa — Feed Instagram",
+        "tag": "Fanéa · Instagram",
+        "title": "Feed de marca",
+        "visible": true
+      },
+      {
+        "id": "gal-14",
+        "src": "assets/gallery/14-fanea-ig.jpeg",
+        "alt": "Fanéa — Feed 2",
+        "tag": "Fanéa · Instagram",
+        "title": "Curaduría de feed",
+        "visible": true
+      },
+      {
+        "id": "gal-15",
+        "src": "assets/gallery/15-fanea-ig.jpeg",
+        "alt": "Fanéa — Feed 3",
+        "tag": "Fanéa · Instagram",
+        "title": "Contenido orgánico",
+        "visible": true
+      },
+      {
+        "id": "gal-16",
+        "src": "assets/gallery/16-fanea-ig.jpeg",
+        "alt": "Fanéa — Publicación",
+        "tag": "Fanéa · Publicación",
+        "title": "Pieza de producto",
+        "visible": true
+      },
+      {
+        "id": "gal-17",
+        "src": "assets/gallery/17-fanea-ig.jpeg",
+        "alt": "Fanéa — Publicación con IA",
+        "tag": "Fanéa · IA Generativa",
+        "title": "Publicación con IA",
+        "visible": true
+      },
+      {
+        "id": "gal-18",
+        "src": "assets/gallery/18-fanea-fb.jpeg",
+        "alt": "Fanéa — Facebook 1",
+        "tag": "Fanéa · Facebook",
+        "title": "Publicación FB",
+        "visible": true
+      },
+      {
+        "id": "gal-19",
+        "src": "assets/gallery/19-fanea-fb.jpeg",
+        "alt": "Fanéa — Facebook 2",
+        "tag": "Fanéa · Facebook",
+        "title": "Publicación FB",
+        "visible": true
+      },
+      {
+        "id": "gal-20",
+        "src": "assets/gallery/20-fanea-fb.jpeg",
+        "alt": "Fanéa — Facebook 3",
+        "tag": "Fanéa · Facebook",
+        "title": "Publicación FB",
+        "visible": true
+      },
+      {
+        "id": "gal-21",
+        "src": "assets/gallery/21-fanea-tk.jpeg",
+        "alt": "Fanéa — TikTok 1",
+        "tag": "Fanéa · TikTok",
+        "title": "Contenido viral",
+        "visible": true
+      },
+      {
+        "id": "gal-22",
+        "src": "assets/gallery/22-fanea-tk.jpeg",
+        "alt": "Fanéa — TikTok 2",
+        "tag": "Fanéa · TikTok",
+        "title": "Contenido orgánico",
+        "visible": true
+      },
+      {
+        "id": "gal-23",
+        "src": "assets/gallery/23-fanea-packaging.png",
+        "alt": "Fanéa — Packaging IA 1",
+        "tag": "Fanéa · Packaging IA",
+        "title": "Fotografía de producto con IA",
+        "visible": true
+      },
+      {
+        "id": "gal-24",
+        "src": "assets/gallery/24-fanea-packaging.png",
+        "alt": "Fanéa — Packaging IA 2",
+        "tag": "Fanéa · Packaging IA",
+        "title": "Producto con IA generativa",
+        "visible": true
+      },
+      {
+        "id": "gal-25",
+        "src": "assets/gallery/25-fanea-madre.png",
+        "alt": "Fanéa — Día de la Madre IA 1",
+        "tag": "Fanéa · Campaña IA",
+        "title": "Día de la Madre",
+        "visible": true
+      },
+      {
+        "id": "gal-26",
+        "src": "assets/gallery/26-fanea-madre.png",
+        "alt": "Fanéa — Día de la Madre IA 2",
+        "tag": "Fanéa · Campaña IA",
+        "title": "Día de la Madre",
+        "visible": true
+      },
+      {
+        "id": "gal-27",
+        "src": "assets/gallery/27-fanea-madre.png",
+        "alt": "Fanéa — Día de la Madre IA 3",
+        "tag": "Fanéa · Campaña IA",
+        "title": "Día de la Madre",
+        "visible": true
+      },
+      {
+        "id": "gal-28",
+        "src": "assets/gallery/28-fanea-madre.png",
+        "alt": "Fanéa — Día de la Madre IA 4",
+        "tag": "Fanéa · Campaña IA",
+        "title": "Día de la Madre",
+        "visible": true
+      },
+      {
+        "id": "gal-29",
+        "src": "assets/gallery/29-fanea-madre.png",
+        "alt": "Fanéa — Día de la Madre IA 5",
+        "tag": "Fanéa · Campaña IA",
+        "title": "Día de la Madre",
+        "visible": true
+      },
+      {
+        "id": "gal-30",
+        "src": "assets/gallery/30-fanea-madre.png",
+        "alt": "Fanéa — Día de la Madre IA 6",
+        "tag": "Fanéa · Campaña IA",
+        "title": "Día de la Madre",
+        "visible": true
+      },
+      {
+        "id": "gal-31",
+        "src": "assets/gallery/31-fanea-trend.png",
+        "alt": "Fanéa — Tendencia IA: Solo tengo dos moods",
+        "tag": "Fanéa · Tendencia IA",
+        "title": "Solo tengo dos moods",
+        "visible": true
+      },
+      {
+        "id": "gal-32",
+        "src": "assets/gallery/32-fanea-trend.png",
+        "alt": "Fanéa — Tendencia IA: Según nuestros",
+        "tag": "Fanéa · Tendencia IA",
+        "title": "Según nuestros clientes",
+        "visible": true
+      },
+      {
+        "id": "gal-33",
+        "src": "assets/gallery/33-fanea-mundial.png",
+        "alt": "Fanéa — Mundial IA 1",
+        "tag": "Fanéa · Mundial IA",
+        "title": "Campaña mundial",
+        "visible": true
+      },
+      {
+        "id": "gal-34",
+        "src": "assets/gallery/34-fanea-mundial.png",
+        "alt": "Fanéa — Mundial IA 2",
+        "tag": "Fanéa · Mundial IA",
+        "title": "Campaña mundial",
+        "visible": true
+      },
+      {
+        "id": "gal-35",
+        "src": "assets/gallery/35-fanea-mundial.png",
+        "alt": "Fanéa — Mundial IA 3",
+        "tag": "Fanéa · Mundial IA",
+        "title": "Campaña mundial",
+        "visible": true
+      },
+      {
+        "id": "gal-36",
+        "src": "assets/gallery/36-fanea-mundial.png",
+        "alt": "Fanéa — Mundial IA 4",
+        "tag": "Fanéa · Mundial IA",
+        "title": "Campaña mundial",
+        "visible": true
+      },
+      {
+        "id": "gal-37",
+        "src": "assets/gallery/37-fanea-mundial.png",
+        "alt": "Fanéa — Mundial IA 5",
+        "tag": "Fanéa · Mundial IA",
+        "title": "Campaña mundial",
+        "visible": true
+      },
+      {
+        "id": "gal-38",
+        "src": "assets/gallery/38-fanea-antesdespues.jpeg",
+        "alt": "Fanéa — Antes (original 1)",
+        "tag": "Fanéa · Antes/Después",
+        "title": "Foto original",
+        "visible": true
+      },
+      {
+        "id": "gal-39",
+        "src": "assets/gallery/39-fanea-antesdespues.png",
+        "alt": "Fanéa — Después (IA 1)",
+        "tag": "Fanéa · Antes/Después",
+        "title": "Resultado con IA",
+        "visible": true
+      },
+      {
+        "id": "gal-40",
+        "src": "assets/gallery/40-fanea-antesdespues.jpeg",
+        "alt": "Fanéa — Antes (original 2)",
+        "tag": "Fanéa · Antes/Después",
+        "title": "Foto original",
+        "visible": true
+      },
+      {
+        "id": "gal-41",
+        "src": "assets/gallery/41-fanea-antesdespues.png",
+        "alt": "Fanéa — Después (IA 2)",
+        "tag": "Fanéa · Antes/Después",
+        "title": "Resultado con IA",
+        "visible": true
+      },
+      {
+        "id": "gal-42",
+        "src": "assets/gallery/42-mayaguez.png",
+        "alt": "Mayagüez — Portada insumos orgánicos",
+        "tag": "Mayagüez · Diseño",
+        "title": "Portada insumos orgánicos",
+        "visible": true
+      },
+      {
+        "id": "gal-43",
+        "src": "assets/gallery/43-mayaguez.png",
+        "alt": "Mayagüez — Etiqueta 1",
+        "tag": "Mayagüez · Etiquetado",
+        "title": "Etiqueta de certificación",
+        "visible": true
+      },
+      {
+        "id": "gal-44",
+        "src": "assets/gallery/44-mayaguez.png",
+        "alt": "Mayagüez — Etiqueta 2",
+        "tag": "Mayagüez · Etiquetado",
+        "title": "Etiqueta de certificación",
+        "visible": true
+      },
+      {
+        "id": "gal-45",
+        "src": "assets/gallery/45-mayaguez.png",
+        "alt": "Mayagüez — Etiqueta 3",
+        "tag": "Mayagüez · Etiquetado",
+        "title": "Etiqueta de certificación",
+        "visible": true
+      },
+      {
+        "id": "gal-46",
+        "src": "assets/gallery/46-personal.jpeg",
+        "alt": "Cuenta personal — Feed",
+        "tag": "Personal · TikTok",
+        "title": "Feed de cuenta personal",
+        "visible": true
+      },
+      {
+        "id": "gal-47",
+        "src": "assets/gallery/47-personal.jpeg",
+        "alt": "Cuenta personal — Videos con más views",
+        "tag": "Personal · TikTok",
+        "title": "Videos con más alcance",
+        "visible": true
+      }
+    ],
+    "toggleLabel": "Ver todas las piezas"
+  },
+  "videos": {
+    "label": "Reels & Videos",
+    "title": "En movimiento",
+    "items": [
+      {
+        "id": "vid-01",
+        "type": "file",
+        "src": "assets/videos/video-11-mce-campana.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "MCE Travel — Campaña Mundialista",
+        "subtitle": "Contenido UGC · Estrategia de marketing",
+        "visible": true
+      },
+      {
+        "id": "vid-02",
+        "type": "file",
+        "src": "assets/videos/video-10-mce-equipo.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "MCE Travel — Equipo",
+        "subtitle": "Cobertura de marca · Consultoría",
+        "visible": true
+      },
+      {
+        "id": "vid-03",
+        "type": "file",
+        "src": "assets/videos/video-08-fanea-logo.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "Animación Logo Fanéa",
+        "subtitle": "Identidad visual · Branding",
+        "visible": true
+      },
+      {
+        "id": "vid-04",
+        "type": "file",
+        "src": "assets/videos/video-01-fanea.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "Lanzamiento Fanéa",
+        "subtitle": "Storytelling de marca · CapCut",
+        "visible": true
+      },
+      {
+        "id": "vid-05",
+        "type": "file",
+        "src": "assets/videos/video-06-fanea-bts.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "Behind the Scenes — Fanéa",
+        "subtitle": "Detrás de cada pedido",
+        "visible": true
+      },
+      {
+        "id": "vid-06",
+        "type": "file",
+        "src": "assets/videos/video-07-fanea-pov.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "POV — Joyas por ocasión",
+        "subtitle": "Fanéa · Contenido orgánico",
+        "visible": true
+      },
+      {
+        "id": "vid-07",
+        "type": "file",
+        "src": "assets/videos/video-09-mayaguez.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "Mayagüez S.A.",
+        "subtitle": "Destilería · Producción orgánica",
+        "visible": true
+      },
+      {
+        "id": "vid-08",
+        "type": "file",
+        "src": "assets/videos/video-02-eneiq.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "ENEIQ 2024 — Staff",
+        "subtitle": "Cobertura de evento nacional",
+        "visible": true
+      },
+      {
+        "id": "vid-09",
+        "type": "file",
+        "src": "assets/videos/video-04-eneiq-promo.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "ENEIQ 2024 — Promo",
+        "subtitle": "¿Ya estás listo? · Promoción",
+        "visible": true
+      },
+      {
+        "id": "vid-10",
+        "type": "file",
+        "src": "assets/videos/video-05-univalle.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "80 Años — Ing. Química Univalle",
+        "subtitle": "Celebración institucional",
+        "visible": true
+      },
+      {
+        "id": "vid-11",
+        "type": "file",
+        "src": "assets/videos/video-03-tiktok.mp4",
+        "embedUrl": "",
+        "poster": "",
+        "title": "TikTok — Contenido orgánico",
+        "subtitle": "Cuenta personal · alto alcance",
+        "visible": true
+      }
+    ]
+  },
+  "experience": {
+    "label": "Trayectoria",
+    "title": "Experiencia",
+    "items": [
+      {
+        "id": "exp-01",
+        "date": "2026",
+        "place": "MCE Travel · Agencia de Viajes",
+        "title": "MCE Travel",
+        "role": "Estratega de Marketing (Consultoría)",
+        "desc": "Consultoría de estrategia de marketing: diagnóstico de marca y creación de contenido, incluyendo cobertura fotográfica del equipo y producción de video promocional UGC alineado a campaña con temática mundialista.",
+        "visible": true
+      },
+      {
+        "id": "exp-02",
+        "date": "2026 — Presente",
+        "place": "Marca propia · Cali",
+        "title": "Fanéa",
+        "role": "Fundadora & Community Manager",
+        "desc": "Creación y gestión de contenido para Instagram, TikTok y Facebook. Fotografía de producto, edición en CapCut, diseño en Canva, tienda online (fanea.store), estrategia orgánica con pauta en Meta, colaboraciones UGC y automatizaciones con n8n.",
+        "visible": true
+      },
+      {
+        "id": "exp-03",
+        "date": "2026",
+        "place": "Mayagüez S.A. · Destilería",
+        "title": "Mayagüez S.A.",
+        "role": "Practicante de Ingeniería",
+        "desc": "Diseño de portadas y etiquetas para documentos de certificación de alcohol orgánico. Modificación de procedimientos de planta, capacitación a personal operativo, toma de muestras, análisis de laboratorio y diseño en AutoCAD.",
+        "visible": true
+      },
+      {
+        "id": "exp-04",
+        "date": "2025",
+        "place": "Universidad del Valle · Cali",
+        "title": "Esc. Ingeniería Química Univalle",
+        "role": "Monitora Administrativa: Comunicaciones",
+        "desc": "Gestión integral de redes sociales institucionales (Instagram, Facebook, YouTube, LinkedIn). Cobertura fotográfica y audiovisual de eventos, diseño de piezas gráficas y coordinación de comunicaciones dirigidas a estudiantes, docentes y egresados.",
+        "visible": true
+      },
+      {
+        "id": "exp-05",
+        "date": "2024",
+        "place": "CESIQ / AIChE · Univalle",
+        "title": "CESIQ – Centro de Estudios de IQ & AIChE",
+        "role": "Coordinadora de Comunicaciones",
+        "desc": "Gestión simultánea de redes de dos organizaciones estudiantiles. Diseño del logotipo oficial del CESIQ (identidad vigente). Apoyo en comunicaciones del XXXIV Encuentro Nacional de Estudiantes de IQ.",
+        "visible": true
+      },
+      {
+        "id": "exp-06",
+        "date": "2019 — 2020",
+        "place": "Marca propia",
+        "title": "Polar",
+        "role": "Fundadora & Community Manager",
+        "desc": "Primer emprendimiento propio: creación y gestión de Instagram, generando ventas diarias a través de contenido 100% orgánico.",
+        "visible": true
+      }
+    ]
+  },
+  "tools": {
+    "label": "Stack",
+    "title": "Herramientas & software",
+    "categories": [
+      {
+        "id": "tcat-01",
+        "label": "Marketing & Redes Sociales",
+        "items": [
+          {
+            "id": "tool-01",
+            "icon": "fab fa-meta",
+            "color": "#1877f2",
+            "name": "Meta Business Suite"
+          },
+          {
+            "id": "tool-02",
+            "icon": "fab fa-instagram",
+            "color": "#E1306C",
+            "name": "Instagram / Reels"
+          },
+          {
+            "id": "tool-03",
+            "icon": "fab fa-tiktok",
+            "color": "",
+            "name": "TikTok"
+          },
+          {
+            "id": "tool-04",
+            "icon": "fas fa-chart-bar",
+            "color": "var(--accent)",
+            "name": "Google Analytics"
+          },
+          {
+            "id": "tool-05",
+            "icon": "fas fa-robot",
+            "color": "var(--accent)",
+            "name": "n8n"
+          },
+          {
+            "id": "tool-06",
+            "icon": "fas fa-search",
+            "color": "var(--accent)",
+            "name": "SEO básico"
+          },
+          {
+            "id": "tool-07",
+            "icon": "fas fa-bullhorn",
+            "color": "var(--accent)",
+            "name": "Pauta en Meta"
+          },
+          {
+            "id": "tool-08",
+            "icon": "fas fa-envelope-open-text",
+            "color": "var(--accent)",
+            "name": "Email Marketing"
+          }
+        ],
+        "visible": true
+      },
+      {
+        "id": "tcat-02",
+        "label": "Diseño & Creación de Contenido",
+        "items": [
+          {
+            "id": "tool-01",
+            "icon": "fas fa-pen-ruler",
+            "color": "#7C4DFF",
+            "name": "Canva"
+          },
+          {
+            "id": "tool-02",
+            "icon": "fab fa-adobe",
+            "color": "#FF0000",
+            "name": "Adobe Illustrator"
+          },
+          {
+            "id": "tool-03",
+            "icon": "fas fa-video",
+            "color": "#00C4CC",
+            "name": "CapCut"
+          },
+          {
+            "id": "tool-04",
+            "icon": "fas fa-camera-retro",
+            "color": "#4BAABF",
+            "name": "Lightroom"
+          }
+        ],
+        "visible": true
+      },
+      {
+        "id": "tcat-03",
+        "label": "Productividad & Gestión",
+        "items": [
+          {
+            "id": "tool-01",
+            "icon": "fab fa-google",
+            "color": "#4285F4",
+            "name": "Google Workspace"
+          },
+          {
+            "id": "tool-02",
+            "icon": "fas fa-table",
+            "color": "#0F9D58",
+            "name": "Google Sheets"
+          },
+          {
+            "id": "tool-03",
+            "icon": "fas fa-brain",
+            "color": "var(--accent)",
+            "name": "IA Aplicada (ChatGPT / Gemini / Claude)"
+          },
+          {
+            "id": "tool-04",
+            "icon": "fas fa-globe",
+            "color": "var(--accent)",
+            "name": "Diseño Web con IA"
+          },
+          {
+            "id": "tool-05",
+            "icon": "fab fa-microsoft",
+            "color": "#D83B01",
+            "name": "Microsoft Office"
+          }
+        ],
+        "visible": true
+      },
+      {
+        "id": "tcat-04",
+        "label": "Perfil técnico (Ingeniería Química)",
+        "items": [
+          {
+            "id": "tool-01",
+            "icon": "fas fa-drafting-compass",
+            "color": "var(--muted)",
+            "name": "AutoCAD"
+          },
+          {
+            "id": "tool-02",
+            "icon": "fas fa-flask",
+            "color": "var(--muted)",
+            "name": "Aspen Plus"
+          },
+          {
+            "id": "tool-03",
+            "icon": "fas fa-calculator",
+            "color": "var(--muted)",
+            "name": "MATLAB básico"
+          }
+        ],
+        "visible": true
+      }
+    ]
+  },
+  "education": {
+    "label": "Formación",
+    "title": "Educación",
+    "items": [
+      {
+        "id": "edu-01",
+        "upcoming": false,
+        "statusIcon": "fas fa-graduation-cap",
+        "status": "En curso",
+        "title": "Ingeniería Química",
+        "place": "Universidad del Valle · Cali, Colombia",
+        "detail": "En espera de título · 2021 — 2026",
+        "desc": "Formación técnico-científica con enfoque en procesos, análisis y pensamiento sistémico.",
+        "visible": true
+      },
+      {
+        "id": "edu-02",
+        "upcoming": false,
+        "statusIcon": "fas fa-certificate",
+        "status": "Completado",
+        "title": "Marketing Digital + IA",
+        "place": "Universidad del Valle · 2026",
+        "detail": "Estrategia digital, automatización e inteligencia artificial aplicada al marketing.",
+        "desc": "",
+        "visible": true
+      },
+      {
+        "id": "edu-03",
+        "upcoming": true,
+        "statusIcon": "fas fa-clock",
+        "status": "Próximamente",
+        "title": "Tecn. Desarrollo Publicitario",
+        "place": "SENA · Colombia",
+        "detail": "Formación en comunicación publicitaria, diseño y estrategia de marca.",
+        "desc": "",
+        "visible": true
+      },
+      {
+        "id": "edu-04",
+        "upcoming": false,
+        "statusIcon": "fas fa-language",
+        "status": "Nivel B1",
+        "title": "Inglés",
+        "place": "Nivel B1 · Marco Europeo",
+        "detail": "Lectura, escritura y comunicación básica en entornos profesionales.",
+        "desc": "",
+        "visible": true
+      }
+    ]
+  },
+  "contact": {
+    "label": "Trabajemos juntas",
+    "title": "Hablemos",
+    "text": "¿Tienes una marca que quiere crecer? ¿Necesitas contenido que conecte y convierta? Estoy disponible para proyectos freelance y posiciones fijas.",
+    "links": [
+      {
+        "id": "clink-01",
+        "href": "mailto:anyeli.benavides@correounivalle.edu.co",
+        "icon": "fas fa-envelope",
+        "label": "Email",
+        "value": "anyeli.benavides@correounivalle.edu.co",
+        "visible": true
+      },
+      {
+        "id": "clink-02",
+        "href": "tel:+573173334394",
+        "icon": "fas fa-phone",
+        "label": "Celular / WhatsApp",
+        "value": "(+57) 317 333 4394",
+        "visible": true
+      },
+      {
+        "id": "clink-03",
+        "href": "https://instagram.com/stefa.benavidess__",
+        "icon": "fab fa-instagram",
+        "label": "Instagram",
+        "value": "@stefa.benavidess__",
+        "visible": true
+      },
+      {
+        "id": "clink-04",
+        "href": "https://www.tiktok.com/@stefaniabenavides",
+        "icon": "fab fa-tiktok",
+        "label": "TikTok",
+        "value": "@stefaniabenavides",
+        "visible": true
+      },
+      {
+        "id": "clink-05",
+        "href": "https://linkedin.com/in/stefania-benavides",
+        "icon": "fab fa-linkedin-in",
+        "label": "LinkedIn",
+        "value": "Stefania Benavides",
+        "visible": true
+      }
+    ],
+    "buttons": [
+      {
+        "id": "cbtn-01",
+        "label": "Enviar mensaje",
+        "href": "https://wa.me/573173334394?text=Hola%20Stefania%2C%20vi%20tu%20portafolio%20y%20me%20gustar%C3%ADa%20hablar%20contigo",
+        "icon": "fab fa-whatsapp",
+        "style": "primary",
+        "visible": true
+      },
+      {
+        "id": "cbtn-02",
+        "label": "Descargar Hoja de Vida",
+        "href": "assets/cv/Hoja-de-vida-Stefania-Benavides.pdf",
+        "icon": "fas fa-download",
+        "style": "light",
+        "download": true,
+        "visible": true
+      },
+      {
+        "id": "cbtn-03",
+        "label": "Ver Instagram",
+        "href": "https://instagram.com/stefa.benavidess__",
+        "icon": "fab fa-instagram",
+        "style": "light",
+        "visible": true
+      },
+      {
+        "id": "cbtn-04",
+        "label": "Ver TikTok",
+        "href": "https://www.tiktok.com/@stefaniabenavides",
+        "icon": "fab fa-tiktok",
+        "style": "light",
+        "visible": true
+      }
+    ],
+    "availability": {
+      "status": "Disponible para proyectos",
+      "detail": "Freelance · Tiempo completo<br>Cali, Colombia · Remoto",
+      "active": true
+    }
+  },
+  "footer": {
+    "logo": "SB",
+    "text": "© 2026 Anyeli Stefania Benavides Ramírez · Todos los derechos reservados",
+    "socials": [
+      {
+        "id": "soc-01",
+        "icon": "fab fa-instagram",
+        "href": "https://instagram.com/stefa.benavidess__",
+        "visible": true
+      },
+      {
+        "id": "soc-02",
+        "icon": "fab fa-tiktok",
+        "href": "https://www.tiktok.com/@stefaniabenavides",
+        "visible": true
+      },
+      {
+        "id": "soc-03",
+        "icon": "fab fa-linkedin-in",
+        "href": "https://linkedin.com/in/stefania-benavides",
+        "visible": true
+      },
+      {
+        "id": "soc-04",
+        "icon": "fas fa-envelope",
+        "href": "mailto:anyeli.benavides@correounivalle.edu.co",
+        "visible": true
+      }
+    ]
+  }
+}

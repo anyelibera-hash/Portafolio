@@ -7,3 +7,13 @@ support.js
 uploads/
 .DS_Store
 Thumbs.db
+
+# Ayudantes locales
+PUBLICAR.bat
+
+# Dependencias y entorno
+node_modules/
+.vercel/
+.env
+.env.local
+package-lock.json
