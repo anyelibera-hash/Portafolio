@@ -811,17 +811,41 @@ async function save() {
   }
 }
 
+/** Muestra el fallo en pantalla en vez de dejar el panel en blanco. */
+function mostrarFallo(err) {
+  $('#secTitle').textContent = 'No se pudo cargar el contenido';
+  $('#view').innerHTML =
+    '<div class="card"><h3>Algo falló al cargar</h3>' +
+    '<p style="font-size:13.5px;margin-bottom:14px">' +
+    String(err && err.message ? err.message : err).replace(/</g, '&lt;') +
+    '</p><p style="font-size:13px;color:var(--muted)">Prueba a recargar con <strong>Ctrl+F5</strong>. ' +
+    'Si sigue igual, envíale este mensaje a Claude.</p></div>';
+}
+
 async function boot() {
   let s = null;
   try {
     s = await api('/api/session');
-    if (s.authenticated) {
-      $('#login').style.display = 'none';
-      $('#app').classList.add('ready');
+  } catch (err) {
+    // La API no responde: lo decimos en la pantalla de login.
+    $('#login').style.display = 'grid';
+    const msg = $('#loginMsg');
+    msg.className = 'msg err';
+    msg.textContent = 'No se pudo contactar con el servidor: ' + err.message;
+    return;
+  }
+
+  if (s.authenticated) {
+    $('#login').style.display = 'none';
+    $('#app').classList.add('ready');
+    try {
       await loadContent();
-      return;
+    } catch (err) {
+      console.error('[panel]', err);
+      mostrarFallo(err);
     }
-  } catch { /* sin sesión */ }
+    return;
+  }
 
   $('#login').style.display = 'grid';
 
