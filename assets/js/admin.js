@@ -977,6 +977,10 @@ function renderSection(key) {
   const onChange = () => markDirty(true);
   const repaint = () => renderSection(key);
 
+  // El aviso de "la web no lee lo publicado" tiene que sobrevivir al cambio
+  // de sección; si no, se pierde al primer clic y vuelve a pasar desapercibido.
+  repintarAviso();
+
   if (sec.desc) view.append(el('p', { className: 'section-desc', textContent: sec.desc }));
 
   // El gestor de archivos no edita content.json: se pinta aparte y se sale.
@@ -1072,16 +1076,47 @@ function buildNav() {
   });
 }
 
+/**
+ * Aviso fijo arriba del panel. A diferencia del toast (que dura 3 segundos y
+ * es fácil no verlo), este se queda hasta que se resuelve el problema.
+ */
+function avisoFijo(html, tipo = 'err') {
+  let caja = $('#avisoFijo');
+  if (!html) { caja?.remove(); return; }
+  if (!caja) {
+    caja = el('div', { id: 'avisoFijo' });
+    $('#view').prepend(caja);
+  }
+  caja.className = 'msg ' + tipo;
+  caja.style.display = 'block';
+  caja.style.marginBottom = '18px';
+  caja.innerHTML = html;
+}
+
+/** Vuelve a pintar el aviso tras cada cambio de sección (el #view se vacía). */
+function repintarAviso() {
+  if (state.avisoHtml) avisoFijo(state.avisoHtml, state.avisoTipo);
+}
+
 async function loadContent() {
   let data;
+  state.avisoHtml = '';
   try {
     data = await api('/api/content');
-  } catch {
-    // Todavía no se ha publicado nada desde el panel: partimos del contenido original.
+    state.desdeRespaldo = false;
+  } catch (err) {
+    // O no se ha publicado nada todavía, o la web no puede leer lo publicado.
     const res = await fetch('/content.json', { cache: 'no-store' });
     if (!res.ok) throw new Error('No se encontró el contenido base (content.json)');
     data = await res.json();
-    toast('Cargado el contenido original. Publica para guardarlo en el panel.');
+    state.desdeRespaldo = true;
+    state.avisoTipo = 'err';
+    state.avisoHtml =
+      '<strong>La web no está mostrando lo que publicas aquí.</strong><br>' +
+      'Se ha cargado el contenido original del repositorio porque no se pudo leer lo publicado ' +
+      `(<code>${String(err.message).replace(/</g, '&lt;')}</code>).<br>` +
+      'Si es la primera vez, pulsa <strong>Publicar cambios</strong> y este aviso desaparecerá. ' +
+      'Si vuelve a salir después de publicar, falta configurar el almacenamiento Blob en Vercel.';
   }
   state.content = data;
   state.original = clone(data);
@@ -1100,7 +1135,32 @@ async function save() {
     state.content.updatedAt = res.updatedAt;
     state.original = clone(state.content);
     markDirty(false);
-    toast('Publicado. Los cambios ya están en la web.');
+
+    // No basta con que el guardado responda OK: hay que comprobar que la web
+    // puede LEER lo guardado. Si no, el panel decía "Publicado" mientras la
+    // página seguía sirviendo el contenido viejo del repositorio.
+    // El ?t= evita la caché del CDN, que guarda la respuesta 30 segundos.
+    let confirmado = false;
+    try {
+      const leido = await api('/api/content?t=' + Date.now());
+      confirmado = leido && leido.updatedAt === res.updatedAt;
+    } catch { /* lo tratamos abajo */ }
+
+    if (confirmado) {
+      state.desdeRespaldo = false;
+      state.avisoHtml = '';
+      avisoFijo('');
+      toast('Publicado. Los cambios ya están en la web.');
+    } else {
+      state.avisoTipo = 'err';
+      state.avisoHtml =
+        '<strong>Se guardó, pero la web todavía no lo lee.</strong><br>' +
+        'El contenido se escribió en el almacenamiento y aun así <code>/api/content</code> ' +
+        'no devuelve la versión nueva. Suele ser caché del CDN: espera un minuto y recarga la web. ' +
+        'Si después de un minuto sigue igual, avísame.';
+      repintarAviso();
+      toast('Guardado, pero la web aún no lo refleja. Mira el aviso de arriba.', true);
+    }
   } catch (err) {
     toast('No se pudo publicar: ' + err.message, true);
   } finally {

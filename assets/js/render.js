@@ -560,13 +560,21 @@
     for (const { url, ms } of sources) {
       try {
         const res = await fetchConLimite(url, ms);
-        if (!res.ok) continue;
+        if (!res.ok) {
+          window.__contentAviso = `${url} respondió ${res.status}`;
+          continue;
+        }
         const data = await res.json();
-        if (data && data.hero) return data;
-      } catch {
-        /* probamos la siguiente fuente */
+        if (data && data.hero) {
+          window.__contentFuente = url;
+          return data;
+        }
+        window.__contentAviso = `${url} no traía contenido válido`;
+      } catch (err) {
+        window.__contentAviso = `${url} falló: ${err?.message || err}`;
       }
     }
+    window.__contentFuente = null;
     return null;
   }
 
@@ -579,6 +587,15 @@
       if (c) {
         renderAll(c);
         window.__content = c;
+      }
+      // Si la web tuvo que tirar del respaldo del repositorio, lo que se ve NO
+      // es lo publicado en el panel. Antes esto pasaba en silencio y parecía
+      // que los cambios "no se guardaban".
+      if (window.__contentFuente !== '/api/content') {
+        console.warn(
+          '[portafolio] Mostrando el respaldo del repositorio, NO lo publicado ' +
+            'desde el panel. Motivo: ' + (window.__contentAviso || 'desconocido')
+        );
       }
       updateAdminLink();
       return c;
