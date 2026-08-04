@@ -70,12 +70,17 @@ export function parseCookies(req) {
   return out;
 }
 
+// En Vercel siempre hay HTTPS, pero en `vercel dev` (http://localhost) el
+// navegador descarta cualquier cookie marcada como Secure y el login se queda
+// dando vueltas sin explicación. Por eso el flag es condicional.
+const SECURE = process.env.VERCEL ? ' Secure;' : '';
+
 export function sessionCookie(token) {
-  return `${COOKIE_NAME}=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${MAX_AGE}`;
+  return `${COOKIE_NAME}=${token}; HttpOnly;${SECURE} SameSite=Strict; Path=/; Max-Age=${MAX_AGE}`;
 }
 
 export function clearCookie() {
-  return `${COOKIE_NAME}=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0`;
+  return `${COOKIE_NAME}=; HttpOnly;${SECURE} SameSite=Strict; Path=/; Max-Age=0`;
 }
 
 /** Devuelve la sesión si la petición está autenticada, si no null. */

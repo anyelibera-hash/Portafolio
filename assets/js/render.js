@@ -21,6 +21,27 @@
   const $ = (sel, root) => (root || document).querySelector(sel);
   const shown = (arr) => (Array.isArray(arr) ? arr.filter((x) => x && x.visible !== false) : []);
 
+  /* Un enlace guardado desde el panel nunca debería poder ejecutar código.
+     Se permiten rutas, anclas, http(s), mailto: y tel:; lo demás se descarta. */
+  function safeUrl(value) {
+    const v = String(value == null ? '' : value).trim();
+    if (!v) return '';
+    if (/^(https?:|mailto:|tel:)/i.test(v)) return v;
+    if (/^[#/.]/.test(v)) return v;
+    if (/^[\w.-]+\/[^:]*$/.test(v)) return v; // ruta relativa tipo assets/cv/…
+    console.warn('[render] enlace descartado por seguridad:', v);
+    return '';
+  }
+
+  /* El tipo del video se deduce de la extensión: fijarlo siempre a video/mp4
+     hacía que un .mov o .webm subido desde el panel no se reprodujera. */
+  function videoMime(url) {
+    const m = /\.(mp4|m4v|mov|webm|ogv)(\?|#|$)/i.exec(String(url || ''));
+    if (!m) return '';
+    return { mp4: 'video/mp4', m4v: 'video/mp4', mov: 'video/quicktime',
+             webm: 'video/webm', ogv: 'video/ogg' }[m[1].toLowerCase()] || '';
+  }
+
   function setHTML(sel, html) {
     const el = $(sel);
     if (el) el.innerHTML = html;
@@ -80,9 +101,16 @@
 
   function renderNav(c) {
     const nav = c.nav || {};
-    const cv = (c.site && c.site.cvUrl) || '#';
+    const cv = safeUrl((c.site && c.site.cvUrl) || '');
     const links = shown(nav.links);
     if (!links.length) return;
+
+    // Un CV subido al almacenamiento vive en otro dominio y ahí el atributo
+    // `download` lo ignora el navegador: mejor abrirlo en una pestaña nueva.
+    const externo = /^https?:/i.test(cv) && !cv.startsWith(location.origin);
+    const cvAttrs = cv
+      ? (externo ? ' target="_blank" rel="noopener"' : ' download')
+      : '';
 
     if (nav.logo) {
       const logoEl = $('.nav-logo');
@@ -94,8 +122,10 @@
 
     setHTML(
       '.nav-links',
-      links.map((l) => `<a href="${esc(l.href)}" class="nav-link magnetic">${esc(l.label)}</a>`).join('') +
-        `<a href="${esc(cv)}" download class="btn-primary magnetic"><i class="fas fa-download"></i>${esc(nav.ctaLabel || 'CV')}</a>`
+      links.map((l) => `<a href="${esc(safeUrl(l.href))}" class="nav-link magnetic">${esc(l.label)}</a>`).join('') +
+        (cv
+          ? `<a href="${esc(cv)}"${cvAttrs} class="btn-primary magnetic"><i class="fas fa-download"></i>${esc(nav.ctaLabel || 'CV')}</a>`
+          : '')
     );
 
     setHTML(
@@ -104,10 +134,12 @@
         links
           .map(
             (l) =>
-              `<a href="${esc(l.href)}" class="mobile-link" onclick="this.parentElement.classList.remove('open')">${esc(l.label)}</a>`
+              `<a href="${esc(safeUrl(l.href))}" class="mobile-link" onclick="this.parentElement.classList.remove('open')">${esc(l.label)}</a>`
           )
           .join('') +
-        `<a href="${esc(cv)}" download class="btn-primary" style="margin-top:12px;padding:14px 32px">Descargar CV</a>`
+        (cv
+          ? `<a href="${esc(cv)}"${cvAttrs} class="btn-primary" style="margin-top:12px;padding:14px 32px">Descargar CV</a>`
+          : '')
     );
   }
 
@@ -116,9 +148,13 @@
       b.style === 'primary' ? 'btn-primary' : b.style === 'light' ? 'btn-outline-light' : 'btn-outline';
     const icon = b.icon ? `<i class="${esc(b.icon)}"></i>` : '';
     const inner = b.iconRight ? `${esc(b.label)} ${icon}` : `${icon} ${esc(b.label)}`;
-    return `<a href="${esc(b.href)}"${b.download ? ' download' : ''}${
-      /^https?:/.test(b.href || '') ? ' target="_blank" rel="noopener"' : ''
-    } class="${cls} magnetic${extraClass ? ' ' + extraClass : ''}">${inner}</a>`;
+    const href = safeUrl(b.href);
+    const externo = /^https?:/i.test(href) && !href.startsWith(location.origin);
+    // `download` solo funciona en el mismo origen; fuera de él abre pestaña.
+    const attrs = externo ? ' target="_blank" rel="noopener"' : b.download ? ' download' : '';
+    return `<a href="${esc(href)}"${attrs} class="${cls} magnetic${
+      extraClass ? ' ' + extraClass : ''
+    }">${inner}</a>`;
   }
 
   function renderHero(c) {
@@ -311,9 +347,10 @@
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen style="width:100%;height:100%;border:0;display:block"></iframe>`;
           } else {
+            const mime = i.mime || videoMime(i.src);
             media = `<video controls preload="metadata" playsinline${
-              i.poster ? ` poster="${esc(i.poster)}"` : ''
-            }><source src="${esc(i.src)}" type="${esc(i.mime || 'video/mp4')}"></video>`;
+              i.poster ? ` poster="${esc(safeUrl(i.poster))}"` : ''
+            }><source src="${esc(safeUrl(i.src))}"${mime ? ` type="${esc(mime)}"` : ''}></video>`;
           }
           return `<div class="video-card reveal-up"><div class="video-wrapper">${media}</div><div class="video-card-body"><h4>${esc(
             i.title
@@ -406,8 +443,8 @@
         links
           .map(
             (l) =>
-              `<a href="${esc(l.href)}"${
-                /^https?:/.test(l.href || '') ? ' target="_blank" rel="noopener"' : ''
+              `<a href="${esc(safeUrl(l.href))}"${
+                /^https?:/i.test(l.href || '') ? ' target="_blank" rel="noopener"' : ''
               } class="contact-link reveal-up"><div class="contact-link-icon"><i class="${esc(
                 l.icon
               )}"></i></div><div><div class="contact-link-label">${esc(
@@ -426,7 +463,7 @@
         buttons
           .map((b, idx) =>
             idx === 0 && b.style === 'primary'
-              ? `<a href="${esc(b.href)}" target="_blank" rel="noopener" class="btn-primary magnetic" style="justify-content:center;padding:20px 32px;font-size:13px"><i class="${esc(
+              ? `<a href="${esc(safeUrl(b.href))}" target="_blank" rel="noopener" class="btn-primary magnetic" style="justify-content:center;padding:20px 32px;font-size:13px"><i class="${esc(
                   b.icon
                 )}"></i> ${esc(b.label)}</a>`
               : btn(b)
@@ -453,8 +490,8 @@
         socials
           .map(
             (s) =>
-              `<a href="${esc(s.href)}"${
-                /^https?:/.test(s.href || '') ? ' target="_blank" rel="noopener"' : ''
+              `<a href="${esc(safeUrl(s.href))}"${
+                /^https?:/i.test(s.href || '') ? ' target="_blank" rel="noopener"' : ''
               }><i class="${esc(s.icon)}"></i></a>`
           )
           .join('')
@@ -510,11 +547,19 @@
   }
 
   async function loadContent() {
-    // 1) lo publicado desde el panel  2) el respaldo del repositorio
-    const sources = ['/api/content', '/content.json'];
-    for (const url of sources) {
+    // 1) lo publicado desde el panel  2) el respaldo del repositorio.
+    // El margen del primero es amplio a propósito: con 2,5 s un arranque en
+    // frío de la función se pasaba de tiempo y la web mostraba el contenido
+    // viejo del repositorio como si no se hubiera publicado nada.
+    // Los márgenes suman menos que la red de seguridad de index.html (6 s),
+    // así que la web nunca se queda esperando más de lo que tarda en rendirse.
+    const sources = [
+      { url: '/api/content', ms: 4500 },
+      { url: '/content.json', ms: 2500 },
+    ];
+    for (const { url, ms } of sources) {
       try {
-        const res = await fetchConLimite(url, 2500);
+        const res = await fetchConLimite(url, ms);
         if (!res.ok) continue;
         const data = await res.json();
         if (data && data.hero) return data;

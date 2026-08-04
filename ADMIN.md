@@ -49,7 +49,7 @@ Vercel reconstruye solo. Entra a `tudominio.com/admin` y prueba tu usuario.
 
 ## 2. Cómo se usa
 
-Cada sección de la web tiene su pantalla en el menú lateral: Portada, Sobre mí, Servicios, Proyectos, Galería, Videos, Experiencia, Herramientas, Educación, Contacto, Menú, Sitio & SEO, y Pie.
+Cada sección de la web tiene su pantalla en el menú lateral: Portada, Sobre mí, Servicios, Proyectos, Galería, Videos, Experiencia, Herramientas, Educación, Contacto, Menú, Sitio & SEO, Pie y **Archivos**.
 
 En las listas puedes:
 
@@ -71,6 +71,15 @@ En **Galería** hay una zona de **subida rápida**: arrastra varias imágenes de
 
 Cualquier campo de imagen o video acepta arrastrar y soltar el archivo encima.
 
+### Borrar archivos del almacenamiento
+
+Quitar una imagen de la galería la saca de la web, pero el archivo seguía ocupando espacio. Ahora:
+
+- Al **eliminar un elemento** o pulsar **"Quitar"** en un campo de imagen, el panel te pregunta si quieres borrar también el archivo. Solo lo propone si ese archivo **ya no se usa en ninguna otra parte**, así que no puede romperte una imagen que estés reutilizando.
+- La sección **Archivos** lista todo lo subido, marca cada uno como *En uso* o *Sin usar*, y tiene un botón para **borrar de golpe todo lo que no se usa**.
+
+El borrado del almacenamiento es inmediato y **no se puede deshacer** (no depende de "Publicar cambios").
+
 ---
 
 ## 3. Cómo funciona por dentro
@@ -83,8 +92,10 @@ Cualquier campo de imagen o video acepta arrastrar y soltar el archivo encima.
 | `admin.html` | La pantalla del panel |
 | `api/login.js` · `logout.js` · `session.js` | Entrar y salir |
 | `api/content.js` | Leer el contenido (público) y guardarlo (solo con sesión) |
-| `api/upload.js` | Genera el permiso de subida. El archivo va del navegador directo al almacenamiento |
-| `api/media.js` | Listar y borrar archivos subidos |
+| `api/upload.js` | Genera el permiso de subida y **valida la ruta**. El archivo va del navegador directo al almacenamiento |
+| `api/media.js` | Listar y borrar archivos subidos (lo usa la sección Archivos) |
+
+Todo lo que subes se guarda en `portafolio/<carpeta>/`, donde la carpeta depende de dónde lo subiste (`gallery`, `videos`, `projects`, `about`, `docs`). La ruta la arma el navegador y el servidor la comprueba: si no encaja, rechaza la subida.
 
 **El HTML original sigue dentro de `index.html`.** Si un día el contenido guardado no cargara, la web se ve igual que ahora en vez de quedarse en blanco.
 

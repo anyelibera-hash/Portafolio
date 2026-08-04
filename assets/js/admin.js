@@ -1,7 +1,38 @@
 /* ═══════════════════════════════════════════════════════════
    admin.js — editor del portafolio
    ═══════════════════════════════════════════════════════════ */
-import { upload } from 'https://esm.sh/@vercel/blob@2.6.1/client';
+
+/* La librería de subida vive en un CDN externo. Antes se importaba arriba del
+   todo, así que si el CDN fallaba el módulo entero no cargaba y el panel se
+   quedaba en blanco: ni login, ni edición de textos. Ahora se carga solo
+   cuando hace falta subir algo, y con un CDN de reserva. */
+let libSubida = null;
+async function cargarLibSubida() {
+  if (libSubida) return libSubida;
+  // Ojo: tiene que ser el subcamino /client. El paquete raíz exporta put/list/del
+  // pero NO upload(), que es el que necesita el navegador.
+  const cdns = [
+    'https://esm.sh/@vercel/blob@2.6.1/client',
+    'https://cdn.jsdelivr.net/npm/@vercel/blob@2.6.1/client/+esm',
+  ];
+  let ultimoError;
+  for (const url of cdns) {
+    try {
+      const mod = await import(/* @vite-ignore */ url);
+      if (typeof mod.upload === 'function') {
+        libSubida = mod;
+        return libSubida;
+      }
+      ultimoError = new Error('El módulo cargó pero no expone upload()');
+    } catch (err) {
+      ultimoError = err;
+    }
+  }
+  throw new Error(
+    'No se pudo cargar la librería de subida (¿sin internet o CDN bloqueado?). ' +
+      (ultimoError?.message || '')
+  );
+}
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -275,6 +306,10 @@ const SCHEMA = [
       { k: 'subtitle', label: 'Subtítulo', t: T.text },
     ] },
   },
+  {
+    key: '__archivos', label: 'Archivos', icon: '🗂', archivos: true,
+    desc: 'Todo lo que has subido al almacenamiento. Los marcados como "sin usar" ya no aparecen en ninguna parte de la web: puedes borrarlos para liberar espacio.',
+  },
 ];
 
 /* ═════════ API ═════════ */
@@ -392,14 +427,140 @@ const isVideo = (u) => /\.(mp4|mov|webm|m4v)(\?|$)/i.test(u || '');
 const isImage = (u) => /\.(jpe?g|png|webp|avif|gif)(\?|$)/i.test(u || '');
 const isPdf = (u) => /\.pdf(\?|$)/i.test(u || '');
 
+const CARPETAS = ['videos', 'gallery', 'projects', 'about', 'docs', 'media'];
+const TIPOS_OK = [
+  'video/mp4', 'video/quicktime', 'video/webm', 'video/x-m4v',
+  'image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif',
+  'application/pdf',
+];
+const MAX_BYTES = 500 * 1024 * 1024;
+
+/** Nombre de archivo limpio: sin acentos, espacios ni caracteres raros. */
+function nombreLimpio(nombre) {
+  const punto = String(nombre || 'archivo').lastIndexOf('.');
+  let base = punto > 0 ? nombre.slice(0, punto) : nombre;
+  let ext = punto > 0 ? nombre.slice(punto + 1) : '';
+  base = base
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase()
+    .slice(0, 60) || 'archivo';
+  ext = ext.normalize('NFD').replace(/[^a-zA-Z0-9]/g, '').toLowerCase().slice(0, 8);
+  return ext ? `${base}.${ext}` : base;
+}
+
+function revisarArchivo(file) {
+  if (file.size > MAX_BYTES) {
+    return `"${file.name}" pesa ${(file.size / 1024 / 1024).toFixed(0)} MB y el máximo son 500 MB.`;
+  }
+  // Algunos navegadores dejan el tipo vacío; en ese caso deja pasar y que
+  // decida el servidor, que sabe deducirlo por la extensión.
+  if (file.type && !TIPOS_OK.includes(file.type)) {
+    return `"${file.name}" es de tipo ${file.type} y no está permitido. Usa JPG, PNG, WEBP, GIF, MP4, MOV, WEBM o PDF.`;
+  }
+  return null;
+}
+
+/**
+ * OJO: la ruta final del archivo la fija el `pathname` que se manda desde aquí.
+ * El servidor NO puede reescribirla (@vercel/blob ignora el pathname que
+ * devuelve onBeforeGenerateToken), así que la carpeta se arma en el cliente y
+ * el servidor solo la valida. Antes se mandaba `file.name` a secas y todo
+ * acababa suelto en la raíz del almacenamiento, fuera de portafolio/.
+ */
 async function uploadFile(file, folder, onProgress) {
-  return upload(file.name, file, {
+  const problema = revisarArchivo(file);
+  if (problema) throw new Error(problema);
+
+  const carpeta = CARPETAS.includes(folder) ? folder : 'media';
+  const ruta = `portafolio/${carpeta}/${nombreLimpio(file.name)}`;
+
+  const { upload } = await cargarLibSubida();
+  return upload(ruta, file, {
     access: 'public',
     handleUploadUrl: '/api/upload',
-    clientPayload: JSON.stringify({ folder }),
+    clientPayload: JSON.stringify({ folder: carpeta }),
     multipart: file.size > 15 * 1024 * 1024,
     onUploadProgress: (p) => onProgress && onProgress(p.percentage),
   });
+}
+
+/* ═════════ BORRADO DE ARCHIVOS DEL ALMACENAMIENTO ═════════ */
+
+/** ¿Es un archivo que vive en nuestro almacenamiento (y por tanto borrable)? */
+function esBlob(url) {
+  return /^https:\/\/[^/]+\.blob\.vercel-storage\.com\//i.test(String(url || ''));
+}
+
+const sinQuery = (u) => String(u || '').split('?')[0];
+
+/** Todas las URLs que el contenido está usando ahora mismo. */
+function urlsEnUso(nodo = state.content, out = new Set()) {
+  if (nodo == null) return out;
+  if (typeof nodo === 'string') {
+    if (esBlob(nodo)) out.add(sinQuery(nodo));
+    return out;
+  }
+  if (Array.isArray(nodo)) {
+    nodo.forEach((v) => urlsEnUso(v, out));
+    return out;
+  }
+  if (typeof nodo === 'object') {
+    Object.values(nodo).forEach((v) => urlsEnUso(v, out));
+  }
+  return out;
+}
+
+/** Borra archivos del almacenamiento. Devuelve cuántos se borraron. */
+async function borrarArchivos(urls) {
+  const lista = [].concat(urls).filter(esBlob);
+  if (!lista.length) return 0;
+  const res = await api('/api/media', {
+    method: 'DELETE',
+    body: JSON.stringify({ urls: lista }),
+  });
+  if (res?.fallidas?.length) {
+    throw new Error(res.fallidas.map((f) => f.error).join(' · '));
+  }
+  return res?.borradas?.length || 0;
+}
+
+/**
+ * Ofrece borrar del almacenamiento las URLs que dejan de usarse.
+ * Solo propone borrar lo que ya no está referenciado en ningún otro sitio,
+ * para no romper una imagen que se reutiliza en otra sección.
+ */
+async function ofrecerBorrado(urls, descripcion) {
+  const candidatas = [...new Set([].concat(urls).filter(esBlob).map(sinQuery))];
+  if (!candidatas.length) return;
+  const enUso = urlsEnUso();
+  const huerfanas = candidatas.filter((u) => !enUso.has(u));
+  if (!huerfanas.length) return;
+
+  const cuantas = huerfanas.length === 1 ? 'el archivo' : `los ${huerfanas.length} archivos`;
+  if (!confirm(
+    `¿Borrar también ${cuantas} del almacenamiento?\n\n` +
+    huerfanas.map((u) => '· ' + decodeURIComponent(u.split('/').pop())).join('\n') +
+    `\n\nSe libera espacio y ya no se usa${huerfanas.length === 1 ? '' : 'n'} en ${descripcion}. ` +
+    'Esta acción no se puede deshacer.'
+  )) return;
+
+  try {
+    const n = await borrarArchivos(huerfanas);
+    toast(`${n} archivo(s) borrados del almacenamiento.`);
+  } catch (err) {
+    toast('No se pudo borrar: ' + err.message, true);
+  }
+}
+
+/** URLs de archivo que contiene un elemento de lista (src, thumb, poster…). */
+function urlsDelItem(item) {
+  const out = [];
+  Object.values(item || {}).forEach((v) => {
+    if (typeof v === 'string' && esBlob(v)) out.push(sinQuery(v));
+  });
+  return out;
 }
 
 function mediaWidget(obj, key, f, onChange) {
@@ -453,7 +614,12 @@ function mediaWidget(obj, key, f, onChange) {
     if (v != null) setVal(v.trim());
   };
   const btnDel = el('button', { type: 'button', className: 'btn sm danger', textContent: 'Quitar' });
-  btnDel.onclick = () => setVal('');
+  btnDel.onclick = async () => {
+    const anterior = obj[key];
+    setVal('');
+    // Ya está fuera del contenido: si no lo usa nadie más, se puede borrar.
+    await ofrecerBorrado(anterior, 'ningún sitio del portafolio');
+  };
 
   box.append(el('div', { className: 'media-row' }, prev,
     el('div', { className: 'media-info' }, path,
@@ -563,10 +729,13 @@ function buildList(parent, cfg, onChange) {
       };
 
       const del = el('button', { type: 'button', className: 'btn sm danger', textContent: 'Eliminar' });
-      del.onclick = (e) => {
+      del.onclick = async (e) => {
         e.stopPropagation();
-        if (!confirm(`¿Eliminar "${item[cfg.titleKey] || 'este elemento'}"?`)) return;
+        const nombre = item[cfg.titleKey] || 'este elemento';
+        if (!confirm(`¿Eliminar "${nombre}"?`)) return;
+        const archivos = urlsDelItem(item);
         arr.splice(idx, 1); repaint(); onChange();
+        await ofrecerBorrado(archivos, `"${nombre}"`);
       };
 
       const chev = el('span', { className: 'chev', textContent: '▶' });
@@ -642,25 +811,33 @@ function bulkUploader(sec, onChange, repaint) {
   async function run(files) {
     const list = [...files];
     if (!list.length) return;
+    const destino = state.content[sec.key] || (state.content[sec.key] = {});
+    if (!Array.isArray(destino.items)) destino.items = [];
+
     bar.classList.add('on');
-    let done = 0;
-    for (const file of list) {
-      info.textContent = `Subiendo ${done + 1} de ${list.length}: ${file.name}`;
+    let ok = 0;
+    let fallos = 0;
+    for (let i = 0; i < list.length; i++) {
+      const file = list[i];
+      info.textContent = `Subiendo ${i + 1} de ${list.length}: ${file.name}`;
       try {
         const blob = await uploadFile(file, cfg.folder, (p) => {
-          barIn.style.width = ((done + p / 100) / list.length) * 100 + '%';
+          barIn.style.width = ((i + p / 100) / list.length) * 100 + '%';
         });
         const name = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
-        state.content[sec.key].items.push(cfg.make(blob, name));
+        destino.items.push(cfg.make(blob, name));
+        ok++;
       } catch (err) {
+        fallos++;
         toast(`Falló ${file.name}: ${err.message}`, true);
       }
-      done++;
     }
     bar.classList.remove('on');
     info.textContent = 'Arrastra aquí tus archivos o pulsa el botón. Se suben en su calidad original.';
-    onChange(); repaint();
-    toast(`${done} archivo(s) añadidos.`);
+    if (ok) onChange();
+    repaint();
+    // Antes contaba como añadidos también los que fallaron.
+    if (ok) toast(`${ok} archivo(s) añadidos${fallos ? `, ${fallos} con error` : ''}.`);
   }
 
   input.onchange = () => { run(input.files); input.value = ''; };
@@ -671,13 +848,129 @@ function bulkUploader(sec, onChange, repaint) {
   return box;
 }
 
+/* ═════════ GESTOR DE ARCHIVOS ═════════ */
+const tamano = (b) => {
+  const n = Number(b) || 0;
+  if (n < 1024) return n + ' B';
+  if (n < 1024 * 1024) return (n / 1024).toFixed(0) + ' KB';
+  return (n / 1024 / 1024).toFixed(1) + ' MB';
+};
+
+function renderArchivos(view) {
+  const host = el('div');
+  view.append(host);
+
+  const pintar = async () => {
+    host.innerHTML = '';
+    host.append(el('div', { className: 'empty', textContent: 'Cargando archivos…' }));
+
+    let items;
+    try {
+      const res = await api('/api/media');
+      items = res.items || [];
+    } catch (err) {
+      host.innerHTML = '';
+      host.append(el('div', { className: 'msg err', style: 'display:block',
+        textContent: 'No se pudo leer el almacenamiento: ' + err.message }));
+      return;
+    }
+
+    const enUso = urlsEnUso();
+    const marcar = (it) => ({ ...it, usado: enUso.has(sinQuery(it.url)) });
+    const lista = items.map(marcar);
+    const huerfanos = lista.filter((i) => !i.usado);
+
+    host.innerHTML = '';
+
+    const resumen = el('div', { className: 'card' },
+      el('h3', { textContent: `${lista.length} archivo(s) · ${huerfanos.length} sin usar` }));
+    if (huerfanos.length) {
+      const limpiar = el('button', { type: 'button', className: 'btn danger',
+        textContent: `Borrar los ${huerfanos.length} que no se usan` });
+      limpiar.onclick = async () => {
+        if (!confirm(
+          `Se van a borrar ${huerfanos.length} archivo(s) que ya no aparecen en la web.\n` +
+          'Esta acción no se puede deshacer. ¿Continuar?'
+        )) return;
+        limpiar.disabled = true;
+        try {
+          const n = await borrarArchivos(huerfanos.map((h) => h.url));
+          toast(`${n} archivo(s) borrados.`);
+        } catch (err) {
+          toast('No se pudo borrar: ' + err.message, true);
+        }
+        pintar();
+      };
+      resumen.append(limpiar);
+    }
+    host.append(resumen);
+
+    if (!lista.length) {
+      host.append(el('div', { className: 'empty',
+        textContent: 'Todavía no has subido ningún archivo desde el panel.' }));
+      return;
+    }
+
+    lista.forEach((it) => {
+      const prev = el('div', { className: 'media-prev' });
+      if (isImage(it.url)) prev.append(el('img', { src: it.url, loading: 'lazy',
+        style: 'width:100%;height:100%;object-fit:cover;border-radius:8px' }));
+      else prev.textContent = isVideo(it.url) ? '▶' : isPdf(it.url) ? '📄' : '◈';
+
+      const estado = el('small', {
+        textContent: it.usado ? 'En uso en la web' : 'Sin usar',
+        style: 'color:' + (it.usado ? 'var(--ok)' : 'var(--warn)'),
+      });
+
+      const abrir = el('a', { className: 'btn sm ghost', textContent: 'Abrir',
+        href: it.url, target: '_blank', rel: 'noopener' });
+
+      const copiar = el('button', { type: 'button', className: 'btn sm ghost', textContent: 'Copiar enlace' });
+      copiar.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(it.url);
+          toast('Enlace copiado.');
+        } catch {
+          prompt('Copia el enlace:', it.url);
+        }
+      };
+
+      const borrar = el('button', { type: 'button', className: 'btn sm danger', textContent: 'Borrar' });
+      borrar.onclick = async () => {
+        const aviso = it.usado
+          ? '⚠ ESTE ARCHIVO SE ESTÁ USANDO EN LA WEB.\nSi lo borras, esa imagen o video dejará de verse.\n\n'
+          : '';
+        if (!confirm(`${aviso}¿Borrar "${it.name}" del almacenamiento?\nNo se puede deshacer.`)) return;
+        borrar.disabled = true;
+        try {
+          await borrarArchivos(it.url);
+          toast('Archivo borrado.');
+        } catch (err) {
+          toast('No se pudo borrar: ' + err.message, true);
+        }
+        pintar();
+      };
+
+      host.append(el('div', { className: 'item' },
+        el('div', { className: 'item-head', style: 'cursor:default' },
+          prev,
+          el('div', { className: 'item-title' }, it.name, estado,
+            el('small', { textContent: `${it.folder || 'raíz'} · ${tamano(it.size)}` })),
+          el('div', { className: 'row-actions' }, abrir, copiar, borrar))));
+    });
+  };
+
+  pintar();
+}
+
 /* ═════════ VISTA DE SECCIÓN ═════════ */
 function renderSection(key) {
   state.section = key;
-  const sec = SCHEMA.find((s) => s.key === key);
-  const data = state.content[key] || (state.content[key] = {});
+  const sec = SCHEMA.find((s) => s.key === key) || SCHEMA[0];
   $('#secTitle').textContent = sec.label;
-  $$('.navitem').forEach((b) => b.classList.toggle('active', b.dataset.k === key));
+  // Los contadores del menú se quedaban congelados hasta recargar la página.
+  buildNav();
+  $$('.navitem').forEach((b) => b.classList.toggle('active', b.dataset.k === sec.key));
 
   const view = $('#view');
   view.innerHTML = '';
@@ -685,6 +978,11 @@ function renderSection(key) {
   const repaint = () => renderSection(key);
 
   if (sec.desc) view.append(el('p', { className: 'section-desc', textContent: sec.desc }));
+
+  // El gestor de archivos no edita content.json: se pinta aparte y se sale.
+  if (sec.archivos) return renderArchivos(view);
+
+  const data = state.content[key] || (state.content[key] = {});
 
   if (sec.fields?.length) {
     const card = el('div', { className: 'card' }, el('h3', { textContent: 'Textos de la sección' }));

@@ -21,7 +21,10 @@ export default withErrors(async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const { list } = await blob();
-      const { blobs } = await list({ prefix: BLOB_PATH, limit: 1 });
+      // limit: 1 era un fallo silencioso — si el store devolvía antes cualquier
+      // otro blob con ese prefijo, `found` quedaba vacío y la web se iba al
+      // respaldo del repositorio, perdiendo de vista lo publicado en el panel.
+      const { blobs } = await list({ prefix: BLOB_PATH, limit: 100 });
       const found = blobs.find((b) => b.pathname === BLOB_PATH);
       if (!found) {
         // Nunca se ha publicado nada: que el navegador use /content.json

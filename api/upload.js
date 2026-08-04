@@ -7,12 +7,29 @@ const ALLOWED = [
   'application/pdf',
 ];
 
+// Carpetas válidas dentro del almacenamiento.
+const CARPETAS = ['videos', 'gallery', 'projects', 'about', 'docs', 'media'];
+
+/**
+ * IMPORTANTE: @vercel/blob decide la ruta final con el `pathname` que manda
+ * el navegador; lo que devuelva onBeforeGenerateToken se ignora. Por eso aquí
+ * NO se reescribe la ruta: se valida la que llega y se rechaza si no encaja.
+ */
+function rutaValida(pathname) {
+  const m = /^portafolio\/([a-z]+)\/([^/]+)$/.exec(String(pathname || ''));
+  if (!m || !CARPETAS.includes(m[1])) return null;
+  return { carpeta: m[1], nombre: m[2] };
+}
+
 export default withErrors(async function handler(req, res) {
   if (req.method !== 'POST') return sendJson(res, 405, { error: 'Método no permitido' });
 
+  // handleUpload (subida directa desde el navegador) SIEMPRE necesita un
+  // token estático para firmar los client tokens: OIDC/BLOB_STORE_ID no
+  // sirve para este flujo, aunque sí sirve para put()/list()/del() del lado servidor.
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     return sendJson(res, 500, {
-      error: 'Vercel Blob no está configurado. Créalo en Storage → Create Database → Blob.',
+      error: 'Falta BLOB_READ_WRITE_TOKEN. El store de Blob está conectado por OIDC, pero handleUpload requiere un token estático: genéralo en el store y agrégalo como variable de entorno del proyecto, luego redeploy.',
     });
   }
 
@@ -25,32 +42,31 @@ export default withErrors(async function handler(req, res) {
     const result = await handleUpload({
       body,
       request: req,
-      onBeforeGenerateToken: async (pathname, clientPayload) => {
+      onBeforeGenerateToken: async (pathname) => {
         const session = getSession(req);
         if (!session) throw new Error('No autorizado');
 
-        let folder = 'media';
-        try {
-          const parsed = clientPayload ? JSON.parse(clientPayload) : {};
-          if (['videos', 'gallery', 'projects', 'about', 'docs'].includes(parsed.folder)) {
-            folder = parsed.folder;
-          }
-        } catch { /* carpeta por defecto */ }
+        const ruta = rutaValida(pathname);
+        if (!ruta) {
+          throw new Error(
+            'Ruta de archivo no permitida. Recarga el panel con Ctrl+F5 y vuelve a intentarlo.'
+          );
+        }
 
         return {
           allowedContentTypes: ALLOWED,
           addRandomSuffix: true,
           maximumSizeInBytes: 500 * 1024 * 1024,
-          pathname: `portafolio/${folder}/${String(pathname).replace(/^.*[\\/]/, '')}`,
-          tokenPayload: JSON.stringify({ user: session.u, folder }),
+          tokenPayload: JSON.stringify({ user: session.u, carpeta: ruta.carpeta }),
         };
       },
-      onUploadCompleted: async ({ blob }) => {
-        console.log('Subida completada:', blob.pathname);
-      },
+      // Sin onUploadCompleted a propósito: ese callback obliga a Vercel Blob a
+      // llamar de vuelta al despliegue y falla en local o con Deployment
+      // Protection activa. No guardamos nada al terminar, así que no hace falta.
     });
     return sendJson(res, 200, result);
   } catch (err) {
-    return sendJson(res, err.message === 'No autorizado' ? 401 : 400, { error: err.message });
+    const msg = err?.message || 'No se pudo preparar la subida';
+    return sendJson(res, msg === 'No autorizado' ? 401 : 400, { error: msg });
   }
 });
