@@ -10,6 +10,7 @@ Thumbs.db
 
 # Ayudantes locales
 PUBLICAR.bat
+VISTA-PREVIA-MARCA.html
 
 # Dependencias y entorno
 node_modules/

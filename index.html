@@ -18,7 +18,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <!-- GSAP + ScrollTrigger + SplitText -->
@@ -28,7 +28,7 @@
 
 <!-- Contenido editable desde /admin.
      El ?v= rompe la caché del navegador: súbelo cada vez que cambie el archivo. -->
-<script src="/assets/js/render.js?v=3"></script>
+<script src="/assets/js/render.js?v=4"></script>
 
 <style>
 /* ═══════════════════════════════════════
@@ -983,6 +983,11 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
 ::-webkit-scrollbar-track { background: var(--ivory); }
 ::-webkit-scrollbar-thumb { background: var(--accent-light); border-radius: 2px; }
 </style>
+
+<!-- ═══ IDENTIDAD DE MARCA ═══
+     Va al final del <head>, después del CSS de arriba, para poder imponerse.
+     Define la paleta y las tipografías del manual. -->
+<link rel="stylesheet" href="/marca/tema-marca.css?v=4">
 </head>
 <body>
 
@@ -1535,9 +1540,14 @@ document.addEventListener('DOMContentLoaded', () => {
 function initPortfolio() {
 
   // ── LENIS SMOOTH SCROLL ──
-  const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
+  // Menos inercia que por defecto: con 1.2 el scroll se siente pesado.
+  // Si el sistema pide menos movimiento, se desactiva del todo.
+  const menosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lenis = new Lenis({
+    duration: menosMovimiento ? 0 : 0.85,
+    smoothWheel: !menosMovimiento,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  });
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 
@@ -1696,6 +1706,22 @@ function initPortfolio() {
       lenis.start();
     }
   });
+
+  // ── VIDEOS BAJO DEMANDA ──
+  // 11 videos pidiendo metadatos al cargar hacen el scroll pesado.
+  // Cada uno solo se prepara cuando está a punto de entrar en pantalla.
+  const videos = document.querySelectorAll('.video-card video');
+  if (videos.length && 'IntersectionObserver' in window) {
+    const vigia = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.preload = 'metadata';
+        e.target.load();
+        vigia.unobserve(e.target);
+      });
+    }, { rootMargin: '400px 0px' });
+    videos.forEach((v) => { v.preload = 'none'; vigia.observe(v); });
+  }
 
   // Los elementos pintados dinámicamente ya están en el DOM: recalculamos posiciones.
   ScrollTrigger.refresh();

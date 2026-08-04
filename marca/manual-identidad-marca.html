@@ -1,0 +1,654 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual de identidad de marca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --crema:#FFFBEF;
+    --rosa:#F7D6E4;
+    --amarillo:#FAEAB9;
+    --cafe:#3D2B1F;
+    --linea:rgba(61,43,31,.16);
+    --linea-fuerte:rgba(61,43,31,.35);
+    --display:'Intro','Montserrat',sans-serif;
+    --texto:'Poppins',sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--crema);
+    color:var(--cafe);
+    font-family:var(--texto);
+    font-weight:400;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:940px;margin:0 auto;padding:0 28px}
+
+  /* ---------- tipografía base ---------- */
+  h1,h2,h3,.display{font-family:var(--display);font-weight:800;letter-spacing:.02em;text-transform:uppercase;margin:0}
+  h1{font-size:clamp(38px,7.5vw,74px);line-height:.98;letter-spacing:.01em}
+  h2{font-size:clamp(24px,3.6vw,34px);line-height:1.1}
+  h3{font-size:15px;letter-spacing:.14em;line-height:1.3}
+  p{margin:0 0 14px}
+  strong{font-weight:600}
+  a{color:inherit}
+
+  .eyebrow{
+    font-family:var(--texto);
+    font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+    opacity:.6;margin:0 0 10px
+  }
+  .lead{font-size:18px;font-weight:300;line-height:1.6;max-width:62ch}
+  .nota{font-size:13.5px;line-height:1.55;opacity:.72}
+
+  /* ---------- portada ---------- */
+  .portada{padding:76px 0 64px;position:relative;overflow:hidden}
+  .portada .barras{display:flex;height:12px;margin-bottom:52px;border-radius:99px;overflow:hidden}
+  .portada .barras i{display:block;height:100%}
+  .marca-linea{font-family:var(--texto);font-size:12px;letter-spacing:.3em;text-transform:uppercase;font-weight:600;opacity:.55}
+  .placeholder{
+    background:var(--amarillo);padding:1px 8px;border-radius:4px;
+    box-shadow:inset 0 0 0 1px var(--linea-fuerte)
+  }
+  h1 .placeholder{
+    background:none;
+    box-shadow:none;
+    letter-spacing:.1em;
+    padding:0;
+  }
+  .aviso{
+    margin-top:38px;padding:16px 20px;border-radius:14px;
+    background:var(--rosa);font-size:14px;line-height:1.5;max-width:60ch
+  }
+
+  /* ---------- índice ---------- */
+  .indice{border-top:1px solid var(--linea);padding-top:22px;margin-top:52px}
+  .indice ol{list-style:none;padding:0;margin:0;columns:2;column-gap:44px}
+  .indice li{break-inside:avoid;margin-bottom:2px}
+  .indice a{
+    display:flex;gap:12px;align-items:baseline;text-decoration:none;
+    padding:7px 0;border-bottom:1px solid var(--linea);font-size:14.5px
+  }
+  .indice a span{font-weight:600;opacity:.45;font-size:12px;letter-spacing:.08em;min-width:22px}
+  .indice a:hover{opacity:.55}
+
+  /* ---------- secciones ---------- */
+  section{padding:62px 0;border-top:1px solid var(--linea)}
+  .sec-head{display:flex;gap:18px;align-items:flex-start;margin-bottom:30px}
+  .num{
+    font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.1em;
+    padding-top:6px;opacity:.4;min-width:34px
+  }
+
+  /* ---------- swatches ---------- */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+  .sw{border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--linea)}
+  .sw .muestra{height:130px;display:flex;align-items:flex-end;padding:14px}
+  .sw .muestra b{font-family:var(--display);font-size:13px;letter-spacing:.12em}
+  .sw .datos{padding:14px;font-size:12.5px;line-height:1.75}
+  .sw .datos .fila{display:flex;justify-content:space-between;gap:10px}
+  .sw .datos .fila span:first-child{opacity:.5;letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;font-weight:600}
+  .sw .datos .fila span:last-child{font-variant-numeric:tabular-nums}
+  .sw .rol{margin-top:10px;padding-top:10px;border-top:1px solid var(--linea);font-size:12.5px;line-height:1.5;opacity:.75}
+
+  /* ---------- proporción ---------- */
+  .proporcion{display:flex;height:74px;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--linea);margin-bottom:16px}
+  .proporcion div{display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+  .p60{flex:60;background:var(--crema)}
+  .p25{flex:25;background:var(--rosa)}
+  .p10{flex:10;background:var(--amarillo)}
+  .p05{flex:8;background:var(--cafe);color:var(--crema)}
+
+  /* ---------- contraste ---------- */
+  .contraste{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:8px}
+  .par{border-radius:14px;padding:18px;box-shadow:inset 0 0 0 1px var(--linea)}
+  .par .ejemplo{font-family:var(--display);font-size:19px;letter-spacing:.04em;margin-bottom:8px}
+  .par .ratio{font-size:12px;font-weight:600;letter-spacing:.06em}
+  .par.mal{background:var(--crema);box-shadow:inset 0 0 0 1px var(--linea)}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.12em;padding:3px 8px;border-radius:99px;text-transform:uppercase}
+
+  /* ---------- tipografía ---------- */
+  .fuente{border-radius:16px;padding:26px;box-shadow:inset 0 0 0 1px var(--linea);margin-bottom:18px}
+  .muestra-display{font-family:var(--display);font-size:clamp(30px,6vw,58px);line-height:1;letter-spacing:.02em}
+  .abecedario{font-size:14px;letter-spacing:.08em;opacity:.55;margin-top:14px;word-break:break-word}
+  .escala{margin-top:8px}
+  .escala .fila{display:flex;align-items:baseline;gap:18px;padding:14px 0;border-bottom:1px solid var(--linea);flex-wrap:wrap}
+  .escala .meta{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.5;min-width:150px}
+
+  /* ---------- feed ---------- */
+  .feed{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:420px;border-radius:14px;overflow:hidden}
+  .post{aspect-ratio:1;display:flex;flex-direction:column;justify-content:center;padding:14px;font-size:11px;line-height:1.35;box-shadow:inset 0 0 0 1px var(--linea)}
+  .post .tipo{font-family:var(--display);font-size:9.5px;letter-spacing:.14em;opacity:.55;margin-bottom:6px}
+  .post .txt{font-family:var(--display);font-size:14px;line-height:1.15;letter-spacing:.02em}
+  .feed-fila{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start}
+  .feed-notas{flex:1;min-width:250px}
+
+  .plantillas{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+  .story{width:118px;aspect-ratio:9/16;border-radius:12px;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;font-size:10.5px;box-shadow:inset 0 0 0 1px var(--linea)}
+  .story b{font-family:var(--display);font-size:12px;letter-spacing:.06em;display:block;margin-bottom:4px}
+  .highlights{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+  .hl{width:74px;text-align:center;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+  .hl .circulo{width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:7px;box-shadow:inset 0 0 0 1px var(--linea)}
+
+  /* ---------- listas ---------- */
+  .dos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .caja{border-radius:16px;padding:22px;box-shadow:inset 0 0 0 1px var(--linea)}
+  .caja h3{margin-bottom:12px}
+  ul.limpia{list-style:none;padding:0;margin:0;font-size:14.5px}
+  ul.limpia li{padding:7px 0 7px 26px;position:relative;line-height:1.5;border-bottom:1px solid var(--linea)}
+  ul.limpia li:last-child{border-bottom:0}
+  ul.limpia li::before{position:absolute;left:0;top:7px;font-weight:700}
+  ul.si li::before{content:"✓"}
+  ul.no li::before{content:"✕"}
+  ul.check li::before{content:"☐";font-size:15px;top:6px}
+
+  .voz{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .voz .item{padding:18px;border-radius:14px;background:var(--crema);box-shadow:inset 0 0 0 1px var(--linea)}
+  .voz .item b{font-family:var(--display);font-size:13px;letter-spacing:.1em;display:block;margin-bottom:6px}
+
+  footer{padding:56px 0 72px;border-top:1px solid var(--linea);font-size:13px;opacity:.6}
+
+  /* ---------- fondos utilitarios ---------- */
+  .bg-crema{background:var(--crema)}
+  .bg-rosa{background:var(--rosa)}
+  .bg-amarillo{background:var(--amarillo)}
+  .bg-cafe{background:var(--cafe);color:var(--crema)}
+  .bg-cafe .nota,.bg-cafe .ratio{opacity:.8}
+
+  @media (max-width:640px){
+    .indice ol{columns:1}
+    .sec-head{gap:12px}
+    .num{min-width:26px}
+  }
+
+  @media print{
+    body{background:#fff}
+    section{page-break-inside:avoid;padding:34px 0}
+    .indice a:hover{opacity:1}
+    .sw,.caja,.fuente,.par{box-shadow:inset 0 0 0 1px #ccc}
+  }
+
+  @media (prefers-reduced-motion:no-preference){
+    section,.portada{animation:sube .5s ease both}
+    @keyframes sube{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  }
+</style>
+
+<div class="wrap">
+
+  <!-- ============ PORTADA ============ -->
+  <header class="portada">
+    <div class="barras">
+      <i style="flex:6;background:var(--crema);box-shadow:inset 0 0 0 1px var(--linea)"></i>
+      <i style="flex:3;background:var(--rosa)"></i>
+      <i style="flex:2;background:var(--amarillo)"></i>
+      <i style="flex:1;background:var(--cafe)"></i>
+    </div>
+
+    <p class="marca-linea">Manual de identidad · marca personal</p>
+    <h1>Cómo se ve<br>y cómo suena<br><span class="placeholder">Stefania</span></h1>
+    <p class="lead" style="margin-top:26px">
+      Esta es la guía de referencia para todo lo que publiques en redes: qué colores usar y en qué
+      proporción, con qué tipografías, cómo se arma el feed y con qué tono escribir. La idea es simple:
+      que alguien reconozca que un post es tuyo antes de leer el nombre.
+    </p>
+
+    <div class="aviso">
+      <strong>El territorio de la marca:</strong> marketing digital, contenido, comunidad, ingeniería,
+      IA y emprendimiento. Una ingeniera que aprende marketing en público y lo aplica en su propio
+      negocio. Esa mezcla es lo que te diferencia — el manual está armado para sostenerla.
+    </div>
+
+    <nav class="indice">
+      <ol>
+        <li><a href="#s1"><span>01</span> Paleta de color</a></li>
+        <li><a href="#s2"><span>02</span> Proporción de uso</a></li>
+        <li><a href="#s3"><span>03</span> Combinaciones y legibilidad</a></li>
+        <li><a href="#s4"><span>04</span> Tipografías</a></li>
+        <li><a href="#s5"><span>05</span> Jerarquía de textos</a></li>
+        <li><a href="#s6"><span>06</span> Aplicación en redes</a></li>
+        <li><a href="#s7"><span>07</span> Tono de voz</a></li>
+        <li><a href="#s8"><span>08</span> Usos incorrectos</a></li>
+        <li><a href="#s9"><span>09</span> Checklist de publicación</a></li>
+      </ol>
+    </nav>
+  </header>
+
+  <!-- ============ 01 PALETA ============ -->
+  <section id="s1">
+    <div class="sec-head">
+      <div class="num">01</div>
+      <div>
+        <p class="eyebrow">Color</p>
+        <h2>Paleta oficial</h2>
+      </div>
+    </div>
+
+    <p class="lead" style="margin-bottom:28px">
+      Cuatro colores, ni uno más. La disciplina de la paleta es lo que hace que un feed se vea
+      construido y no improvisado.
+    </p>
+
+    <div class="swatches">
+      <div class="sw">
+        <div class="muestra bg-crema" style="box-shadow:inset 0 0 0 1px var(--linea)"><b>Crema cálido</b></div>
+        <div class="datos">
+          <div class="fila"><span>HEX</span><span>#FFFBEF</span></div>
+          <div class="fila"><span>RGB</span><span>255 · 251 · 239</span></div>
+          <div class="fila"><span>CMYK</span><span>0 · 2 · 6 · 0</span></div>
+          <div class="rol">Color base. Fondo de la mayoría de piezas, espacios en blanco y respiración del feed.</div>
+        </div>
+      </div>
+
+      <div class="sw">
+        <div class="muestra bg-rosa"><b>Rosa</b></div>
+        <div class="datos">
+          <div class="fila"><span>HEX</span><span>#F7D6E4</span></div>
+          <div class="fila"><span>RGB</span><span>247 · 214 · 228</span></div>
+          <div class="fila"><span>CMYK</span><span>0 · 13 · 8 · 3</span></div>
+          <div class="rol">Color secundario. Fondos de piezas de contenido, bloques de cita, portadas de carrusel.</div>
+        </div>
+      </div>
+
+      <div class="sw">
+        <div class="muestra bg-amarillo"><b>Amarillo</b></div>
+        <div class="datos">
+          <div class="fila"><span>HEX</span><span>#FAEAB9</span></div>
+          <div class="fila"><span>RGB</span><span>250 · 234 · 185</span></div>
+          <div class="fila"><span>CMYK</span><span>0 · 6 · 26 · 2</span></div>
+          <div class="rol">Acento. Resaltados, etiquetas de precio, avisos de lanzamiento. Usar poco para que siga llamando la atención.</div>
+        </div>
+      </div>
+
+      <div class="sw">
+        <div class="muestra bg-cafe"><b style="color:var(--crema)">Café oscuro</b></div>
+        <div class="datos">
+          <div class="fila"><span>HEX</span><span>#3D2B1F</span></div>
+          <div class="fila"><span>RGB</span><span>61 · 43 · 31</span></div>
+          <div class="fila"><span>CMYK</span><span>0 · 30 · 49 · 76</span></div>
+          <div class="rol">Color de texto por defecto y de contraste. Todo lo que se lee va en este café, nunca en negro puro.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="nota" style="margin-top:20px">
+      El negro puro (#000000) no pertenece a la paleta. Sobre fondos cálidos se ve duro y rompe la
+      atmósfera. Si necesitas más peso, usa el café en mayor tamaño o en mayúsculas.
+    </p>
+  </section>
+
+  <!-- ============ 02 PROPORCIÓN ============ -->
+  <section id="s2">
+    <div class="sec-head">
+      <div class="num">02</div>
+      <div>
+        <p class="eyebrow">Color</p>
+        <h2>Proporción de uso</h2>
+      </div>
+    </div>
+
+    <p class="lead" style="margin-bottom:26px">
+      Tener los colores correctos no basta: importa cuánto ocupa cada uno. Esta es la receta para que
+      la marca se sienta serena y no saturada.
+    </p>
+
+    <div class="proporcion">
+      <div class="p60">60% crema</div>
+      <div class="p25">25% rosa</div>
+      <div class="p10">10% amarillo</div>
+      <div class="p05">5% café</div>
+    </div>
+
+    <div class="dos" style="margin-top:26px">
+      <div class="caja bg-crema">
+        <h3>Cómo aplicarlo</h3>
+        <ul class="limpia si">
+          <li>El crema domina: es el fondo natural de fotos y piezas.</li>
+          <li>El rosa aparece en una de cada tres o cuatro piezas.</li>
+          <li>El amarillo es un detalle, no un fondo completo.</li>
+          <li>El café aparece siempre, pero como texto y líneas finas.</li>
+        </ul>
+      </div>
+      <div class="caja bg-crema">
+        <h3>Por qué importa</h3>
+        <p style="font-size:14.5px;margin:0">
+          Cuando los cuatro colores compiten en la misma pieza, ninguno destaca y el feed se ve
+          ruidoso. Al dejar que uno domine, el ojo descansa y el acento amarillo consigue dirigir la
+          atención justo a donde quieres: el precio, el "nuevo", el botón.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 CONTRASTE ============ -->
+  <section id="s3">
+    <div class="sec-head">
+      <div class="num">03</div>
+      <div>
+        <p class="eyebrow">Color</p>
+        <h2>Combinaciones y legibilidad</h2>
+      </div>
+    </div>
+
+    <p class="lead" style="margin-bottom:24px">
+      Tres de los cuatro colores son claros, así que hay una regla simple que resuelve el 100% de los
+      casos: <strong>el texto siempre va en café sobre fondo claro, o en crema sobre fondo café.</strong>
+    </p>
+
+    <p class="eyebrow" style="margin-top:30px">Combinaciones aprobadas</p>
+    <div class="contraste">
+      <div class="par bg-crema">
+        <div class="ejemplo">Aa Texto legible</div>
+        <div class="ratio">Café sobre crema · 12.9:1</div>
+      </div>
+      <div class="par bg-rosa">
+        <div class="ejemplo">Aa Texto legible</div>
+        <div class="ratio">Café sobre rosa · 10.0:1</div>
+      </div>
+      <div class="par bg-amarillo">
+        <div class="ejemplo">Aa Texto legible</div>
+        <div class="ratio">Café sobre amarillo · 11.2:1</div>
+      </div>
+      <div class="par bg-cafe">
+        <div class="ejemplo">Aa Texto legible</div>
+        <div class="ratio">Crema sobre café · 12.9:1</div>
+      </div>
+    </div>
+
+    <p class="eyebrow" style="margin-top:34px">Combinaciones prohibidas</p>
+    <div class="contraste">
+      <div class="par bg-rosa">
+        <div class="ejemplo" style="color:#fff">Aa Texto ilegible</div>
+        <div class="ratio">Blanco sobre rosa · 1.3:1</div>
+      </div>
+      <div class="par bg-amarillo">
+        <div class="ejemplo" style="color:#fff">Aa Texto ilegible</div>
+        <div class="ratio">Blanco sobre amarillo · 1.2:1</div>
+      </div>
+      <div class="par bg-amarillo">
+        <div class="ejemplo" style="color:#F7D6E4">Aa Texto ilegible</div>
+        <div class="ratio">Rosa sobre amarillo · 1.1:1</div>
+      </div>
+    </div>
+
+    <p class="nota" style="margin-top:18px">
+      El número es la relación de contraste. El mínimo recomendado para texto es 4.5:1. Las tres
+      combinaciones de arriba fallan por mucho: en el celular, con brillo bajo o a la luz del sol,
+      ese texto simplemente desaparece.
+    </p>
+  </section>
+
+  <!-- ============ 04 TIPOGRAFÍA ============ -->
+  <section id="s4">
+    <div class="sec-head">
+      <div class="num">04</div>
+      <div>
+        <p class="eyebrow">Tipografía</p>
+        <h2>Las dos fuentes</h2>
+      </div>
+    </div>
+
+    <div class="fuente bg-rosa">
+      <p class="eyebrow" style="opacity:.7">Titulares · Intro</p>
+      <div class="muestra-display">Joyas que se quedan</div>
+      <p class="abecedario">A B C D E F G H I J K L M N Ñ O P Q R S T U V W X Y Z · 0 1 2 3 4 5 6 7 8 9</p>
+      <p style="font-size:14.5px;margin:16px 0 0">
+        Geométrica, sólida y con mucha presencia. Se usa <strong>solo</strong> en titulares, portadas
+        de reels, nombres de colección y palabras sueltas. En mayúsculas gana carácter; en bloques
+        largos de texto se vuelve pesada.
+      </p>
+    </div>
+
+    <div class="fuente bg-crema">
+      <p class="eyebrow" style="opacity:.7">Texto · Poppins</p>
+      <p style="font-family:var(--texto);font-size:clamp(22px,4vw,34px);font-weight:300;line-height:1.25;margin:0">
+        Cada pieza se hace a mano, una por una.
+      </p>
+      <p class="abecedario" style="font-family:var(--texto);letter-spacing:.02em">
+        a b c d e f g h i j k l m n ñ o p q r s t u v w x y z · Light 300 · Regular 400 · Medium 500 · SemiBold 600
+      </p>
+      <p style="font-size:14.5px;margin:16px 0 0">
+        Redonda, clara y muy legible en pantalla pequeña. Es la fuente de todo lo demás: descripciones,
+        subtítulos, captions, precios, textos de historias. Usa máximo tres pesos por pieza.
+      </p>
+    </div>
+
+    <div class="caja bg-amarillo" style="margin-top:6px">
+      <h3>Nota técnica</h3>
+      <p style="font-size:14.5px;margin:0">
+        Intro es una fuente de licencia comercial (Fontfabric) y no está disponible en Google Fonts, así
+        que no siempre se puede incrustar en web o en plantillas compartidas. Si en algún soporte no la
+        tienes, la sustituta oficial es <strong>Montserrat en peso ExtraBold</strong>, en mayúsculas y con
+        el espaciado un poco abierto. Es la que se está viendo en este documento si no tienes Intro
+        instalada.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 05 JERARQUÍA ============ -->
+  <section id="s5">
+    <div class="sec-head">
+      <div class="num">05</div>
+      <div>
+        <p class="eyebrow">Tipografía</p>
+        <h2>Jerarquía de textos</h2>
+      </div>
+    </div>
+
+    <p class="lead" style="margin-bottom:14px">
+      Tamaños de referencia para una pieza cuadrada de 1080 × 1080 px. Escala proporcionalmente para
+      historias y reels.
+    </p>
+
+    <div class="escala">
+      <div class="fila">
+        <span class="meta">Titular · Intro · 90–120 px</span>
+        <span style="font-family:var(--display);font-size:34px;line-height:1">IA para creadores</span>
+      </div>
+      <div class="fila">
+        <span class="meta">Subtítulo · Intro · 48–60 px</span>
+        <span style="font-family:var(--display);font-size:20px;line-height:1">Tres herramientas que uso cada semana</span>
+      </div>
+      <div class="fila">
+        <span class="meta">Texto · Poppins 400 · 34–40 px</span>
+        <span style="font-size:17px">Ingeniera aprendiendo marketing en público, desde Cali.</span>
+      </div>
+      <div class="fila">
+        <span class="meta">Dato · Poppins 600 · 28–32 px</span>
+        <span style="font-size:15px;font-weight:600">Guárdalo · lo vas a necesitar el lunes</span>
+      </div>
+      <div class="fila">
+        <span class="meta">Etiqueta · Poppins 600 · 22 px · +0.2em</span>
+        <span style="font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase">Community manager</span>
+      </div>
+    </div>
+
+    <p class="nota" style="margin-top:18px">
+      Regla práctica: máximo dos tamaños de titular por pieza. Si necesitas un tercero, probablemente
+      el post debería ser un carrusel.
+    </p>
+  </section>
+
+  <!-- ============ 06 REDES ============ -->
+  <section id="s6">
+    <div class="sec-head">
+      <div class="num">06</div>
+      <div>
+        <p class="eyebrow">Aplicación</p>
+        <h2>Cómo se ve en redes</h2>
+      </div>
+    </div>
+
+    <p class="eyebrow">Ritmo del feed · pilares de contenido</p>
+    <div class="feed-fila">
+      <div class="feed">
+        <div class="post bg-crema"><span class="tipo">Enseña</span><span class="txt">Un concepto de marketing en 30 segundos</span></div>
+        <div class="post bg-rosa"><span class="tipo">Opina</span><span class="txt">Frase o postura en Intro</span></div>
+        <div class="post bg-crema"><span class="tipo">Prueba</span><span class="txt">Herramienta de IA que usaste esta semana</span></div>
+        <div class="post bg-amarillo"><span class="tipo">Anuncia</span><span class="txt">Nuevo contenido, taller o recurso</span></div>
+        <div class="post bg-crema"><span class="tipo">Tú</span><span class="txt">Rostro · quién eres y qué construyes</span></div>
+        <div class="post bg-crema"><span class="tipo">Enseña</span><span class="txt">Tutorial paso a paso · carrusel</span></div>
+        <div class="post bg-rosa"><span class="tipo">Comunidad</span><span class="txt">Respuesta a una pregunta que te hicieron</span></div>
+        <div class="post bg-crema"><span class="tipo">Detrás</span><span class="txt">Tu proceso: estudiar, grabar, emprender</span></div>
+        <div class="post bg-crema"><span class="tipo">Aplica</span><span class="txt">Lo que probaste en tu propio negocio</span></div>
+      </div>
+      <div class="feed-notas">
+        <ul class="limpia si">
+          <li>Nunca dos piezas de color fuerte pegadas: el rosa y el amarillo se separan siempre con crema.</li>
+          <li>El amarillo aparece una vez cada nueve posts, y marca lo importante.</li>
+          <li>Tu cara aparece mínimo una vez por fila. Es marca personal: si no te ven, no te recuerdan.</li>
+          <li>Alterna enseñar con mostrar el proceso. Solo tips se ve a cuenta de plantilla; solo proceso, a diario personal.</li>
+          <li>Fotografía y video con luz natural y fondo cálido y liso, para que tú mandes y no el decorado.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="eyebrow" style="margin-top:38px">Plantillas de historias</p>
+    <div class="plantillas">
+      <div class="story bg-crema"><b>Aprendiendo</b>Captura de lo que estudias + tu comentario.</div>
+      <div class="story bg-rosa"><b>Frase</b>Titular Intro centrado, sin foto.</div>
+      <div class="story bg-amarillo"><b>Aviso</b>Nuevo post, en vivo, recurso o link.</div>
+      <div class="story bg-cafe"><b style="color:var(--crema)">Comunidad</b>Cajita de preguntas y encuestas.</div>
+    </div>
+
+    <p class="eyebrow" style="margin-top:38px">Portadas de destacados</p>
+    <div class="highlights">
+      <div class="hl"><div class="circulo bg-rosa">✦</div>IA</div>
+      <div class="hl"><div class="circulo bg-crema">◈</div>Marketing</div>
+      <div class="hl"><div class="circulo bg-amarillo">▷</div>Contenido</div>
+      <div class="hl"><div class="circulo bg-crema">◎</div>Comunidad</div>
+      <div class="hl"><div class="circulo bg-rosa">↓</div>Recursos</div>
+      <div class="hl"><div class="circulo bg-cafe" style="color:var(--crema)">✎</div>Sobre mí</div>
+    </div>
+    <p class="nota" style="margin-top:14px">
+      Íconos de línea fina, siempre en café, centrados y del mismo grosor. Nada de emojis de colores
+      dentro de los círculos: rompen la paleta.
+    </p>
+
+    <p class="eyebrow" style="margin-top:38px">Foto de perfil y bio</p>
+    <div class="dos">
+      <div class="caja bg-crema">
+        <h3>Foto de perfil</h3>
+        <p style="font-size:14.5px;margin:0">
+          En marca personal siempre va tu rostro, nunca un logo. Se ve a 32 px en el celular, así que:
+          plano cerrado de hombros para arriba, fondo cálido y liso, mirando a cámara. Si la cambias,
+          que sea la misma foto en todas las redes.
+        </p>
+      </div>
+      <div class="caja bg-crema">
+        <h3>Bio</h3>
+        <p style="font-size:14.5px;margin:0">
+          Tres líneas: qué haces, para quién y qué quieres que hagan. Ejemplo de estructura:<br><br>
+          <strong>Ingeniera · marketing, contenido e IA</strong><br>
+          Te ayudo a que tu negocio se vea y se explique bien en redes<br>
+          Empieza por aquí ↓
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 TONO DE VOZ ============ -->
+  <section id="s7">
+    <div class="sec-head">
+      <div class="num">07</div>
+      <div>
+        <p class="eyebrow">Verbal</p>
+        <h2>Tono de voz</h2>
+      </div>
+    </div>
+
+    <p class="lead" style="margin-bottom:24px">
+      La identidad no es solo visual. Si el feed se ve cálido y cercano pero los textos suenan a
+      catálogo corporativo, algo se rompe.
+    </p>
+
+    <div class="voz">
+      <div class="item"><b>Cercana</b>Hablas de tú, con humor, como si le explicaras algo a una amiga. Nada de "estimada comunidad".</div>
+      <div class="item"><b>Clara</b>Eres ingeniera: puedes explicar lo técnico sin tecnicismos. Si una frase necesita dos comas, pártela.</div>
+      <div class="item"><b>Honesta</b>Cuentas lo que estás aprendiendo, incluido lo que no te funcionó. Aprender en público es tu ventaja.</div>
+      <div class="item"><b>Sin gurú</b>No prometes secretos ni fórmulas. Muestras lo que probaste y qué pasó.</div>
+    </div>
+
+    <div class="dos" style="margin-top:22px">
+      <div class="caja bg-crema">
+        <h3>Así sí</h3>
+        <ul class="limpia si">
+          <li>"Probé esta herramienta de IA una semana. Esto sirvió, esto no."</li>
+          <li>"Llevo tres semanas estudiando marketing. Te cuento lo que me voló la cabeza."</li>
+          <li>"Vender 'a todo el mundo' es la razón por la que no vendes. Te explico."</li>
+        </ul>
+      </div>
+      <div class="caja bg-crema">
+        <h3>Así no</h3>
+        <ul class="limpia no">
+          <li>"El secreto que los gurús no quieren que sepas 🤯"</li>
+          <li>"Potencia tu estrategia digital con soluciones innovadoras."</li>
+          <li>"🚀🚀 DESBLOQUEA TU VERDADERO POTENCIAL 🚀🚀"</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 USOS INCORRECTOS ============ -->
+  <section id="s8">
+    <div class="sec-head">
+      <div class="num">08</div>
+      <div>
+        <p class="eyebrow">Control</p>
+        <h2>Usos incorrectos</h2>
+      </div>
+    </div>
+
+    <ul class="limpia no" style="max-width:70ch">
+      <li>Cambiar los tonos de la paleta "un poquito" para que combinen con una foto.</li>
+      <li>Sumar colores nuevos: verde, azul, morado, dorado brillante.</li>
+      <li>Texto blanco sobre rosa o amarillo.</li>
+      <li>Negro puro en textos o fondos.</li>
+      <li>Usar Intro en párrafos largos o en textos pequeños.</li>
+      <li>Mezclar una tercera tipografía porque "quedaba bonita".</li>
+      <li>Filtros de Instagram que vuelven las fotos frías o grises: la marca es cálida.</li>
+      <li>Deformar tu firma o logotipo, rotarlo, ponerle sombra o contorno.</li>
+      <li>Cambiar de estilo fotográfico cada semana: mismo tipo de luz, mismo tipo de fondo.</li>
+      <li>Saturar la pieza: si hay más de tres bloques de texto, es un carrusel.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 09 CHECKLIST ============ -->
+  <section id="s9">
+    <div class="sec-head">
+      <div class="num">09</div>
+      <div>
+        <p class="eyebrow">Rutina</p>
+        <h2>Antes de publicar</h2>
+      </div>
+    </div>
+
+    <div class="caja bg-rosa" style="max-width:640px">
+      <ul class="limpia check">
+        <li>¿Los colores son exactamente los de la paleta?</li>
+        <li>¿El crema domina la pieza?</li>
+        <li>¿El texto está en café o crema, nunca en blanco sobre claro?</li>
+        <li>¿Solo hay dos tipografías: Intro y Poppins?</li>
+        <li>¿Se entiende el mensaje viéndolo dos segundos?</li>
+        <li>¿Se lee bien en la miniatura del feed, sin ampliar?</li>
+        <li>¿Al lado de los dos últimos posts, el feed sigue equilibrado?</li>
+        <li>¿El texto suena a ti y no a folleto?</li>
+        <li>¿Hay una acción clara: comentar, guardar, escribir?</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    Manual de identidad · marca personal Stefania · versión 1.0<br>
+    Documento vivo: actualízalo cada vez que definas una regla nueva.
+  </footer>
+
+</div>

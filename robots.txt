@@ -3,3 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin.html
 Disallow: /api/
+Disallow: /marca/manual-identidad-marca.html

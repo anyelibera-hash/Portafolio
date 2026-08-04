@@ -1,0 +1,343 @@
+/* ═══════════════════════════════════════════════════════════
+   TEMA DE MARCA — Stefania Benavides · versión 1.0
+   Traduce el manual de identidad al portafolio web.
+
+   Reglas que impone este archivo:
+   · Solo 4 colores: crema, rosa, amarillo, café. Nunca negro puro.
+   · Texto siempre café sobre claro, o crema sobre café.
+   · Solo 2 tipografías: Montserrat ExtraBold (sustituta de Intro,
+     únicamente en titulares y en mayúsculas) y Poppins para el resto.
+   · El énfasis no se hace con color de texto, sino con resaltado
+     amarillo detrás del texto café.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Paleta oficial ── */
+  --crema: #FFFBEF;
+  --rosa: #F7D6E4;
+  --amarillo: #FAEAB9;
+  --cafe: #3D2B1F;
+  --linea: rgba(61, 43, 31, .16);
+  --linea-fuerte: rgba(61, 43, 31, .35);
+  --crema-suave: rgba(255, 251, 239, .62);
+  --crema-tenue: rgba(255, 251, 239, .42);
+
+  /* ── Remapeo de las variables originales del portafolio ──
+     Así el tema se aplica sin reescribir las 900 líneas de CSS. */
+  --ivory: var(--crema);
+  --charcoal: var(--cafe);
+  --dark: var(--cafe);
+  --surface: var(--crema);
+  --border: var(--linea);
+  --muted: rgba(61, 43, 31, .66);
+  --accent: var(--cafe);          /* el acento nunca es color de texto */
+  --accent-hover: #2A1D14;
+  --accent-light: var(--linea-fuerte);
+
+  --font-serif: 'Montserrat', system-ui, sans-serif;  /* sustituta de Intro */
+  --font-sans: 'Poppins', system-ui, sans-serif;
+}
+
+/* ═══════════ TIPOGRAFÍA ═══════════ */
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.65;
+  background: var(--crema);
+  color: var(--cafe);
+}
+
+/* Titulares: Montserrat ExtraBold, siempre en mayúsculas.
+   El manual prohíbe usarla en párrafos o en texto pequeño. */
+.hero-name,
+.section-title,
+.contact-left h2,
+.about-text h2,
+.nav-logo,
+.footer-logo,
+.loader-name,
+.project-card h3,
+.service-card h3,
+.timeline-item h3,
+.edu-card h3,
+.video-card-body h4,
+.highlight-card h4,
+.stat-number,
+.gallery-toggle-btn,
+.tools-category-label {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  font-style: normal;
+}
+
+.hero-name {
+  font-size: clamp(42px, 8vw, 88px);
+  line-height: .95;
+  letter-spacing: .01em;
+  color: var(--cafe);
+}
+.hero-name.bold { font-weight: 800; margin-bottom: 34px; }
+.hero-name .accent-dot { color: var(--cafe); }
+
+.section-title,
+.about-text h2,
+.contact-left h2 {
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--cafe);
+}
+
+.project-card h3, .timeline-item h3, .edu-card h3, .service-card h3 { font-size: 17px; letter-spacing: .04em; }
+.video-card-body h4, .highlight-card h4 { font-size: 14px; letter-spacing: .06em; }
+.tools-category-label { font-size: 13px; letter-spacing: .14em; }
+
+/* Etiquetas de sección — el "eyebrow" del manual */
+.section-label span,
+.hero-pretitle span,
+.hero-vertical,
+.project-role,
+.timeline-role,
+.edu-place,
+.contact-link-label,
+.stat-label,
+.project-tools-label,
+.project-result-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--cafe);
+  opacity: .6;
+}
+
+/* Texto de lectura — la "lead" del manual */
+.hero-tagline,
+.projects-header > p,
+.gallery-header > p,
+.contact-left > p {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 62ch;
+  color: var(--cafe);
+  opacity: .78;
+}
+
+.about-text p, .project-desc, .timeline-desc, .service-card p, .edu-detail, .edu-desc {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  color: var(--cafe);
+  opacity: .8;
+}
+strong { font-weight: 600; }
+
+/* El énfasis se hace con resaltado amarillo, nunca con color de texto.
+   (Regla del manual: el texto siempre va en café.) */
+.hero-tagline em,
+.section-title em,
+.about-text h2 em,
+.contact-left h2 em {
+  font-style: normal;
+  font-weight: inherit;
+  color: var(--cafe);
+  background: var(--amarillo);
+  padding: 0 .3em;
+  border-radius: 5px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ═══════════ LÍNEAS Y DETALLES ═══════════ */
+.section-label::before,
+.hero-pretitle::before,
+.tools-header .section-label::after,
+.hero-line,
+.scroll-line,
+.loader-line,
+.nav-link::after { background: var(--cafe); opacity: .55; }
+
+.nav-burger span { background: var(--cafe); }
+
+/* ═══════════ BOTONES ═══════════ */
+.btn-primary {
+  background: var(--cafe);
+  color: var(--crema);
+  border-radius: 99px;
+  padding: 12px 26px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: .16em;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 10px 26px rgba(61, 43, 31, .22);
+}
+.btn-outline {
+  border-radius: 99px;
+  padding: 12px 26px;
+  border: 1.5px solid var(--linea-fuerte);
+  color: var(--cafe);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: .16em;
+}
+.btn-outline:hover { background: var(--cafe); color: var(--crema); border-color: var(--cafe); }
+
+.btn-outline-light {
+  border-radius: 99px;
+  color: var(--crema);
+  border: 1.5px solid var(--crema-tenue);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: .16em;
+}
+.btn-outline-light:hover { background: var(--crema); color: var(--cafe); }
+
+/* ═══════════ SUPERFICIES ═══════════ */
+.service-card,
+.project-card,
+.edu-card,
+.video-card,
+.highlight-card {
+  background: var(--crema);
+  border: 1px solid var(--linea);
+  border-radius: 16px;
+  box-shadow: none;
+}
+.service-card:hover,
+.project-card:hover,
+.edu-card:hover,
+.video-card:hover { box-shadow: 0 10px 30px rgba(61, 43, 31, .08); }
+
+.service-icon, .contact-link-icon { border-radius: 50%; }
+.service-icon { background: var(--amarillo); color: var(--cafe); }
+
+/* Ritmo de secciones: el crema domina, el rosa aparece separado.
+   El manual prohíbe dos bloques de color fuerte pegados. */
+#servicios { background: var(--rosa); }
+#herramientas { background: var(--rosa); }
+#sobre-mi, #proyectos, #videos, #experiencia, #educacion { background: var(--crema); }
+
+/* ═══════════ SECCIONES OSCURAS (café + crema) ═══════════ */
+#galeria, #contacto, footer { background: var(--cafe); }
+
+#galeria .gallery-header h2,
+#contacto .contact-left h2 { color: var(--crema) !important; }
+#galeria .section-label span,
+#contacto .section-label span { color: var(--crema); opacity: .65; }
+#galeria .section-label::before,
+#contacto .section-label::before { background: var(--crema); opacity: .5; }
+#galeria .gallery-header > p,
+#contacto .contact-left > p { color: var(--crema-suave); }
+
+.contact-link { color: var(--crema-suave); }
+.contact-link:hover { color: var(--crema); }
+.contact-link-icon { border-color: var(--crema-tenue); }
+.contact-link:hover .contact-link-icon { border-color: var(--crema); }
+/* Los logos de redes van en crema: en café sobre café serían invisibles. */
+.contact-link-icon i { color: var(--crema); opacity: .85; }
+.contact-link:hover .contact-link-icon i { color: var(--amarillo); opacity: 1; }
+.contact-link-label { color: var(--crema); opacity: .5; }
+.contact-link-value { color: var(--crema); }
+.contact-left h2 .accent-dot { color: var(--amarillo); }
+
+.availability-status { color: var(--crema); }
+.availability-detail { color: var(--crema-suave); }
+.availability-dot { background: var(--amarillo); }
+.contact-availability { border-color: var(--crema-tenue); }
+
+.gallery-item { border-radius: 12px; }
+.gallery-caption .gc-tag { color: var(--amarillo); }
+.gallery-caption .gc-title { color: var(--crema); }
+.gallery-overlay {
+  background: linear-gradient(180deg, rgba(61, 43, 31, 0) 40%, rgba(61, 43, 31, .6) 100%);
+}
+.gallery-overlay i {
+  color: var(--cafe);
+  background: var(--amarillo);
+  border-color: transparent;
+}
+.gallery-toggle-btn {
+  background: transparent;
+  color: var(--crema);
+  border: 1.5px solid var(--crema-tenue);
+  border-radius: 99px;
+}
+.gallery-toggle-btn:hover { background: var(--crema); color: var(--cafe); }
+
+footer { background: var(--cafe); }
+.footer-logo { color: var(--crema); }
+.footer-logo em { color: var(--amarillo); font-style: normal; }
+footer p { color: var(--crema-tenue); }
+.footer-socials a { color: var(--crema-suave); }
+.footer-socials a:hover { color: var(--amarillo); }
+.admin-link { color: var(--crema-tenue); border-color: var(--crema-tenue); }
+.admin-link:hover { color: var(--amarillo); border-color: var(--amarillo); background: transparent; }
+.admin-link.is-logged { color: var(--amarillo); border-color: var(--amarillo); }
+
+/* ═══════════ ETIQUETAS Y ACENTOS ═══════════ */
+/* Los colores de marca de terceros salen de la paleta: se neutralizan. */
+.project-tag {
+  background: var(--cafe) !important;
+  color: var(--crema);
+  border-radius: 99px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: .1em;
+}
+.project-date { color: var(--cafe); opacity: .55; }
+.project-thumb { background: var(--rosa) !important; }
+.project-tool, .tool-badge {
+  background: var(--crema);
+  border: 1px solid var(--linea);
+  border-radius: 99px;
+  color: var(--cafe);
+  font-family: var(--font-sans);
+}
+.tool-badge i { color: var(--cafe) !important; opacity: .7; }
+.project-result { background: var(--amarillo); border-radius: 12px; }
+.project-result p { color: var(--cafe); }
+
+.edu-status { color: var(--cafe); background: var(--amarillo); border-radius: 99px; padding: 4px 12px; display: inline-flex; }
+.edu-card.upcoming .edu-status { background: var(--linea); }
+
+.timeline-dot { background: var(--cafe); border-color: var(--crema); }
+.timeline-date { color: var(--cafe); opacity: .55; }
+
+.stat-number { color: var(--cafe); font-size: clamp(30px, 4vw, 46px); }
+
+/* ═══════════ PANTALLA DE CARGA ═══════════ */
+#preloader { background: var(--crema); }
+.loader-name { color: var(--cafe); }
+.loader-sub { color: var(--cafe); opacity: .6; font-family: var(--font-sans); }
+
+/* ═══════════ NAVEGACIÓN ═══════════ */
+#nav.scrolled { background: rgba(255, 251, 239, .92); border-bottom: 1px solid var(--linea); }
+.nav-link { font-family: var(--font-sans); font-weight: 500; color: var(--cafe); }
+.nav-logo { color: var(--cafe); }
+.nav-logo em { color: var(--cafe); font-style: normal; }
+#mobile-menu { background: var(--crema); }
+.mobile-link { font-family: var(--font-serif); font-weight: 800; text-transform: uppercase; color: var(--cafe); }
+
+/* ═══════════ MISCELÁNEA ═══════════ */
+::-webkit-scrollbar-thumb { background: var(--linea-fuerte); }
+::selection { background: var(--amarillo); color: var(--cafe); }
+#lightbox { background: rgba(61, 43, 31, .94); }
+#lightbox-close { color: var(--crema-suave); }
+#lightbox-close:hover { color: var(--crema); }
+#lightbox-inner img, #lightbox-inner video { border-radius: 14px; }
+.hero-bg-circle { background: var(--rosa) !important; opacity: .5; }
+.hero-photo-accent { background: var(--amarillo) !important; }
+.hero-photo-accent-2 { background: var(--rosa) !important; }
+.about-photo-accent { background: var(--rosa) !important; }
+.about-photo-label { background: var(--cafe); color: var(--crema); font-family: var(--font-sans); }
+.hero-photo-inner, .about-photo-inner { border-radius: 16px; }

@@ -103,7 +103,9 @@ Cualquier campo de imagen o video acepta arrastrar y soltar el archivo encima.
 
 **Los videos que ya existen** siguen en el repositorio (`assets/videos/`, 139 MB) y funcionan igual. Solo lo que subas desde ahora va al almacenamiento nuevo.
 
-**El plan gratuito de Vercel Blob incluye 500 MB.** Da para bastantes videos, pero si te acercas al límite, la alternativa es subir los videos pesados a YouTube o Instagram y usar el modo "enlace de red social", que además hace que la web cargue más rápido.
+**Tu almacenamiento tiene 1 GB.** Lo ves en Vercel → Storage → portafolio. Da para bastantes videos, pero si te acercas al límite, la alternativa es subir los pesados a YouTube o Instagram y usar el modo "enlace de red social", que además hace que la web cargue más rápido.
+
+**Si alguna vez editas `admin.js` o `render.js` a mano**, sube el número del `?v=` en `admin.html` e `index.html`. Sin eso, los navegadores que ya visitaron la web seguirán usando la versión vieja guardada en caché.
 
 **Si cambias `SESSION_SECRET`**, todas las sesiones abiertas se cierran. Es la forma de expulsar a alguien.
 
