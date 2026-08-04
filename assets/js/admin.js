@@ -234,6 +234,7 @@ const SCHEMA = [
   },
   {
     key: 'contact', label: 'Contacto', icon: '✉',
+    desc: 'Ojo: tus redes aparecen también en "Pie & Preloader → Redes sociales", que es una lista aparte. Si cambias tu usuario de Instagram o TikTok, cámbialo en los dos sitios (y aquí, tanto en "Enlace" como en "Valor visible").',
     fields: [
       { k: 'label', label: 'Etiqueta de sección', t: T.text },
       { k: 'title', label: 'Título', t: T.text },
@@ -290,6 +291,7 @@ const SCHEMA = [
   },
   {
     key: 'footer', label: 'Pie & Preloader', icon: '▁',
+    desc: 'Los iconos del pie son una lista independiente de la sección Contacto. Cambiar uno aquí NO cambia el otro.',
     fields: [
       { k: 'logo', label: 'Logo del pie', t: T.text },
       { k: 'text', label: 'Texto de copyright', t: T.text },

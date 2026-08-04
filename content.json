@@ -1153,10 +1153,10 @@
       },
       {
         "id": "clink-03",
-        "href": "https://instagram.com/stefa.benavidess__",
+        "href": "https://www.instagram.com/stefa_benavidess/",
         "icon": "fab fa-instagram",
         "label": "Instagram",
-        "value": "@stefa.benavidess__",
+        "value": "@stefa_benavidess",
         "visible": true
       },
       {
@@ -1197,7 +1197,7 @@
       {
         "id": "cbtn-03",
         "label": "Ver Instagram",
-        "href": "https://instagram.com/stefa.benavidess__",
+        "href": "https://www.instagram.com/stefa_benavidess/",
         "icon": "fab fa-instagram",
         "style": "light",
         "visible": true
@@ -1224,7 +1224,7 @@
       {
         "id": "soc-01",
         "icon": "fab fa-instagram",
-        "href": "https://instagram.com/stefa.benavidess__",
+        "href": "https://www.instagram.com/stefa_benavidess/",
         "visible": true
       },
       {
