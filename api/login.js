@@ -1,8 +1,10 @@
-import { checkCredentials, createToken, sessionCookie, json } from './_lib/auth.js';
+import {
+  checkCredentials, createToken, sessionCookie, sendJson, readJson, withErrors,
+} from './_lib/auth.js';
 
-// Freno básico de fuerza bruta por instancia (se reinicia con cada arranque en frío).
+// Freno básico de fuerza bruta por instancia.
 const attempts = new Map();
-const WINDOW = 15 * 60 * 1000; // 15 min
+const WINDOW = 15 * 60 * 1000;
 const MAX_ATTEMPTS = 8;
 
 function tooManyAttempts(ip) {
@@ -21,38 +23,31 @@ function registerFailure(ip) {
   attempts.set(ip, rec);
 }
 
-export default async function handler(request) {
-  if (request.method !== 'POST') return json({ error: 'Método no permitido' }, 405);
+export default withErrors(async function handler(req, res) {
+  if (req.method !== 'POST') return sendJson(res, 405, { error: 'Método no permitido' });
 
-  const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
-    request.headers.get('x-real-ip') ||
-    'desconocida';
+  const fwd = req.headers['x-forwarded-for'];
+  const ip = (Array.isArray(fwd) ? fwd[0] : fwd || '').split(',')[0].trim() || 'desconocida';
 
   if (tooManyAttempts(ip)) {
-    return json({ error: 'Demasiados intentos fallidos. Espera 15 minutos.' }, 429);
+    return sendJson(res, 429, { error: 'Demasiados intentos fallidos. Espera 15 minutos.' });
   }
 
-  let body;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: 'Petición inválida' }, 400);
+  const body = await readJson(req);
+  if (!body) return sendJson(res, 400, { error: 'Petición inválida' });
+
+  // Si faltan las variables de entorno, checkCredentials lanza un error
+  // con el mensaje exacto y withErrors lo devuelve como JSON legible.
+  const ok = checkCredentials(body.user, body.password);
+
+  if (!ok) {
+    registerFailure(ip);
+    await new Promise((r) => setTimeout(r, 600));
+    return sendJson(res, 401, { error: 'Usuario o contraseña incorrectos' });
   }
 
-  try {
-    const ok = checkCredentials(body?.user, body?.password);
-    if (!ok) {
-      registerFailure(ip);
-      // Pequeño retardo para desalentar el barrido automático.
-      await new Promise((r) => setTimeout(r, 600));
-      return json({ error: 'Usuario o contraseña incorrectos' }, 401);
-    }
-    attempts.delete(ip);
-    return json({ ok: true, user: body.user }, 200, {
-      'set-cookie': sessionCookie(createToken(body.user)),
-    });
-  } catch (err) {
-    return json({ error: err.message }, 500);
-  }
-}
+  attempts.delete(ip);
+  return sendJson(res, 200, { ok: true, user: body.user }, {
+    'set-cookie': sessionCookie(createToken(body.user)),
+  });
+});

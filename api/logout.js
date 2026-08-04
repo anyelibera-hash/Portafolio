@@ -1,6 +1,6 @@
-import { clearCookie, json } from './_lib/auth.js';
+import { clearCookie, sendJson, withErrors } from './_lib/auth.js';
 
-export default async function handler(request) {
-  if (request.method !== 'POST') return json({ error: 'Método no permitido' }, 405);
-  return json({ ok: true }, 200, { 'set-cookie': clearCookie() });
-}
+export default withErrors(async function handler(req, res) {
+  if (req.method !== 'POST') return sendJson(res, 405, { error: 'Método no permitido' });
+  return sendJson(res, 200, { ok: true }, { 'set-cookie': clearCookie() });
+});

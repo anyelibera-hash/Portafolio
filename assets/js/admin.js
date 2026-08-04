@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════
    admin.js — editor del portafolio
    ═══════════════════════════════════════════════════════════ */
-import { upload } from 'https://esm.sh/@vercel/blob@0.27.0/client';
+import { upload } from 'https://esm.sh/@vercel/blob@2.6.1/client';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -775,7 +775,16 @@ function buildNav() {
 }
 
 async function loadContent() {
-  const data = await api('/api/content');
+  let data;
+  try {
+    data = await api('/api/content');
+  } catch {
+    // Todavía no se ha publicado nada desde el panel: partimos del contenido original.
+    const res = await fetch('/content.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('No se encontró el contenido base (content.json)');
+    data = await res.json();
+    toast('Cargado el contenido original. Publica para guardarlo en el panel.');
+  }
   state.content = data;
   state.original = clone(data);
   buildNav();
@@ -803,8 +812,9 @@ async function save() {
 }
 
 async function boot() {
+  let s = null;
   try {
-    const s = await api('/api/session');
+    s = await api('/api/session');
     if (s.authenticated) {
       $('#login').style.display = 'none';
       $('#app').classList.add('ready');
@@ -812,7 +822,28 @@ async function boot() {
       return;
     }
   } catch { /* sin sesión */ }
+
   $('#login').style.display = 'grid';
+
+  // Si falta configuración en Vercel, decirlo antes de que intente entrar.
+  if (s && s.configurado === false) {
+    const msg = $('#loginMsg');
+    msg.className = 'msg err';
+    msg.innerHTML =
+      'Falta configurar en Vercel:<br><strong>' +
+      s.faltan.map((f) => f.replace(/</g, '&lt;')).join('<br>') +
+      '</strong><br><span style="font-size:12px">Settings → Environment Variables. Después haz Redeploy.</span>';
+    $('#loginBtn').disabled = true;
+  } else if (s && s.almacenamiento === false) {
+    const msg = $('#loginMsg');
+    msg.className = 'msg err';
+    msg.style.background = '#FEF6E7';
+    msg.style.color = '#8A5A0B';
+    msg.style.borderColor = '#EDD9AE';
+    msg.innerHTML =
+      'Puedes entrar y editar textos, pero falta crear el almacenamiento ' +
+      '<strong>Storage → Create Database → Blob</strong> para subir videos e imágenes.';
+  }
 }
 
 $('#loginForm').addEventListener('submit', async (e) => {

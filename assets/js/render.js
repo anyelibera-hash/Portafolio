@@ -498,11 +498,23 @@
     }
   }
 
+  /* Nunca dejamos que una petición lenta congele la carga de la web. */
+  async function fetchConLimite(url, ms) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), ms);
+    try {
+      return await fetch(url, { cache: 'no-store', signal: ctrl.signal });
+    } finally {
+      clearTimeout(t);
+    }
+  }
+
   async function loadContent() {
+    // 1) lo publicado desde el panel  2) el respaldo del repositorio
     const sources = ['/api/content', '/content.json'];
     for (const url of sources) {
       try {
-        const res = await fetch(url, { cache: 'no-store' });
+        const res = await fetchConLimite(url, 2500);
         if (!res.ok) continue;
         const data = await res.json();
         if (data && data.hero) return data;

@@ -1,56 +1,47 @@
-import { list, del } from '@vercel/blob';
-import { getSession, json, unauthorized } from './_lib/auth.js';
+import { getSession, sendJson, readJson, withErrors } from './_lib/auth.js';
 
-export default async function handler(request) {
+export default withErrors(async function handler(req, res) {
   let session;
   try {
-    session = getSession(request);
+    session = getSession(req);
   } catch (err) {
-    return json({ error: err.message }, 500);
+    return sendJson(res, 500, { error: err.message });
   }
-  if (!session) return unauthorized();
+  if (!session) return sendJson(res, 401, { error: 'No autorizado' });
 
-  // ── Listar archivos subidos ──
-  if (request.method === 'GET') {
-    const url = new URL(request.url);
-    const folder = url.searchParams.get('folder') || '';
+  if (!process.env.BLOB_READ_WRITE_TOKEN && !process.env.BLOB_STORE_ID) {
+    return sendJson(res, 500, { error: 'Vercel Blob no está configurado.' });
+  }
+
+  /* ── Listar archivos subidos ── */
+  if (req.method === 'GET') {
+    const { list } = await import('@vercel/blob');
+    const folder = (req.query?.folder || '').toString();
     const prefix = folder ? `portafolio/${folder}/` : 'portafolio/';
-    try {
-      const { blobs } = await list({ prefix, limit: 1000 });
-      const items = blobs
-        .filter((b) => b.pathname !== 'portafolio/content.json')
-        .map((b) => ({
-          url: b.url,
-          pathname: b.pathname,
-          name: b.pathname.split('/').pop(),
-          size: b.size,
-          uploadedAt: b.uploadedAt,
-        }))
-        .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
-      return json({ items }, 200, { 'cache-control': 'no-store' });
-    } catch (err) {
-      return json({ error: err.message }, 500);
-    }
+    const { blobs } = await list({ prefix, limit: 1000 });
+    const items = blobs
+      .filter((b) => b.pathname !== 'portafolio/content.json')
+      .map((b) => ({
+        url: b.url,
+        pathname: b.pathname,
+        name: b.pathname.split('/').pop(),
+        size: b.size,
+        uploadedAt: b.uploadedAt,
+      }))
+      .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+    return sendJson(res, 200, { items }, { 'cache-control': 'no-store' });
   }
 
-  // ── Borrar un archivo ──
-  if (request.method === 'DELETE') {
-    let body;
-    try {
-      body = await request.json();
-    } catch {
-      return json({ error: 'Petición inválida' }, 400);
-    }
+  /* ── Borrar un archivo ── */
+  if (req.method === 'DELETE') {
+    const body = await readJson(req);
     if (!body?.url || !String(body.url).includes('.blob.vercel-storage.com')) {
-      return json({ error: 'URL no válida' }, 400);
+      return sendJson(res, 400, { error: 'URL no válida' });
     }
-    try {
-      await del(body.url);
-      return json({ ok: true });
-    } catch (err) {
-      return json({ error: err.message }, 500);
-    }
+    const { del } = await import('@vercel/blob');
+    await del(body.url);
+    return sendJson(res, 200, { ok: true });
   }
 
-  return json({ error: 'Método no permitido' }, 405);
-}
+  return sendJson(res, 405, { error: 'Método no permitido' });
+});

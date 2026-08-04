@@ -1,5 +1,7 @@
 // ─────────────────────────────────────────────
 //  Sesión firmada con HMAC. Sin dependencias.
+//  Handlers en formato Node (req, res), que es
+//  el que invoca Vercel en proyectos estáticos.
 // ─────────────────────────────────────────────
 import { createHmac, timingSafeEqual, randomBytes, scryptSync } from 'node:crypto';
 
@@ -24,19 +26,17 @@ function sign(data) {
   return b64url(createHmac('sha256', secret()).update(data).digest());
 }
 
-/** Compara dos strings en tiempo constante. */
+/** Compara dos textos en tiempo constante. */
 function safeEqual(a, b) {
   const ba = Buffer.from(String(a));
   const bb = Buffer.from(String(b));
   if (ba.length !== bb.length) {
-    // Igual hacemos una comparación para no filtrar la longitud por tiempo.
     timingSafeEqual(ba, ba);
     return false;
   }
   return timingSafeEqual(ba, bb);
 }
 
-/** Crea el token de sesión: payload.firma */
 export function createToken(user) {
   const payload = b64url(JSON.stringify({ u: user, exp: Date.now() + MAX_AGE * 1000 }));
   return `${payload}.${sign(payload)}`;
@@ -56,10 +56,13 @@ export function verifyToken(token) {
   }
 }
 
-export function parseCookies(request) {
-  const header = request.headers.get('cookie') || '';
+/** Lee las cookies tanto de un req de Node como de un Request web. */
+export function parseCookies(req) {
+  let header = '';
+  if (req?.headers?.get) header = req.headers.get('cookie') || '';
+  else if (req?.headers) header = req.headers.cookie || '';
   const out = {};
-  for (const part of header.split(';')) {
+  for (const part of String(header).split(';')) {
     const i = part.indexOf('=');
     if (i === -1) continue;
     out[part.slice(0, i).trim()] = decodeURIComponent(part.slice(i + 1).trim());
@@ -76,13 +79,13 @@ export function clearCookie() {
 }
 
 /** Devuelve la sesión si la petición está autenticada, si no null. */
-export function getSession(request) {
-  return verifyToken(parseCookies(request)[COOKIE_NAME]);
+export function getSession(req) {
+  return verifyToken(parseCookies(req)[COOKIE_NAME]);
 }
 
 /**
  * Valida usuario y contraseña contra las variables de entorno.
- * Admite ADMIN_PASSWORD_HASH (formato scrypt: salt:hash) o ADMIN_PASSWORD en texto plano.
+ * Admite ADMIN_PASSWORD_HASH (formato scrypt "salt:hash") o ADMIN_PASSWORD en texto plano.
  */
 export function checkCredentials(user, password) {
   const expectedUser = process.env.ADMIN_USER;
@@ -90,7 +93,9 @@ export function checkCredentials(user, password) {
   const plain = process.env.ADMIN_PASSWORD;
 
   if (!expectedUser || (!hash && !plain)) {
-    throw new Error('Faltan las variables de entorno ADMIN_USER y ADMIN_PASSWORD.');
+    throw new Error(
+      'Faltan variables de entorno en Vercel: ADMIN_USER y ADMIN_PASSWORD (o ADMIN_PASSWORD_HASH).'
+    );
   }
   if (typeof user !== 'string' || typeof password !== 'string') return false;
 
@@ -105,7 +110,6 @@ export function checkCredentials(user, password) {
   } else {
     passOk = safeEqual(password, plain);
   }
-  // Evaluamos ambos siempre para no filtrar cuál falló.
   return userOk && passOk;
 }
 
@@ -115,11 +119,47 @@ export function hashPassword(password) {
   return `${salt}:${scryptSync(password, salt, 32).toString('hex')}`;
 }
 
-export const json = (data, status = 200, headers = {}) =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers: { 'content-type': 'application/json; charset=utf-8', ...headers },
-  });
+/* ═════════ AYUDANTES HTTP (formato Node) ═════════ */
 
-/** Respuesta 401 estándar. */
-export const unauthorized = () => json({ error: 'No autorizado' }, 401);
+/** Responde JSON. Siempre cierra la respuesta. */
+export function sendJson(res, status, data, headers = {}) {
+  for (const [k, v] of Object.entries(headers)) res.setHeader(k, v);
+  res.setHeader('content-type', 'application/json; charset=utf-8');
+  res.statusCode = status;
+  res.end(JSON.stringify(data));
+}
+
+/** Lee el cuerpo JSON, ya venga parseado por Vercel o como flujo. */
+export async function readJson(req) {
+  if (req.body && typeof req.body === 'object') return req.body;
+  if (typeof req.body === 'string' && req.body) {
+    try { return JSON.parse(req.body); } catch { return null; }
+  }
+  const chunks = [];
+  for await (const chunk of req) chunks.push(chunk);
+  if (!chunks.length) return null;
+  try {
+    return JSON.parse(Buffer.concat(chunks).toString('utf8'));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Envuelve un handler para que ningún error quede sin respuesta.
+ * Sin esto, una excepción produce un 500 vacío imposible de diagnosticar.
+ */
+export function withErrors(handler) {
+  return async function (req, res) {
+    try {
+      await handler(req, res);
+    } catch (err) {
+      console.error('[api] Error no controlado:', err);
+      if (!res.headersSent) {
+        sendJson(res, 500, { error: err?.message || 'Error interno del servidor' });
+      } else {
+        res.end();
+      }
+    }
+  };
+}

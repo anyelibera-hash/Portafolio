@@ -49,6 +49,27 @@
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* ═══════════════════════════════════════
+   RED DE SEGURIDAD
+   Si el JavaScript falla, el contenido nace invisible y la web
+   se vería vacía. Con .no-anim se muestra todo sin animaciones.
+   ═══════════════════════════════════════ */
+html.no-anim #preloader { display: none !important; }
+html.no-anim .reveal-up,
+html.no-anim .reveal-left,
+html.no-anim .reveal-right,
+html.no-anim .reveal-scale,
+html.no-anim .hero-name .char,
+html.no-anim .hero-tagline,
+html.no-anim .hero-ctas,
+html.no-anim .loader-name span {
+  opacity: 1 !important;
+  transform: none !important;
+}
+html.no-anim #hero-line { transform: scaleX(1) !important; }
+html.no-anim .gallery-grid { max-height: none !important; }
+html.no-anim .scroll-line { transform: scaleY(1) !important; }
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { font-size: 16px; }
 html.lenis, html.lenis body { height: auto; }
@@ -1462,13 +1483,52 @@ footer p { font-size: 12px; color: rgba(255,255,255,.25); }
      JAVASCRIPT — GSAP + Lenis
      ═══════════════════════════════════════ -->
 <script>
+/* ── RED DE SEGURIDAD ──
+   Pase lo que pase, a los 3 segundos la web se ve. Si las animaciones
+   no arrancaron (JavaScript caído, CDN bloquedo, error en el contenido),
+   mostramos todo sin animación en vez de dejar la página en blanco. */
+function mostrarTodoSinAnimacion(motivo) {
+  if (document.documentElement.classList.contains('no-anim')) return;
+  console.warn('[portafolio] Mostrando sin animaciones:', motivo);
+  document.documentElement.classList.add('no-anim');
+  var pre = document.getElementById('preloader');
+  if (pre) pre.style.display = 'none';
+  // Las cifras del hero se quedarían en 0 sin el contador.
+  document.querySelectorAll('.stat-number[data-count]').forEach(function (el) {
+    if (el.textContent.trim() === '0') el.textContent = el.dataset.count;
+  });
+  var grid = document.querySelector('.gallery-grid');
+  if (grid) grid.classList.add('gallery-expanded');
+  var tog = document.querySelector('.gallery-toggle');
+  if (tog) tog.style.display = 'none';
+}
+
+var animacionesOk = false;
+setTimeout(function () {
+  if (!animacionesOk) mostrarTodoSinAnimacion('las animaciones no arrancaron a tiempo');
+}, 6000);
+window.addEventListener('error', function (e) {
+  if (!animacionesOk) mostrarTodoSinAnimacion('error de JavaScript: ' + (e.message || ''));
+});
+
 /* Primero se pinta el contenido editable, después arrancan las animaciones.
    El preloader tapa esta fase, así que el cambio no se ve. */
 document.addEventListener('DOMContentLoaded', () => {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || typeof Lenis === 'undefined') {
+    mostrarTodoSinAnimacion('no se cargaron las librerías de animación');
+    return;
+  }
   const ready = (window.PortfolioContent && window.PortfolioContent.hydrate)
     ? window.PortfolioContent.hydrate().catch(err => { console.warn('[content]', err); return null; })
     : Promise.resolve(null);
-  ready.then(initPortfolio);
+  ready.then(() => {
+    try {
+      initPortfolio();
+      animacionesOk = true;
+    } catch (err) {
+      mostrarTodoSinAnimacion('falló la inicialización: ' + err.message);
+    }
+  });
 });
 
 function initPortfolio() {
